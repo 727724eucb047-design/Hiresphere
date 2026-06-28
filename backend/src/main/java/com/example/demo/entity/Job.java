@@ -3,34 +3,37 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "jobs")
+public class Job {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(unique = true, nullable = false)
-    private String email;
+    private String title;
 
     @Column(nullable = false)
-    private String password;
+    private String company;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column(nullable = false)
+    private String location;
 
-    public User() {
+    @Column(length=2000)
+    private String description;
+
+    @Column(nullable = false)
+    private Double salary;
+
+    public Job() {
     }
 
-    public User(Long id, String name, String email, String password, Role role) {
+    public Job(Long id, String title, String company, String location, String description, Double salary) {
         this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
+        this.title = title;
+        this.company = company;
+        this.location = location;
+        this.description = description;
     }
 
     public Long getId() {
@@ -41,35 +44,44 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCompany() {
+        return company;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
-    public String getPassword() {
-        return password;
+    public String getLocation() {
+        return location;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public Role getRole() {
-        return role;
+    public String getDescription() {
+        return description;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
 }
