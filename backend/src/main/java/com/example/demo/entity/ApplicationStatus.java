@@ -1,39 +1,12 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
+public enum ApplicationStatus {
 
-@Entity
-@Table(name = "application_status")
-public class ApplicationStatus {
+    APPLIED,
+    UNDER_REVIEW,
+    SHORTLISTED,
+    INTERVIEW_SCHEDULED,
+    SELECTED,
+    REJECTED
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private String statusName;
-
-    public ApplicationStatus() {
-    }
-
-    public ApplicationStatus(Long id, String statusName) {
-        this.id = id;
-        this.statusName = statusName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getStatusName() {
-        return statusName;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setStatusName(String statusName) {
-        this.statusName = statusName;
-    }
 }
