@@ -2,13 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Job;
 import com.example.demo.service.JobService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/jobs")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class JobController {
 
     private final JobService jobService;
@@ -18,17 +19,29 @@ public class JobController {
     }
 
     @PostMapping
-    public Job createJob(@RequestBody Job job) {
-        return jobService.createJob(job);
+    public ResponseEntity<Job> createJob(@RequestBody Job job) {
+        return ResponseEntity.ok(jobService.createJob(job));
     }
 
     @GetMapping
-    public List<Job> getJobs() {
-        return jobService.getAllJobs();
+    public ResponseEntity<List<Job>> getJobs() {
+        return ResponseEntity.ok(jobService.getAllJobs());
     }
 
     @GetMapping("/{id}")
-    public Job getJob(@PathVariable Long id) {
-        return jobService.getJob(id);
+    public ResponseEntity<Job> getJob(@PathVariable Long id) {
+        return ResponseEntity.ok(jobService.getJob(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Job> updateJob(@PathVariable Long id,
+                                         @RequestBody Job job) {
+        return ResponseEntity.ok(jobService.updateJob(id, job));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteJob(@PathVariable Long id) {
+        jobService.deleteJob(id);
+        return ResponseEntity.ok("Job deleted successfully");
     }
 }
