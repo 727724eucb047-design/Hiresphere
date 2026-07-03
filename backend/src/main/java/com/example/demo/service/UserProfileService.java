@@ -20,4 +20,25 @@ public class UserProfileService {
     public UserProfile getProfile(Long id) {
         return profileRepository.findById(id).orElse(null);
     }
+
+    public UserProfile updateProfile(Long id, UserProfile profile) {
+
+        UserProfile existing = profileRepository.findById(id).orElse(null);
+
+        if (existing != null) {
+            existing.setPhone(profile.getPhone());
+            existing.setAddress(profile.getAddress());
+            existing.setSkills(profile.getSkills());
+            existing.setEducation(profile.getEducation());
+            existing.setResumeUrl(profile.getResumeUrl());
+
+            return profileRepository.save(existing);
+        }
+
+        return null;
+    }
+
+    public void deleteProfile(Long id) {
+        profileRepository.deleteById(id);
+    }
 }
