@@ -22,4 +22,27 @@ public class ApplicationService {
     public List<Application> getAllApplications() {
         return applicationRepository.findAll();
     }
+
+    public Application getApplication(Long id) {
+        return applicationRepository.findById(id).orElse(null);
+    }
+
+    public Application updateApplication(Long id, Application application) {
+
+        Application existing = applicationRepository.findById(id).orElse(null);
+
+        if (existing != null) {
+            existing.setUserId(application.getUserId());
+            existing.setJobId(application.getJobId());
+            existing.setStatus(application.getStatus());
+
+            return applicationRepository.save(existing);
+        }
+
+        return null;
+    }
+
+    public void deleteApplication(Long id) {
+        applicationRepository.deleteById(id);
+    }
 }
