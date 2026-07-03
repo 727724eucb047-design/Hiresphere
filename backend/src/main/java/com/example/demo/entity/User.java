@@ -1,6 +1,10 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -10,17 +14,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is required")
     @Column(nullable = false)
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Email(message = "Invalid email")
+    @NotBlank(message = "Email is required")
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @NotBlank(message = "Password is required")
     @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserProfile userProfile;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Application> applications = new ArrayList<>();
 
     public User() {
     }
@@ -71,5 +86,21 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    public List<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
     }
 }
