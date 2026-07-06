@@ -13,8 +13,9 @@ public class Application {
     private Long userId;
     private Long jobId;
 
-    @Enumerated(EnumType.STRING)
-    private ApplicationStatus status;
+    @ManyToOne
+   @JoinColumn(name = "status")
+   private ApplicationStatus status;
 
     public Application() {
     }
