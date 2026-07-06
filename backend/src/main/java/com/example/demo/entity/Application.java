@@ -10,50 +10,59 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
-    private Long jobId;
-
+    // MANY applications → ONE user
     @ManyToOne
-   @JoinColumn(name = "status")
-   private ApplicationStatus status;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    // MANY applications → ONE job
+    @ManyToOne
+    @JoinColumn(name = "job_id", nullable = false)
+    private Job job;
+
+    // MANY applications → ONE status
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
+    private ApplicationStatus status;
 
     public Application() {
     }
 
-    public Application(Long id, Long userId,
-                       Long jobId, ApplicationStatus status) {
+    public Application(Long id, User user, Job job, ApplicationStatus status) {
         this.id = id;
-        this.userId = userId;
-        this.jobId = jobId;
+        this.user = user;
+        this.job = job;
         this.status = status;
     }
 
+    // getters & setters
+
     public Long getId() {
         return id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public Long getJobId() {
-        return jobId;
-    }
-
-    public ApplicationStatus getStatus() {
-        return status;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setJobId(Long jobId) {
-        this.jobId = jobId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    public ApplicationStatus getStatus() {
+        return status;
     }
 
     public void setStatus(ApplicationStatus status) {
