@@ -1,13 +1,16 @@
 package com.example.demo.service;
 
+import java.util.Optional;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.example.demo.DTO.AuthRequest;
 import com.example.demo.DTO.AuthResponse;
 import com.example.demo.DTO.RegisterRequest;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtUtil;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
@@ -25,10 +28,17 @@ public class AuthService {
     }
 
     // Register User
-    public String register(RegisterRequest request) {
+    public AuthResponse register(RegisterRequest request) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            return "Email already exists";
+            return new AuthResponse(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "Email already exists"
+            );
         }
 
         User user = new User();
@@ -39,21 +49,45 @@ public class AuthService {
 
         userRepository.save(user);
 
-        return "Registration Successful";
+        String token = jwtUtil.generateToken(user.getEmail());
+
+        return new AuthResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getRole(),
+                token,
+                "Registration Successful"
+        );
     }
 
     // Login User
     public AuthResponse login(AuthRequest request) {
 
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElse(null);
+        Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
 
-        if (user == null) {
-            return new AuthResponse(null, null, null, null, "User not found");
+        if (optionalUser.isEmpty()) {
+            return new AuthResponse(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "User not found"
+            );
         }
 
+        User user = optionalUser.get();
+
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return new AuthResponse(null, null, null, null, "Invalid Credentials");
+            return new AuthResponse(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "Invalid password"
+            );
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
@@ -63,7 +97,8 @@ public class AuthService {
                 user.getName(),
                 user.getEmail(),
                 user.getRole(),
-                token
+                token,
+                "Login Successful"
         );
     }
 }
