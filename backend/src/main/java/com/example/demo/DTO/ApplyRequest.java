@@ -1,8 +1,13 @@
 package com.example.demo.DTO;
 
+import jakarta.validation.constraints.NotNull;
+
 public class ApplyRequest {
 
+    @NotNull(message = "Job ID is required")
     private Long jobId;
+
+    @NotNull(message = "User ID is required")
     private Long userId;
 
     public ApplyRequest() {
