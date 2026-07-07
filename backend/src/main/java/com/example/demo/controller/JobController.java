@@ -4,6 +4,8 @@ import com.example.demo.entity.Job;
 import com.example.demo.service.JobService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,28 +19,29 @@ public class JobController {
     private JobService jobService;
 
     @PostMapping
-    public Job createJob(@Valid @RequestBody Job job) {
-        return jobService.createJob(job);
+    public ResponseEntity<Job> createJob(@Valid @RequestBody Job job) {
+        return new ResponseEntity<>(jobService.createJob(job), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<Job> getAllJobs() {
-        return jobService.getAllJobs();
+    public ResponseEntity<List<Job>> getAllJobs() {
+        return ResponseEntity.ok(jobService.getAllJobs());
     }
 
     @GetMapping("/{id}")
-    public Job getJobById(@PathVariable Long id) {
-        return jobService.getJobById(id);
+    public ResponseEntity<Job> getJobById(@PathVariable Long id) {
+        return ResponseEntity.ok(jobService.getJobById(id));
     }
 
     @PutMapping("/{id}")
-    public Job updateJob(@PathVariable Long id,
-                         @Valid @RequestBody Job job) {
-        return jobService.updateJob(id, job);
+    public ResponseEntity<Job> updateJob(@PathVariable Long id,
+                                         @Valid @RequestBody Job job) {
+        return ResponseEntity.ok(jobService.updateJob(id, job));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteJob(@PathVariable Long id) {
+    public ResponseEntity<String> deleteJob(@PathVariable Long id) {
         jobService.deleteJob(id);
+        return ResponseEntity.ok("Job deleted successfully");
     }
 }
