@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.UserProfile;
 import com.example.demo.service.UserProfileService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,47 +17,29 @@ public class UserProfileController {
         this.profileService = profileService;
     }
 
+    // CREATE
     @PostMapping
-    public ResponseEntity<UserProfile> createProfile(@RequestBody UserProfile profile) {
+    public ResponseEntity<UserProfile> createProfile(@Valid @RequestBody UserProfile profile) {
         return ResponseEntity.ok(profileService.save(profile));
     }
 
+    // GET BY ID
     @GetMapping("/{id}")
     public ResponseEntity<UserProfile> getProfile(@PathVariable Long id) {
-
-        UserProfile profile = profileService.getProfile(id);
-
-        if (profile == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(profile);
+        return ResponseEntity.ok(profileService.getProfile(id));
     }
 
+    // UPDATE
     @PutMapping("/{id}")
     public ResponseEntity<UserProfile> updateProfile(@PathVariable Long id,
-                                                     @RequestBody UserProfile profile) {
-
-        UserProfile existing = profileService.getProfile(id);
-
-        if (existing == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        existing.setPhone(profile.getPhone());
-        existing.setAddress(profile.getAddress());
-        existing.setSkills(profile.getSkills());
-        existing.setEducation(profile.getEducation());
-        existing.setResumeUrl(profile.getResumeUrl());
-
-        return ResponseEntity.ok(profileService.save(existing));
+                                                     @Valid @RequestBody UserProfile profile) {
+        return ResponseEntity.ok(profileService.updateProfile(id, profile));
     }
 
+    // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProfile(@PathVariable Long id) {
-
         profileService.deleteProfile(id);
-
         return ResponseEntity.ok("Profile deleted successfully");
     }
 }

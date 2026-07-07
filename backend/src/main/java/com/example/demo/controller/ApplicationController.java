@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Application;
 import com.example.demo.service.ApplicationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/applications")
+@CrossOrigin(origins = "*")
 public class ApplicationController {
 
     @Autowired
@@ -16,7 +18,7 @@ public class ApplicationController {
 
     // CREATE
     @PostMapping
-    public Application createApplication(@RequestBody Application application) {
+    public Application createApplication(@Valid @RequestBody Application application) {
         return applicationService.createApplication(application);
     }
 
@@ -35,7 +37,7 @@ public class ApplicationController {
     // UPDATE
     @PutMapping("/{id}")
     public Application updateApplication(@PathVariable Long id,
-                                        @RequestBody Application application) {
+                                         @Valid @RequestBody Application application) {
         return applicationService.updateApplication(id, application);
     }
 
