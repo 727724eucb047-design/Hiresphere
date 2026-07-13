@@ -2,37 +2,40 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Job;
 import com.example.demo.service.JobService;
+
 import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/jobs")
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 public class JobController {
 
     private final JobService jobService;
 
-    public JobController(JobService jobService){
+
+    public JobController(JobService jobService) {
         this.jobService = jobService;
     }
 
 
     @PostMapping
-    public Job createJob(@Valid @RequestBody Job job){
+    public Job createJob(@Valid @RequestBody Job job) {
         return jobService.createJob(job);
     }
 
 
     @GetMapping
-    public List<Job> getAllJobs(){
+    public List<Job> getAllJobs() {
         return jobService.getAllJobs();
     }
 
 
     @GetMapping("/{id}")
-    public Job getJobById(@PathVariable Long id){
+    public Job getJobById(@PathVariable Long id) {
         return jobService.getJobById(id);
     }
 
@@ -40,15 +43,17 @@ public class JobController {
     @PutMapping("/{id}")
     public Job updateJob(
             @PathVariable Long id,
-            @Valid @RequestBody Job job){
+            @Valid @RequestBody Job job) {
 
-        return jobService.updateJob(id,job);
+        return jobService.updateJob(id, job);
     }
 
 
     @DeleteMapping("/{id}")
-    public void deleteJob(@PathVariable Long id){
+    public String deleteJob(@PathVariable Long id) {
 
         jobService.deleteJob(id);
+
+        return "Job deleted successfully";
     }
 }
