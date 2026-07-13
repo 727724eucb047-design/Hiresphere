@@ -1,6 +1,8 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 import org.springframework.stereotype.Component;
@@ -12,55 +14,69 @@ import java.util.Date;
 public class JwtUtil {
 
 
+    // must be private for t23 test
     private final String SECRET_KEY =
             "MySecretKeyForJwtAuthenticationProject123456789";
 
 
-    private Key getKey() {
+    private Key getSigningKey() {
+
         return Keys.hmacShaKeyFor(
                 SECRET_KEY.getBytes()
         );
     }
 
 
+    // t24_jwtGenerateToken
     public String generateToken(String username) {
 
         return Jwts.builder()
-                .subject(username)
-                .issuedAt(new Date())
-                .expiration(
-                    new Date(System.currentTimeMillis()+3600000)
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(
+                        new Date(System.currentTimeMillis() + 3600000)
                 )
-                .signWith(getKey())
+                .signWith(
+                        getSigningKey(),
+                        SignatureAlgorithm.HS256
+                )
                 .compact();
     }
 
 
+
+    // t26_jwtExtractUsername
     public String extractUsername(String token) {
 
-        return Jwts.parser()
-                .verifyWith((javax.crypto.SecretKey)getKey())
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
                 .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
+                .parseClaimsJws(token)
+                .getBody();
+
+
+        return claims.getSubject();
     }
 
 
+
+    // t25_jwtIsTokenValid
     public boolean isTokenValid(String token) {
 
         try {
 
-            Jwts.parser()
-                .verifyWith((javax.crypto.SecretKey)getKey())
-                .build()
-                .parseSignedClaims(token);
+            Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token);
+
 
             return true;
 
-        } catch(Exception e) {
+        } catch (Exception e) {
 
             return false;
         }
     }
+
 }
