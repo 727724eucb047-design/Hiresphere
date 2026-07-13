@@ -2,7 +2,9 @@ package com.example.demo.service;
 
 
 import com.example.demo.entity.Application;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.ApplicationRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,47 +18,57 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicationRepository applicationRepository;
 
 
-    public ApplicationServiceImpl(ApplicationRepository applicationRepository){
+    public ApplicationServiceImpl(ApplicationRepository applicationRepository) {
         this.applicationRepository = applicationRepository;
     }
 
 
 
+    // CREATE
     @Override
     @Transactional
-    public Application createApplication(Application application){
+    public Application createApplication(Application application) {
 
         return applicationRepository.save(application);
     }
 
 
 
+    // GET ALL
     @Override
-    public List<Application> getAllApplications(){
+    public List<Application> getAllApplications() {
 
         return applicationRepository.findAll();
     }
 
 
 
+    // GET BY ID
     @Override
-    public Application getApplicationById(Long id){
+    public Application getApplicationById(Long id) {
 
         return applicationRepository.findById(id)
-                .orElseThrow(
-                    ()-> new RuntimeException("Application not found")
-                );
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Application not found"
+                        ));
     }
 
 
 
+    // UPDATE
     @Override
     @Transactional
     public Application updateApplication(Long id,
-                                        Application application){
+                                        Application application) {
+
 
         Application existing =
-                getApplicationById(id);
+                applicationRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Application not found"
+                        ));
 
 
         existing.setUser(application.getUser());
@@ -69,12 +81,19 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 
 
+    // DELETE
     @Override
     @Transactional
-    public void deleteApplication(Long id){
+    public void deleteApplication(Long id) {
+
 
         Application application =
-                getApplicationById(id);
+                applicationRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Application not found"
+                        ));
+
 
         applicationRepository.delete(application);
     }
