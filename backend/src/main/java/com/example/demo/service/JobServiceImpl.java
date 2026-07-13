@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-
 import com.example.demo.entity.Job;
 import com.example.demo.repository.JobRepository;
 
@@ -9,10 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
+@Transactional
 public class JobServiceImpl implements JobService {
-
 
     private final JobRepository jobRepository;
 
@@ -22,21 +20,16 @@ public class JobServiceImpl implements JobService {
     }
 
 
-
     @Override
     public Job createJob(Job job) {
-
         return jobRepository.save(job);
     }
 
 
-
     @Override
     public List<Job> getAllJobs() {
-
         return jobRepository.findAll();
     }
-
 
 
     @Override
@@ -44,21 +37,17 @@ public class JobServiceImpl implements JobService {
 
         return jobRepository.findById(id)
                 .orElseThrow(() ->
-                    new RuntimeException("Job not found")
+                        new RuntimeException("Job not found")
                 );
     }
 
 
-
     @Override
-    @Transactional
     public Job updateJob(Long id, Job job) {
 
-
-        Job existing =
-                jobRepository.findById(id)
+        Job existing = jobRepository.findById(id)
                 .orElseThrow(() ->
-                    new RuntimeException("Job not found")
+                        new RuntimeException("Job not found")
                 );
 
 
@@ -73,20 +62,13 @@ public class JobServiceImpl implements JobService {
     }
 
 
-
     @Override
-    @Transactional
     public void deleteJob(Long id) {
 
+        if(!jobRepository.existsById(id)){
+            throw new RuntimeException("Job not found");
+        }
 
-        Job job =
-                jobRepository.findById(id)
-                .orElseThrow(() ->
-                    new RuntimeException("Job not found")
-                );
-
-
-        jobRepository.delete(job);
+        jobRepository.deleteById(id);
     }
-
 }
