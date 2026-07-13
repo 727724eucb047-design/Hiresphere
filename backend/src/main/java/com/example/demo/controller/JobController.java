@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Job;
 import com.example.demo.service.JobService;
-import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,45 +20,35 @@ public class JobController {
 
 
     @PostMapping
-    public ResponseEntity<Job> createJob(@RequestBody Job job){
-        return ResponseEntity.ok(jobService.createJob(job));
+    public Job createJob(@Valid @RequestBody Job job){
+        return jobService.createJob(job);
     }
 
 
     @GetMapping
-    public ResponseEntity<List<Job>> getAllJobs(){
-        return ResponseEntity.ok(jobService.getAllJobs());
+    public List<Job> getAllJobs(){
+        return jobService.getAllJobs();
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Job> getJobById(@PathVariable Long id){
-
-        return ResponseEntity.ok(
-                jobService.getJobById(id)
-        );
+    public Job getJobById(@PathVariable Long id){
+        return jobService.getJobById(id);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Job> updateJob(
+    public Job updateJob(
             @PathVariable Long id,
-            @RequestBody Job job){
+            @Valid @RequestBody Job job){
 
-        return ResponseEntity.ok(
-                jobService.updateJob(id,job)
-        );
+        return jobService.updateJob(id,job);
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteJob(
-            @PathVariable Long id){
+    public void deleteJob(@PathVariable Long id){
 
         jobService.deleteJob(id);
-
-        return ResponseEntity.ok(
-                "Job deleted successfully"
-        );
     }
 }

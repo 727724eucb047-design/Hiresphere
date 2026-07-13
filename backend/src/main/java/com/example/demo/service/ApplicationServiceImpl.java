@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
+
 import com.example.demo.entity.Application;
 import com.example.demo.repository.ApplicationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -14,45 +16,47 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicationRepository applicationRepository;
 
 
-    public ApplicationServiceImpl(ApplicationRepository applicationRepository) {
+    public ApplicationServiceImpl(ApplicationRepository applicationRepository){
         this.applicationRepository = applicationRepository;
     }
 
 
+
     @Override
-    public Application createApplication(Application application) {
+    @Transactional
+    public Application createApplication(Application application){
 
         return applicationRepository.save(application);
     }
 
 
+
     @Override
-    public List<Application> getAllApplications() {
+    public List<Application> getAllApplications(){
 
         return applicationRepository.findAll();
     }
 
 
+
     @Override
-    public Application getApplicationById(Long id) {
+    public Application getApplicationById(Long id){
 
         return applicationRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Application not found with id: " + id)
+                .orElseThrow(
+                    ()-> new RuntimeException("Application not found")
                 );
     }
 
 
+
     @Override
     @Transactional
-    public Application updateApplication(Long id, Application application) {
-
+    public Application updateApplication(Long id,
+                                        Application application){
 
         Application existing =
-                applicationRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Application not found")
-                );
+                getApplicationById(id);
 
 
         existing.setUser(application.getUser());
@@ -64,18 +68,15 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
 
+
     @Override
     @Transactional
-    public void deleteApplication(Long id) {
-
+    public void deleteApplication(Long id){
 
         Application application =
-                applicationRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Application not found")
-                );
-
+                getApplicationById(id);
 
         applicationRepository.delete(application);
     }
+
 }
