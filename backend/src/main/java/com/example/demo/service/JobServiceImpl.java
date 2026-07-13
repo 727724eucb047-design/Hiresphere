@@ -20,18 +20,21 @@ public class JobServiceImpl implements JobService {
     }
 
 
+    // CREATE
     @Override
     public Job createJob(Job job) {
         return jobRepository.save(job);
     }
 
 
+    // GET ALL
     @Override
     public List<Job> getAllJobs() {
         return jobRepository.findAll();
     }
 
 
+    // GET BY ID
     @Override
     public Job getJobById(Long id) {
 
@@ -42,33 +45,38 @@ public class JobServiceImpl implements JobService {
     }
 
 
+    // UPDATE
     @Override
     public Job updateJob(Long id, Job job) {
 
-        Job existing = jobRepository.findById(id)
+        Job existingJob = jobRepository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Job not found")
                 );
 
 
-        existing.setTitle(job.getTitle());
-        existing.setCompany(job.getCompany());
-        existing.setLocation(job.getLocation());
-        existing.setDescription(job.getDescription());
-        existing.setSalary(job.getSalary());
+        existingJob.setTitle(job.getTitle());
+        existingJob.setCompany(job.getCompany());
+        existingJob.setLocation(job.getLocation());
+        existingJob.setDescription(job.getDescription());
+        existingJob.setSalary(job.getSalary());
 
 
-        return jobRepository.save(existing);
+        return jobRepository.save(existingJob);
     }
 
 
+    // DELETE
     @Override
     public void deleteJob(Long id) {
 
-        if(!jobRepository.existsById(id)){
-            throw new RuntimeException("Job not found");
-        }
+        Job existingJob = jobRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Job not found")
+                );
 
-        jobRepository.deleteById(id);
+
+        jobRepository.delete(existingJob);
     }
+
 }
