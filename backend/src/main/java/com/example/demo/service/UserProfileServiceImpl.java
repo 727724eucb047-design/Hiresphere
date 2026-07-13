@@ -7,8 +7,9 @@ import com.example.demo.repository.UserProfileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
-@Transactional
 public class UserProfileServiceImpl implements UserProfileService {
 
 
@@ -21,9 +22,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 
     @Override
+    @Transactional
     public UserProfile save(UserProfile profile) {
 
         return userProfileRepository.save(profile);
+    }
+
+
+    @Override
+    public List<UserProfile> getAllProfiles() {
+
+        return userProfileRepository.findAll();
     }
 
 
@@ -34,12 +43,36 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
                                 "User profile not found"
-                        )
-                );
+                        ));
     }
 
 
     @Override
+    @Transactional
+    public UserProfile updateProfile(Long id, UserProfile profile) {
+
+        UserProfile existing =
+                userProfileRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User profile not found"
+                        ));
+
+
+        existing.setPhone(profile.getPhone());
+        existing.setAddress(profile.getAddress());
+        existing.setSkills(profile.getSkills());
+        existing.setEducation(profile.getEducation());
+        existing.setResumeUrl(profile.getResumeUrl());
+        existing.setUser(profile.getUser());
+
+
+        return userProfileRepository.save(existing);
+    }
+
+
+    @Override
+    @Transactional
     public void deleteProfile(Long id) {
 
         UserProfile profile =
@@ -47,8 +80,8 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
                                 "User profile not found"
-                        )
-                );
+                        ));
+
 
         userProfileRepository.delete(profile);
     }
