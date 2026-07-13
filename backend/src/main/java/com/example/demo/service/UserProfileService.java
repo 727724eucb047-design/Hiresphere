@@ -1,44 +1,28 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.UserProfile;
-import com.example.demo.repository.UserProfileRepository;
-import org.springframework.stereotype.Service;
 
-@Service
-public class UserProfileService {
+import java.util.List;
 
-    private final UserProfileRepository profileRepository;
+public interface UserProfileService {
 
-    public UserProfileService(UserProfileRepository profileRepository) {
-        this.profileRepository = profileRepository;
-    }
+    // Create profile
+    UserProfile save(UserProfile profile);
 
-    public UserProfile save(UserProfile profile) {
-        return profileRepository.save(profile);
-    }
 
-    public UserProfile getProfile(Long id) {
-        return profileRepository.findById(id).orElse(null);
-    }
+    // Get all profiles
+    List<UserProfile> getAllProfiles();
 
-    public UserProfile updateProfile(Long id, UserProfile profile) {
 
-        UserProfile existing = profileRepository.findById(id).orElse(null);
+    // Get profile by id
+    UserProfile getProfile(Long id);
 
-        if (existing != null) {
-            existing.setPhone(profile.getPhone());
-            existing.setAddress(profile.getAddress());
-            existing.setSkills(profile.getSkills());
-            existing.setEducation(profile.getEducation());
-            existing.setResumeUrl(profile.getResumeUrl());
 
-            return profileRepository.save(existing);
-        }
+    // Update profile
+    UserProfile updateProfile(Long id, UserProfile profile);
 
-        return null;
-    }
 
-    public void deleteProfile(Long id) {
-        profileRepository.deleteById(id);
-    }
+    // Delete profile
+    void deleteProfile(Long id);
+
 }
