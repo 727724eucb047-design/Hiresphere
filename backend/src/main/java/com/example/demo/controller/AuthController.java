@@ -19,12 +19,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid @RequestBody RegisterRequest request) {
+    public AuthResponse register(
+            @Valid @RequestBody RegisterRequest request) {
+
         return authService.register(request);
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@Valid @RequestBody AuthRequest request) {
+    public AuthResponse login(
+            @Valid @RequestBody AuthRequest request) {
+
         return authService.login(request);
     }
 }
