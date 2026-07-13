@@ -11,16 +11,13 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @NotBlank(message = "Phone is required")
     @Column(nullable = false)
     private String phone;
 
-
     @NotBlank(message = "Address is required")
     @Column(nullable = false)
     private String address;
-
 
     private String skills;
 
@@ -28,17 +25,12 @@ public class UserProfile {
 
     private String resumeUrl;
 
-   @OneToOne
-   @JoinColumn(name="user_id",
-            nullable=false,
-            unique=true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
-
-
 
     public UserProfile() {
     }
-
 
     public UserProfile(Long id,
                        String phone,
@@ -47,7 +39,6 @@ public class UserProfile {
                        String education,
                        String resumeUrl,
                        User user) {
-
         this.id = id;
         this.phone = phone;
         this.address = address;
@@ -57,63 +48,56 @@ public class UserProfile {
         this.user = user;
     }
 
-
     public Long getId() {
         return id;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getSkills() {
+        return skills;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public String getResumeUrl() {
+        return resumeUrl;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-
-    public String getPhone() {
-        return phone;
-    }
-
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-
-    public String getAddress() {
-        return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
 
-
-    public String getSkills() {
-        return skills;
-    }
-
     public void setSkills(String skills) {
         this.skills = skills;
-    }
-
-
-    public String getEducation() {
-        return education;
     }
 
     public void setEducation(String education) {
         this.education = education;
     }
 
-
-    public String getResumeUrl() {
-        return resumeUrl;
-    }
-
     public void setResumeUrl(String resumeUrl) {
         this.resumeUrl = resumeUrl;
-    }
-
-
-    public User getUser() {
-        return user;
     }
 
     public void setUser(User user) {
