@@ -4,14 +4,13 @@ import com.example.demo.entity.Job;
 import com.example.demo.service.JobService;
 
 import jakarta.validation.Valid;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/jobs")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class JobController {
 
     private final JobService jobService;
@@ -50,10 +49,8 @@ public class JobController {
 
 
     @DeleteMapping("/{id}")
-    public String deleteJob(@PathVariable Long id) {
+    public void deleteJob(@PathVariable Long id) {
 
         jobService.deleteJob(id);
-
-        return "Job deleted successfully";
     }
 }
