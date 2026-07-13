@@ -11,13 +11,16 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @NotBlank(message = "Phone is required")
     @Column(nullable = false)
     private String phone;
 
+
     @NotBlank(message = "Address is required")
     @Column(nullable = false)
     private String address;
+
 
     private String skills;
 
@@ -25,16 +28,25 @@ public class UserProfile {
 
     private String resumeUrl;
 
+
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
+
+
 
     public UserProfile() {
     }
 
-    public UserProfile(Long id, String phone, String address,
-                       String skills, String education,
-                       String resumeUrl, User user) {
+
+    public UserProfile(Long id,
+                       String phone,
+                       String address,
+                       String skills,
+                       String education,
+                       String resumeUrl,
+                       User user) {
+
         this.id = id;
         this.phone = phone;
         this.address = address;
@@ -44,6 +56,7 @@ public class UserProfile {
         this.user = user;
     }
 
+
     public Long getId() {
         return id;
     }
@@ -51,6 +64,7 @@ public class UserProfile {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getPhone() {
         return phone;
@@ -60,6 +74,7 @@ public class UserProfile {
         this.phone = phone;
     }
 
+
     public String getAddress() {
         return address;
     }
@@ -67,6 +82,7 @@ public class UserProfile {
     public void setAddress(String address) {
         this.address = address;
     }
+
 
     public String getSkills() {
         return skills;
@@ -76,6 +92,7 @@ public class UserProfile {
         this.skills = skills;
     }
 
+
     public String getEducation() {
         return education;
     }
@@ -84,6 +101,7 @@ public class UserProfile {
         this.education = education;
     }
 
+
     public String getResumeUrl() {
         return resumeUrl;
     }
@@ -91,6 +109,7 @@ public class UserProfile {
     public void setResumeUrl(String resumeUrl) {
         this.resumeUrl = resumeUrl;
     }
+
 
     public User getUser() {
         return user;
