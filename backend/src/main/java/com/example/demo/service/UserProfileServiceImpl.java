@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 
@@ -21,6 +22,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
 
+    // CREATE
     @Override
     @Transactional
     public UserProfile save(UserProfile profile) {
@@ -29,6 +31,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
 
+    // GET ALL
     @Override
     public List<UserProfile> getAllProfiles() {
 
@@ -36,6 +39,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
 
+    // GET BY ID
     @Override
     public UserProfile getProfile(Long id) {
 
@@ -47,9 +51,11 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
 
+    // UPDATE
     @Override
     @Transactional
     public UserProfile updateProfile(Long id, UserProfile profile) {
+
 
         UserProfile existing =
                 userProfileRepository.findById(id)
@@ -64,16 +70,21 @@ public class UserProfileServiceImpl implements UserProfileService {
         existing.setSkills(profile.getSkills());
         existing.setEducation(profile.getEducation());
         existing.setResumeUrl(profile.getResumeUrl());
-        existing.setUser(profile.getUser());
+
+        if(profile.getUser() != null) {
+            existing.setUser(profile.getUser());
+        }
 
 
         return userProfileRepository.save(existing);
     }
 
 
+    // DELETE
     @Override
     @Transactional
     public void deleteProfile(Long id) {
+
 
         UserProfile profile =
                 userProfileRepository.findById(id)
