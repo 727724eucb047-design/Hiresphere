@@ -13,47 +13,46 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // Private secret (t23)
     private final String SECRET_KEY =
-            "TXlTZWNyZXRLZXlGb3JKd3RBdXRoZW50aWNhdGlvblByb2plY3QxMjM0NTY3ODkwMTIzNDU2";
+            "MySecretKeyForJwtAuthenticationProject123456789";
 
-    private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        return Keys.hmacShaKeyFor(keyBytes);
+    private Key getSigningKey() {
+        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    // t24
+
     public String generateToken(String username) {
 
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
-                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .setExpiration(
+                    new Date(System.currentTimeMillis() + 3600000)
+                )
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // t26
+
     public String extractUsername(String token) {
-        return extractAllClaims(token).getSubject();
-    }
-
-    // t25
-    public boolean isTokenValid(String token) {
-        try {
-            extractAllClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    private Claims extractAllClaims(String token) {
 
         return Jwts.parserBuilder()
-                .setSigningKey(getSignKey())
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
-                .getBody();
+                .getBody()
+                .getSubject();
+    }
+
+
+    public boolean isTokenValid(String token) {
+
+        try {
+            extractUsername(token);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 }

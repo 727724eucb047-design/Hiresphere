@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Job;
 import com.example.demo.service.JobService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,33 +14,51 @@ public class JobController {
 
     private final JobService jobService;
 
-    public JobController(JobService jobService) {
+    public JobController(JobService jobService){
         this.jobService = jobService;
     }
 
+
     @PostMapping
-    public Job createJob(@RequestBody Job job) {
-        return jobService.createJob(job);
+    public ResponseEntity<Job> createJob(@RequestBody Job job){
+        return ResponseEntity.ok(jobService.createJob(job));
     }
+
 
     @GetMapping
-    public List<Job> getAllJobs() {
-        return jobService.getAllJobs();
+    public ResponseEntity<List<Job>> getAllJobs(){
+        return ResponseEntity.ok(jobService.getAllJobs());
     }
+
 
     @GetMapping("/{id}")
-    public Job getJobById(@PathVariable Long id) {
-        return jobService.getJobById(id);
+    public ResponseEntity<Job> getJobById(@PathVariable Long id){
+
+        return ResponseEntity.ok(
+                jobService.getJobById(id)
+        );
     }
+
 
     @PutMapping("/{id}")
-    public Job updateJob(@PathVariable Long id,
-                         @RequestBody Job job) {
-        return jobService.updateJob(id, job);
+    public ResponseEntity<Job> updateJob(
+            @PathVariable Long id,
+            @RequestBody Job job){
+
+        return ResponseEntity.ok(
+                jobService.updateJob(id,job)
+        );
     }
 
+
     @DeleteMapping("/{id}")
-    public void deleteJob(@PathVariable Long id) {
+    public ResponseEntity<String> deleteJob(
+            @PathVariable Long id){
+
         jobService.deleteJob(id);
+
+        return ResponseEntity.ok(
+                "Job deleted successfully"
+        );
     }
 }
