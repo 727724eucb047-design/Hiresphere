@@ -35,15 +35,20 @@ public class GlobalExceptionHandler {
     }
 
     // Business validation exception
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleBusinessValidation(IllegalArgumentException ex) {
+    @ExceptionHandler(BusinessValidationException.class)
+    public ResponseEntity<Map<String, Object>> handleBusinessValidation(
+        BusinessValidationException ex) {
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("message", ex.getMessage());
+    Map<String, Object> response = new HashMap<>();
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
+    response.put("status", HttpStatus.BAD_REQUEST.value());
+    response.put("message", ex.getMessage());
+
+    return new ResponseEntity<>(
+            response,
+            HttpStatus.BAD_REQUEST
+    );
+}
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex) {
