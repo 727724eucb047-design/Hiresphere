@@ -31,11 +31,16 @@ public class User {
    @JoinColumn(name = "role_id")
    private Role role;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private UserProfile userProfile;
+   @OneToOne(mappedBy = "user",
+          cascade = CascadeType.ALL,
+          orphanRemoval = true)
+private UserProfile userProfile;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Application> applications = new ArrayList<>();
+
+@OneToMany(mappedBy = "user",
+           cascade = CascadeType.ALL,
+           orphanRemoval = true)
+private List<Application> applications = new ArrayList<>();
 
     public User() {
     }
