@@ -28,9 +28,10 @@ public class UserProfile {
 
     private String resumeUrl;
 
-
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+   @OneToOne
+   @JoinColumn(name="user_id",
+            nullable=false,
+            unique=true)
     private User user;
 
 
