@@ -95,7 +95,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                         ));
 
 
-        userProfileRepository.delete(profile);
+        userProfileRepository.deleteById(id);
     }
 
 }
