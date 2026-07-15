@@ -35,14 +35,14 @@ public class GlobalExceptionHandler {
     }
 
     // Business validation exception
-    @ExceptionHandler(BusinessValidationException.class)
-    public ResponseEntity<Map<String, Object>> handleBusinessValidation(
+   @ExceptionHandler(BusinessValidationException.class)
+public ResponseEntity<Map<String,Object>> handleBusinessValidation(
         BusinessValidationException ex) {
 
-    Map<String, Object> response = new HashMap<>();
+    Map<String,Object> response = new HashMap<>();
 
-    response.put("status", HttpStatus.BAD_REQUEST.value());
-    response.put("message", ex.getMessage());
+    response.put("status",400);
+    response.put("message",ex.getMessage());
 
     return new ResponseEntity<>(
             response,
