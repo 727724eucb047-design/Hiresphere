@@ -12,6 +12,7 @@ import java.util.List;
 
 
 @Service
+@Transactional
 public class ApplicationServiceImpl implements ApplicationService {
 
 
@@ -95,7 +96,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                         ));
 
 
-        applicationRepository.delete(application);
+        applicationRepository.deleteById(id);
     }
 
 }
