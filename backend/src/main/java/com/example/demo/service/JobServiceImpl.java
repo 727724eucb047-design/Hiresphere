@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.Job;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.JobRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,22 +19,29 @@ public class JobServiceImpl implements JobService {
         this.jobRepository = jobRepository;
     }
 
+
     @Override
     public Job createJob(Job job) {
         return jobRepository.save(job);
     }
+
 
     @Override
     public List<Job> getAllJobs() {
         return jobRepository.findAll();
     }
 
+
     @Override
     public Job getJobById(Long id) {
+
         return jobRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Job not found"));
+                        new ResourceNotFoundException(
+                                "Job not found"
+                        ));
     }
+
 
     @Override
     public Job updateJob(Long id, Job job) {
@@ -49,11 +57,16 @@ public class JobServiceImpl implements JobService {
         return jobRepository.save(existingJob);
     }
 
+
     @Override
     public void deleteJob(Long id) {
 
-        Job existingJob = getJobById(id);
+        if(!jobRepository.existsById(id)) {
+            throw new ResourceNotFoundException(
+                    "Job not found"
+            );
+        }
 
-        jobRepository.delete(existingJob);
+        jobRepository.deleteById(id);
     }
 }
