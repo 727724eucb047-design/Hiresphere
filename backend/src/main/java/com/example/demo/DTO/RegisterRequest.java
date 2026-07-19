@@ -1,18 +1,30 @@
 package com.example.demo.DTO;
 
 import com.example.demo.entity.Role;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class RegisterRequest {
 
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @Email(message = "Invalid email")
+    @NotBlank(message = "Email is required")
     private String email;
+
+    @NotBlank(message = "Password is required")
     private String password;
+
+    @NotNull(message = "Role is required")
     private Role role;
 
     public RegisterRequest() {
     }
 
-    public RegisterRequest(String name, String email, String password, Role role) {
+    public RegisterRequest(String name, String email,
+                           String password, Role role) {
         this.name = name;
         this.email = email;
         this.password = password;
