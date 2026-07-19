@@ -59,26 +59,17 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     // UPDATE
     @Override
-    @Transactional
-    public Application updateApplication(Long id,
-                                        Application application) {
+@Transactional
+public Application updateApplication(Long id, Application application) {
 
+    Application existing = getApplicationById(id);
 
-        Application existing =
-                applicationRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Application not found"
-                        ));
+    existing.setUser(application.getUser());
+    existing.setJob(application.getJob());
+    existing.setStatus(application.getStatus());
 
-
-        existing.setUser(application.getUser());
-        existing.setJob(application.getJob());
-        existing.setStatus(application.getStatus());
-
-
-        return applicationRepository.save(existing);
-    }
+    return applicationRepository.save(existing);
+}
 
 
 
