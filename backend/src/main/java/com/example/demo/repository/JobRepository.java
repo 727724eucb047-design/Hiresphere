@@ -3,18 +3,20 @@ package com.example.demo.repository;
 import com.example.demo.entity.Job;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
 
-    // Finder method
-    List<Job> findByLocation(String location);
+    List<Job> findByEmployerId(Long employerId);
 
-    // Custom Query
-    @Query("SELECT j FROM Job j WHERE LOWER(j.company) = LOWER(?1)")
-    List<Job> findJobsByCompany(String company);
+    List<Job> findByTitleContainingIgnoreCaseOrRequiredSkillsContainingIgnoreCaseOrLocationContainingIgnoreCase(
+            String title,
+            String skills,
+            String location);
 
+    long countByActive(boolean active);
+
+    @Query("SELECT j FROM Job j WHERE j.active = true")
+    List<Job> findActiveJobs();
 }
