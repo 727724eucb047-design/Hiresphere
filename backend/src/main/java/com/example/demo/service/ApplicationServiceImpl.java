@@ -84,19 +84,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     // DELETE
     @Override
-    @Transactional
-    public void deleteApplication(Long id) {
+@Transactional
+public void deleteApplication(Long id) {
 
+    Application application = applicationRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException("Application not found"));
 
-        Application application =
-                applicationRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Application not found"
-                        ));
-
-
-        applicationRepository.deleteById(id);
-    }
+    applicationRepository.delete(application);
+}
 
 }
