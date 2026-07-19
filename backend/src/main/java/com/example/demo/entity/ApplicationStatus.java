@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +14,11 @@ public class ApplicationStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Status name is required")
     @Column(nullable = false, unique = true)
     private String statusName;
 
-    @OneToMany(mappedBy = "status")
+    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
     private List<Application> applications = new ArrayList<>();
 
     public ApplicationStatus() {
