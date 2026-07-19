@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Role name is required")
     @Column(nullable = false, unique = true)
     private String roleName;
 
@@ -32,20 +35,20 @@ public class Role {
         return id;
     }
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getRoleName() {
+        return roleName;
+    }
+
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public List<User> getUsers() {
+        return users;
     }
 
     public void setUsers(List<User> users) {

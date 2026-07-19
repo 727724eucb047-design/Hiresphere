@@ -36,7 +36,8 @@ public class Job {
 
     @OneToMany(mappedBy = "job",
             cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
     private List<Application> applications = new ArrayList<>();
 
     public Job() {
@@ -48,7 +49,6 @@ public class Job {
                String location,
                String description,
                Double salary) {
-
         this.id = id;
         this.title = title;
         this.company = company;
