@@ -6,6 +6,7 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.JobRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.AdminService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,19 +31,19 @@ public class AdminController {
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userRepository.findAll());
     }
 
     @GetMapping("/jobs")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<Job> getAllJobs() {
-        return jobRepository.findAll();
+    public ResponseEntity<List<Job>> getAllJobs() {
+        return ResponseEntity.ok(jobRepository.findAll());
     }
 
     @GetMapping("/dashboard")
     @PreAuthorize("hasRole('ADMIN')")
-    public DashboardStatsDTO getDashboardStats() {
-        return adminService.getDashboardStats();
+    public ResponseEntity<DashboardStatsDTO> getDashboardStats() {
+        return ResponseEntity.ok(adminService.getDashboardStats());
     }
 }
