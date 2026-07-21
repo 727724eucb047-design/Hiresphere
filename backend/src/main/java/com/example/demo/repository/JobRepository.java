@@ -12,7 +12,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 
     List<Job> findByTitleContainingIgnoreCaseOrRequiredSkillsContainingIgnoreCaseOrLocationContainingIgnoreCase(
             String title,
-            String skills,
+            String requiredSkills,
             String location);
 
     long countByActive(boolean active);
