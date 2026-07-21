@@ -13,7 +13,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     // Find jobs by location
     List<Job> findByLocation(String location);
 
-    // Find jobs by company name
+    // Find jobs by company
     List<Job> findByCompany(String company);
 
     // Custom query
