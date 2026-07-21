@@ -12,7 +12,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     List<Application> findBySeeker_Id(Long seekerId);
 
-    boolean existsByJobIdAndSeeker_Id(Long jobId, Long seekerId);
+    boolean existsByJob_IdAndSeeker_Id(Long jobId, Long seekerId);
 
     long countByStatus(ApplicationStatus status);
 
