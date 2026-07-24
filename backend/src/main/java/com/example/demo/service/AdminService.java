@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.DTO.DashboardStatsDTO;
+import com.example.demo.dto.DashboardStatsDTO;
 import com.example.demo.repository.ApplicationRepository;
 import com.example.demo.repository.JobRepository;
 import com.example.demo.repository.UserRepository;

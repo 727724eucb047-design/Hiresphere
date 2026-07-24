@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.DTO.DashboardStatsDTO;
+import com.example.demo.dto.DashboardStatsDTO;
 import com.example.demo.entity.Job;
 import com.example.demo.entity.User;
 import com.example.demo.repository.JobRepository;
