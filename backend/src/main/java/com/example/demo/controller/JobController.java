@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.JobResponse;
 import com.example.demo.entity.Job;
 import com.example.demo.service.JobService;
 import jakarta.validation.Valid;
@@ -37,7 +38,7 @@ public class JobController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Job> updateJob(@PathVariable Long id,
+    public ResponseEntity<JobResponse> updateJob(@PathVariable Long id,
                                          @Valid @RequestBody Job job) {
         return ResponseEntity.ok(jobService.updateJob(id, job));
     }
