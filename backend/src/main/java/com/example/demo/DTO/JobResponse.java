@@ -1,83 +1,39 @@
 package com.example.demo.dto;
 
-public class JobResponse {
+import java.util.Date;
 
+public class JobResponse {
     private Long id;
     private String title;
-    private String company;
-    private String location;
     private String description;
-    private Double salary;
-    private String employerName;
+    private String requiredSkills;
+    private String location;
+    private Long salary;
+    private Integer experienceRequired;
+    private Date createdAt;
+    private Boolean active;
+    private long applicationsCount;
 
-    public JobResponse() {
-    }
+    public JobResponse() {}
 
-    public JobResponse(Long id, String title, String company,
-                       String location, String description,
-                       Double salary, String employerName) {
-        this.id = id;
-        this.title = title;
-        this.company = company;
-        this.location = location;
-        this.description = description;
-        this.salary = salary;
-        this.employerName = employerName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Double salary) {
-        this.salary = salary;
-    }
-
-    public String getEmployerName() {
-        return employerName;
-    }
-
-    public void setEmployerName(String employerName) {
-        this.employerName = employerName;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public String getRequiredSkills() { return requiredSkills; }
+    public void setRequiredSkills(String requiredSkills) { this.requiredSkills = requiredSkills; }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+    public Long getSalary() { return salary; }
+    public void setSalary(Long salary) { this.salary = salary; }
+    public Integer getExperienceRequired() { return experienceRequired; }
+    public void setExperienceRequired(Integer experienceRequired) { this.experienceRequired = experienceRequired; }
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
+    public long getApplicationsCount() { return applicationsCount; }
+    public void setApplicationsCount(long applicationsCount) { this.applicationsCount = applicationsCount; }
 }

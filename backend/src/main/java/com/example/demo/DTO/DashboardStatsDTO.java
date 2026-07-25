@@ -1,41 +1,40 @@
 package com.example.demo.dto;
 
 public class DashboardStatsDTO {
-
     private long totalUsers;
-    private long totalJobs;
+    private long totalEmployers;
+    private long totalJobSeekers;
+    private long totalJobsPosted;
     private long totalApplications;
+    private long activeJobs;
+    private long blockedUsers;
 
-    public DashboardStatsDTO() {
-    }
+    public DashboardStatsDTO() {}
 
-    public DashboardStatsDTO(long totalUsers, long totalJobs, long totalApplications) {
+    public DashboardStatsDTO(long totalUsers, long totalEmployers, long totalJobSeekers,
+                             long totalJobsPosted, long totalApplications, long activeJobs,
+                             long blockedUsers) {
         this.totalUsers = totalUsers;
-        this.totalJobs = totalJobs;
+        this.totalEmployers = totalEmployers;
+        this.totalJobSeekers = totalJobSeekers;
+        this.totalJobsPosted = totalJobsPosted;
         this.totalApplications = totalApplications;
+        this.activeJobs = activeJobs;
+        this.blockedUsers = blockedUsers;
     }
 
-    public long getTotalUsers() {
-        return totalUsers;
-    }
-
-    public void setTotalUsers(long totalUsers) {
-        this.totalUsers = totalUsers;
-    }
-
-    public long getTotalJobs() {
-        return totalJobs;
-    }
-
-    public void setTotalJobs(long totalJobs) {
-        this.totalJobs = totalJobs;
-    }
-
-    public long getTotalApplications() {
-        return totalApplications;
-    }
-
-    public void setTotalApplications(long totalApplications) {
-        this.totalApplications = totalApplications;
-    }
+    public long getTotalUsers() { return totalUsers; }
+    public void setTotalUsers(long totalUsers) { this.totalUsers = totalUsers; }
+    public long getTotalEmployers() { return totalEmployers; }
+    public void setTotalEmployers(long totalEmployers) { this.totalEmployers = totalEmployers; }
+    public long getTotalJobSeekers() { return totalJobSeekers; }
+    public void setTotalJobSeekers(long totalJobSeekers) { this.totalJobSeekers = totalJobSeekers; }
+    public long getTotalJobsPosted() { return totalJobsPosted; }
+    public void setTotalJobsPosted(long totalJobsPosted) { this.totalJobsPosted = totalJobsPosted; }
+    public long getTotalApplications() { return totalApplications; }
+    public void setTotalApplications(long totalApplications) { this.totalApplications = totalApplications; }
+    public long getActiveJobs() { return activeJobs; }
+    public void setActiveJobs(long activeJobs) { this.activeJobs = activeJobs; }
+    public long getBlockedUsers() { return blockedUsers; }
+    public void setBlockedUsers(long blockedUsers) { this.blockedUsers = blockedUsers; }
 }
