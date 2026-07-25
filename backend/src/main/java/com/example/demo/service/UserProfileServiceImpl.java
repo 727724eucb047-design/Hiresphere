@@ -19,6 +19,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
+    @Transactional
     public UserProfile save(UserProfile profile) {
         return userProfileRepository.save(profile);
     }
@@ -38,6 +39,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
+    @Transactional
     public UserProfile updateProfile(Long id, UserProfile profile) {
 
         UserProfile existing = getProfile(id);
@@ -56,6 +58,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
+    @Transactional
     public void deleteProfile(Long id) {
 
         UserProfile profile = getProfile(id);
