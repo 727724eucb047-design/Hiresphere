@@ -1,11 +1,10 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 @Entity
 @Table(name = "jobs")
@@ -15,103 +14,50 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Title required")
+    @NotBlank(message = "Title is required")
     @Column(nullable = false)
     private String title;
 
-    @NotBlank(message = "Company required")
-    @Column(nullable = false)
-    private String company;
-
-    @NotBlank(message = "Location required")
-    @Column(nullable = false)
-    private String location;
-
-    @Column(length = 2000)
+    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @NotNull(message = "Salary required")
-    @Column(nullable = false)
-    private Double salary;
+    @Column(columnDefinition = "TEXT")
+    private String requiredSkills;
 
-    @OneToMany(
-            mappedBy = "job",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<Application> applications = new ArrayList<>();
+    private String location;
+    private Long salary;
+    private Integer experienceRequired;
 
-    public Job() {
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employer_id")
+    @JsonIgnoreProperties({"password", "profile", "authorities"})
+    private User employer;
 
-    public Job(Long id,
-               String title,
-               String company,
-               String location,
-               String description,
-               Double salary) {
-        this.id = id;
-        this.title = title;
-        this.company = company;
-        this.location = location;
-        this.description = description;
-        this.salary = salary;
-    }
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt = new Date();
 
-    public Long getId() {
-        return id;
-    }
+    private Boolean active = true;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Job() {}
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Double salary) {
-        this.salary = salary;
-    }
-
-    public List<Application> getApplications() {
-        return applications;
-    }
-
-    public void setApplications(List<Application> applications) {
-        this.applications = applications;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public String getRequiredSkills() { return requiredSkills; }
+    public void setRequiredSkills(String requiredSkills) { this.requiredSkills = requiredSkills; }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+    public Long getSalary() { return salary; }
+    public void setSalary(Long salary) { this.salary = salary; }
+    public Integer getExperienceRequired() { return experienceRequired; }
+    public void setExperienceRequired(Integer experienceRequired) { this.experienceRequired = experienceRequired; }
+    public User getEmployer() { return employer; }
+    public void setEmployer(User employer) { this.employer = employer; }
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }
