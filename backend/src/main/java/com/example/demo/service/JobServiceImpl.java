@@ -23,43 +23,32 @@ public class JobServiceImpl implements JobService {
 
 
     @Override
-    public Job createJob(Job job, Authentication authentication) {
-
+    public Job createJob(Job job) {
         return jobRepository.save(job);
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public List<JobResponse> getAllJobs() {
-
-        return jobRepository.findAll()
-                .stream()
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
+    public List<Job> getAllJobs() {
+        return jobRepository.findAll();
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public JobResponse getJobById(Long id) {
+    public Job getJobById(Long id) {
 
-        Job job = jobRepository.findById(id)
+        return jobRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Job not found"));
-
-        return convertToResponse(job);
+                new ResourceNotFoundException("Job not found"));
     }
 
 
     @Override
-    public JobResponse updateJob(Long id,
-                                 Job job,
-                                 Authentication authentication) {
+    public Job updateJob(Long id, Job job) {
 
-        Job existing = jobRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Job not found"));
+        Job existing = getJobById(id);
 
         existing.setTitle(job.getTitle());
         existing.setCompany(job.getCompany());
@@ -67,64 +56,15 @@ public class JobServiceImpl implements JobService {
         existing.setDescription(job.getDescription());
         existing.setSalary(job.getSalary());
 
-        return convertToResponse(jobRepository.save(existing));
-    }
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<JobResponse> getEmployerJobs(Authentication authentication) {
-
-        return jobRepository.findAll()
-                .stream()
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
-    }
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<JobResponse> searchJobs(String keyword) {
-
-        return jobRepository.findAll()
-                .stream()
-                .filter(job ->
-                        job.getTitle().toLowerCase()
-                                .contains(keyword.toLowerCase())
-                        ||
-                        job.getCompany().toLowerCase()
-                                .contains(keyword.toLowerCase())
-                        ||
-                        job.getLocation().toLowerCase()
-                                .contains(keyword.toLowerCase())
-                )
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
+        return jobRepository.save(existing);
     }
 
 
     @Override
     public void deleteJob(Long id) {
 
-        Job job = jobRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Job not found"));
+        Job job = getJobById(id);
 
         jobRepository.delete(job);
-    }
-
-
-    private JobResponse convertToResponse(Job job) {
-
-        JobResponse response = new JobResponse();
-
-        response.setId(job.getId());
-        response.setTitle(job.getTitle());
-        response.setCompany(job.getCompany());
-        response.setLocation(job.getLocation());
-        response.setDescription(job.getDescription());
-        response.setSalary(job.getSalary());
-
-        return response;
     }
 }
