@@ -3,9 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.dto.DashboardStatsDTO;
 import com.example.demo.entity.Job;
 import com.example.demo.entity.User;
-import com.example.demo.repository.JobRepository;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.AdminService;
+import com.example.demo.service.JobService;
+import com.example.demo.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,28 +17,28 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class AdminController {
 
-    private final UserRepository userRepository;
-    private final JobRepository jobRepository;
+    private final UserService userService;
+    private final JobService jobService;
     private final AdminService adminService;
 
-    public AdminController(UserRepository userRepository,
-                           JobRepository jobRepository,
+    public AdminController(UserService userService,
+                           JobService jobService,
                            AdminService adminService) {
-        this.userRepository = userRepository;
-        this.jobRepository = jobRepository;
+        this.userService = userService;
+        this.jobService = jobService;
         this.adminService = adminService;
     }
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userRepository.findAll());
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/jobs")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Job>> getAllJobs() {
-        return ResponseEntity.ok(jobRepository.findAll());
+        return ResponseEntity.ok(jobService.getAllJobs());
     }
 
     @GetMapping("/dashboard")
