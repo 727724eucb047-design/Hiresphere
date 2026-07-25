@@ -1,12 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.JobResponse;
 import com.example.demo.entity.Job;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.JobRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -18,32 +21,45 @@ public class JobServiceImpl implements JobService {
         this.jobRepository = jobRepository;
     }
 
+
     @Override
-    @Transactional
-    public Job createJob(Job job) {
+    public Job createJob(Job job, Authentication authentication) {
+
         return jobRepository.save(job);
     }
 
+
     @Override
     @Transactional(readOnly = true)
-    public List<Job> getAllJobs() {
-        return jobRepository.findAll();
+    public List<JobResponse> getAllJobs() {
+
+        return jobRepository.findAll()
+                .stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
     }
 
+
     @Override
     @Transactional(readOnly = true)
-    public Job getJobById(Long id) {
+    public JobResponse getJobById(Long id) {
 
-        return jobRepository.findById(id)
+        Job job = jobRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Job not found"));
+
+        return convertToResponse(job);
     }
 
-    @Override
-    @Transactional
-    public Job updateJob(Long id, Job job) {
 
-        Job existing = getJobById(id);
+    @Override
+    public JobResponse updateJob(Long id,
+                                 Job job,
+                                 Authentication authentication) {
+
+        Job existing = jobRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Job not found"));
 
         existing.setTitle(job.getTitle());
         existing.setCompany(job.getCompany());
@@ -51,15 +67,64 @@ public class JobServiceImpl implements JobService {
         existing.setDescription(job.getDescription());
         existing.setSalary(job.getSalary());
 
-        return jobRepository.save(existing);
+        return convertToResponse(jobRepository.save(existing));
     }
 
+
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
+    public List<JobResponse> getEmployerJobs(Authentication authentication) {
+
+        return jobRepository.findAll()
+                .stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<JobResponse> searchJobs(String keyword) {
+
+        return jobRepository.findAll()
+                .stream()
+                .filter(job ->
+                        job.getTitle().toLowerCase()
+                                .contains(keyword.toLowerCase())
+                        ||
+                        job.getCompany().toLowerCase()
+                                .contains(keyword.toLowerCase())
+                        ||
+                        job.getLocation().toLowerCase()
+                                .contains(keyword.toLowerCase())
+                )
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
     public void deleteJob(Long id) {
 
-        Job job = getJobById(id);
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Job not found"));
 
         jobRepository.delete(job);
+    }
+
+
+    private JobResponse convertToResponse(Job job) {
+
+        JobResponse response = new JobResponse();
+
+        response.setId(job.getId());
+        response.setTitle(job.getTitle());
+        response.setCompany(job.getCompany());
+        response.setLocation(job.getLocation());
+        response.setDescription(job.getDescription());
+        response.setSalary(job.getSalary());
+
+        return response;
     }
 }
