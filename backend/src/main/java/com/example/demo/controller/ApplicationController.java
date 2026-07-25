@@ -24,26 +24,20 @@ public class ApplicationController {
     public ResponseEntity<Application> createApplication(
             @Valid @RequestBody Application application) {
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .body(applicationService.createApplication(application));
     }
 
     @GetMapping
     public ResponseEntity<List<Application>> getAllApplications() {
-
-        return ResponseEntity.ok(
-                applicationService.getAllApplications()
-        );
+        return ResponseEntity.ok(applicationService.getAllApplications());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Application> getApplicationById(
             @PathVariable Long id) {
 
-        return ResponseEntity.ok(
-                applicationService.getApplicationById(id)
-        );
+        return ResponseEntity.ok(applicationService.getApplicationById(id));
     }
 
     @PutMapping("/{id}")
@@ -57,11 +51,9 @@ public class ApplicationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteApplication(
-            @PathVariable Long id) {
+    public ResponseEntity<Void> deleteApplication(@PathVariable Long id) {
 
         applicationService.deleteApplication(id);
-
         return ResponseEntity.noContent().build();
     }
 }
