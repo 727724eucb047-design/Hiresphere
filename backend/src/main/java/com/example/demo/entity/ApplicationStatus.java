@@ -18,7 +18,12 @@ public class ApplicationStatus {
     @Column(nullable = false, unique = true)
     private String statusName;
 
-    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "status",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
     private List<Application> applications = new ArrayList<>();
 
     public ApplicationStatus() {

@@ -34,10 +34,12 @@ public class Job {
     @Column(nullable = false)
     private Double salary;
 
-    @OneToMany(mappedBy = "job",
+    @OneToMany(
+            mappedBy = "job",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY
+    )
     private List<Application> applications = new ArrayList<>();
 
     public Job() {
