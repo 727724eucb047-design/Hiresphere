@@ -19,6 +19,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @Transactional
     public Application createApplication(Application application) {
         return applicationRepository.save(application);
     }
@@ -38,6 +39,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @Transactional
     public Application updateApplication(Long id, Application application) {
 
         Application existing = getApplicationById(id);
@@ -50,6 +52,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @Transactional
     public void deleteApplication(Long id) {
 
         Application application = getApplicationById(id);
