@@ -2,55 +2,31 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.UserProfile;
 import com.example.demo.service.UserProfileService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/profile")
+@RequestMapping("/api/profiles")
 @CrossOrigin(origins = "*")
 public class UserProfileController {
 
-    private final UserProfileService profileService;
+    private final UserProfileService userProfileService;
 
-    public UserProfileController(UserProfileService profileService) {
-        this.profileService = profileService;
+    public UserProfileController(UserProfileService userProfileService) {
+        this.userProfileService = userProfileService;
     }
 
-    @PostMapping
-    public ResponseEntity<UserProfile> createProfile(
-            @Valid @RequestBody UserProfile profile) {
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(profileService.save(profile));
+    @GetMapping("/me")
+    public ResponseEntity<UserProfile> getMyProfile(Authentication authentication) {
+        return ResponseEntity.ok(userProfileService.getProfile(authentication.getName()));
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserProfile>> getAllProfiles() {
-        return ResponseEntity.ok(profileService.getAllProfiles());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<UserProfile> getProfile(@PathVariable Long id) {
-        return ResponseEntity.ok(profileService.getProfile(id));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<UserProfile> updateProfile(
-            @PathVariable Long id,
-            @Valid @RequestBody UserProfile profile) {
-
-        return ResponseEntity.ok(
-                profileService.updateProfile(id, profile));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
-
-        profileService.deleteProfile(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/me")
+    public ResponseEntity<UserProfile> updateMyProfile(@RequestBody Map<String, Object> payload,
+                                                       Authentication authentication) {
+        return ResponseEntity.ok(userProfileService.updateProfile(authentication.getName(), payload));
     }
 }

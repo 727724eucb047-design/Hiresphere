@@ -5,6 +5,7 @@ import com.example.demo.entity.Job;
 import com.example.demo.service.JobService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,49 +22,56 @@ public class JobController {
         this.jobService = jobService;
     }
 
-    // Create Job
     @PostMapping
-    public ResponseEntity<Job> createJob(@Valid @RequestBody Job job,
-                                         Authentication authentication) {
-        return ResponseEntity.ok(jobService.createJob(job, authentication));
+    @PreAuthorize("hasAnyAuthority('ROLE_EMPLOYER','ROLE_ADMIN')")
+    public ResponseEntity<Job> createJob(@Valid @RequestBody Job job, Authentication authentication) {
+        return ResponseEntity.ok(jobService.createJob(job, authentication.getName()));
     }
 
-    // Get All Jobs
     @GetMapping
     public ResponseEntity<List<JobResponse>> getAllJobs() {
         return ResponseEntity.ok(jobService.getAllJobs());
     }
 
-    // Get Job By Id
     @GetMapping("/{id}")
     public ResponseEntity<JobResponse> getJobById(@PathVariable Long id) {
-        return ResponseEntity.ok(jobService.getJobById(id));
+        Job job = jobService.getJobById(id);
+        JobResponse response = new JobResponse();
+        response.setId(job.getId());
+        response.setTitle(job.getTitle());
+        response.setDescription(job.getDescription());
+        response.setRequiredSkills(job.getRequiredSkills());
+        response.setLocation(job.getLocation());
+        response.setSalary(job.getSalary());
+        response.setExperienceRequired(job.getExperienceRequired());
+        response.setCreatedAt(job.getCreatedAt());
+        response.setActive(job.getActive());
+        return ResponseEntity.ok(response);
     }
 
-    // Update Job
-    @PutMapping("/{id}")
-    public ResponseEntity<JobResponse> updateJob(@PathVariable Long id,
-                                                 @Valid @RequestBody Job job,
-                                                 Authentication authentication) {
-        return ResponseEntity.ok(jobService.updateJob(id, job, authentication));
-    }
-
-    // Employer Jobs
     @GetMapping("/employer")
+    @PreAuthorize("hasAuthority('ROLE_EMPLOYER')")
     public ResponseEntity<List<JobResponse>> getEmployerJobs(Authentication authentication) {
-        return ResponseEntity.ok(jobService.getEmployerJobs(authentication));
+        return ResponseEntity.ok(jobService.getJobsByEmployer(authentication.getName()));
     }
 
-    // Search Jobs
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_EMPLOYER')")
+    public ResponseEntity<JobResponse> updateJob(@PathVariable Long id,
+                                                  @RequestBody Job job,
+                                                  Authentication authentication) {
+        return ResponseEntity.ok(jobService.updateJob(id, job, authentication.getName()));
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_EMPLOYER','ROLE_ADMIN')")
+    public ResponseEntity<String> deleteJob(@PathVariable Long id) {
+        jobService.deleteJob(id);
+        return ResponseEntity.ok("Job deleted successfully.");
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<JobResponse>> searchJobs(@RequestParam String keyword) {
         return ResponseEntity.ok(jobService.searchJobs(keyword));
-    }
-
-    // Delete Job
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteJob(@PathVariable Long id) {
-        jobService.deleteJob(id);
-        return ResponseEntity.ok("Job deleted successfully!");
     }
 }
