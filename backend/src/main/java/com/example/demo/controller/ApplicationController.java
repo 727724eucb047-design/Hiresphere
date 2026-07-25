@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ApplyRequest;
 import com.example.demo.entity.Application;
+import com.example.demo.entity.ApplicationStatus;
 import com.example.demo.service.ApplicationService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,40 +22,38 @@ public class ApplicationController {
         this.applicationService = applicationService;
     }
 
-    @PostMapping
-    public ResponseEntity<Application> createApplication(
-            @Valid @RequestBody Application application) {
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(applicationService.createApplication(application));
+    @PostMapping("/apply/{jobId}")
+    @PreAuthorize("hasAuthority('ROLE_JOB_SEEKER')")
+    public ResponseEntity<Application> applyForJob(@PathVariable Long jobId,
+                                                    @RequestBody ApplyRequest request,
+                                                    Authentication authentication) {
+        return ResponseEntity.ok(applicationService.applyForJob(jobId, authentication.getName(), request));
     }
 
-    @GetMapping
-    public ResponseEntity<List<Application>> getAllApplications() {
-        return ResponseEntity.ok(applicationService.getAllApplications());
+    @GetMapping("/seeker")
+    @PreAuthorize("hasAuthority('ROLE_JOB_SEEKER')")
+    public ResponseEntity<List<Application>> getSeekerApplications(Authentication authentication) {
+        return ResponseEntity.ok(applicationService.getSeekerApplications(authentication.getName()));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Application> getApplicationById(
-            @PathVariable Long id) {
-
-        return ResponseEntity.ok(applicationService.getApplicationById(id));
+    @GetMapping("/job/{jobId}")
+    @PreAuthorize("hasAuthority('ROLE_EMPLOYER')")
+    public ResponseEntity<List<Application>> getJobApplications(@PathVariable Long jobId) {
+        return ResponseEntity.ok(applicationService.getJobApplications(jobId));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Application> updateApplication(
-            @PathVariable Long id,
-            @Valid @RequestBody Application application) {
-
-        return ResponseEntity.ok(
-                applicationService.updateApplication(id, application)
-        );
+    @PutMapping("/{id}/status")
+    @PreAuthorize("hasAuthority('ROLE_EMPLOYER')")
+    public ResponseEntity<Application> updateStatus(@PathVariable Long id,
+                                                     @RequestParam ApplicationStatus status) {
+        return ResponseEntity.ok(applicationService.updateStatus(id, status));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteApplication(@PathVariable Long id) {
-
-        applicationService.deleteApplication(id);
-        return ResponseEntity.noContent().build();
+    @PreAuthorize("hasAuthority('ROLE_JOB_SEEKER')")
+    public ResponseEntity<String> withdrawApplication(@PathVariable Long id,
+                                                       Authentication authentication) {
+        applicationService.withdrawApplication(id, authentication.getName());
+        return ResponseEntity.ok("Application deleted successfully.");
     }
 }

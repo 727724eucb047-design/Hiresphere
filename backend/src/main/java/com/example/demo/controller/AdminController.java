@@ -1,64 +1,25 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.DashboardStatsDTO;
-import com.example.demo.dto.JobResponse;
-import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.AdminService;
-import com.example.demo.service.JobService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
 @CrossOrigin(origins = "*")
 public class AdminController {
 
-    private final UserRepository userRepository;
-    private final JobService jobService;
     private final AdminService adminService;
 
-
-    public AdminController(UserRepository userRepository,
-                           JobService jobService,
-                           AdminService adminService) {
-
-        this.userRepository = userRepository;
-        this.jobService = jobService;
+    public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
 
-
-    @GetMapping("/users")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<User>> getAllUsers() {
-
-        return ResponseEntity.ok(
-                userRepository.findAll()
-        );
-    }
-
-
-    @GetMapping("/jobs")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<JobResponse>> getAllJobs() {
-
-        return ResponseEntity.ok(
-                jobService.getAllJobs()
-        );
-    }
-
-
-    @GetMapping("/dashboard")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<DashboardStatsDTO> getDashboardStats() {
-
-        return ResponseEntity.ok(
-                adminService.getDashboardStats()
-        );
+    @GetMapping("/stats")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<DashboardStatsDTO> getStats() {
+        return ResponseEntity.ok(adminService.getDashboardStats());
     }
 }
