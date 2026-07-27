@@ -38,7 +38,9 @@ public class Job {
 
     private Boolean active = true;
 
-    public Job() {}
+    public Job() {
+        
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
