@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useContext } from "react";
+import api from "../api";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Register() {
-  const navigate = useNavigate();
   const { login } = useContext(AuthContext);
-  const [form, setForm] = useState({
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
     role: "JOB_SEEKER",
     fullName: "",
     username: "",
@@ -15,61 +15,109 @@ export default function Register() {
     companyName: "",
   });
 
-  const change = (e) => setForm((old) => ({ ...old, [e.target.id]: e.target.value }));
+  const handleChange = (event) => {
+    const { id, value } = event.target;
+    setFormData((previous) => ({
+      ...previous,
+      [id]: value,
+    }));
+  };
 
-  const submit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const payload = {
+      fullName: formData.fullName,
+      username: formData.username,
+      password: formData.password,
+      role: formData.role,
+      companyName:
+        formData.role === "EMPLOYER" ? formData.companyName : "",
+    };
+
     try {
-      const res = await axios.post("/api/auth/register", form);
-      if (res.data?.token) {
-        const userData = res.data.user || {
-          username: form.username,
-          fullName: form.fullName,
-          companyName: form.companyName,
-          role: res.data.role || form.role,
-        };
-        login(userData, res.data.token);
-        const role = userData.role;
-        if (role === "JOB_SEEKER") navigate("/seeker-dashboard");
-        else if (role === "EMPLOYER") navigate("/employer-dashboard");
-        else if (role === "ADMIN") navigate("/admin-dashboard");
-        else navigate("/");
+      const response = await api.post("/auth/register", payload);
+      const data = response.data || {};
+
+      const userData = data.user || {
+        username: data.username || formData.username,
+        email: data.email || data.username || formData.username,
+        fullName: data.fullName || formData.fullName,
+        role: data.role || formData.role,
+        companyName: formData.companyName,
+      };
+
+      if (data.token) {
+        login(userData, data.token);
+      }
+
+      const role = userData.role;
+
+      if (role === "JOB_SEEKER") {
+        navigate("/seeker-dashboard");
+      } else if (role === "EMPLOYER") {
+        navigate("/employer-dashboard");
+      } else if (role === "ADMIN") {
+        navigate("/admin-dashboard");
       } else {
         navigate("/login");
       }
-    } catch {
+    } catch (error) {
       alert("Registration failed");
     }
   };
 
   return (
-    <form onSubmit={submit} className="form">
+    <form className="form" onSubmit={handleSubmit}>
       <h1>Register</h1>
+
       <label htmlFor="role">Role</label>
-      <select id="role" value={form.role} onChange={change}>
+      <select id="role" value={formData.role} onChange={handleChange}>
         <option value="JOB_SEEKER">JOB_SEEKER</option>
         <option value="EMPLOYER">EMPLOYER</option>
         <option value="ADMIN">ADMIN</option>
       </select>
 
       <label htmlFor="fullName">Full Name</label>
-      <input id="fullName" required value={form.fullName} onChange={change} />
+      <input
+        id="fullName"
+        required
+        value={formData.fullName}
+        onChange={handleChange}
+      />
 
       <label htmlFor="username">Username</label>
-      <input id="username" required value={form.username} onChange={change} />
+      <input
+        id="username"
+        required
+        value={formData.username}
+        onChange={handleChange}
+      />
 
       <label htmlFor="password">Password</label>
-      <input id="password" type="password" required value={form.password} onChange={change} />
+      <input
+        id="password"
+        type="password"
+        required
+        value={formData.password}
+        onChange={handleChange}
+      />
 
-      {form.role === "EMPLOYER" && (
+      {formData.role === "EMPLOYER" && (
         <>
           <label htmlFor="companyName">Company Name</label>
-          <input id="companyName" required value={form.companyName} onChange={change} />
+          <input
+            id="companyName"
+            required
+            value={formData.companyName}
+            onChange={handleChange}
+          />
         </>
       )}
 
-      <button id="register-btn-127" type="submit" className="primary">Register</button>
+      <button id="register-btn-127" type="submit" className="primary">
+        Register
+      </button>
     </form>
   );
 }
-
