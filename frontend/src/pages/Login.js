@@ -1,74 +1,43 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-export default function Register() {
-  const navigate = useNavigate();
+export default function Login() {
   const { login } = useContext(AuthContext);
-  const [form, setForm] = useState({
-    role: "JOB_SEEKER",
-    fullName: "",
-    username: "",
-    password: "",
-    companyName: "",
-  });
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const change = (e) => setForm((old) => ({ ...old, [e.target.id]: e.target.value }));
-
-  const submit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/register", form);
-      if (res.data?.token) {
-        const userData = res.data.user || {
-          username: form.username,
-          fullName: form.fullName,
-          companyName: form.companyName,
-          role: res.data.role || form.role,
-        };
-        login(userData, res.data.token);
-        const role = userData.role;
-        if (role === "JOB_SEEKER") navigate("/seeker-dashboard");
-        else if (role === "EMPLOYER") navigate("/employer-dashboard");
-        else if (role === "ADMIN") navigate("/admin-dashboard");
-        else navigate("/");
-      } else {
-        navigate("/login");
-      }
+      const res = await axios.post("/api/auth/authenticate", { username, password });
+      const userData = res.data.user || {
+        username,
+        email: res.data.email,
+        fullName: res.data.fullName,
+        role: res.data.role,
+      };
+      login(userData, res.data.token);
+      if (res.data.role === "JOB_SEEKER") navigate("/seeker-dashboard");
+      else if (res.data.role === "EMPLOYER") navigate("/employer-dashboard");
+      else if (res.data.role === "ADMIN") navigate("/admin-dashboard");
+      else navigate("/");
     } catch {
-      alert("Registration failed");
+      alert("Invalid credentials / Login failed");
     }
   };
 
   return (
-    <form onSubmit={submit} className="form">
-      <h1>Register</h1>
-      <label htmlFor="role">Role</label>
-      <select id="role" value={form.role} onChange={change}>
-        <option value="JOB_SEEKER">JOB_SEEKER</option>
-        <option value="EMPLOYER">EMPLOYER</option>
-        <option value="ADMIN">ADMIN</option>
-      </select>
-
-      <label htmlFor="fullName">Full Name</label>
-      <input id="fullName" required value={form.fullName} onChange={change} />
-
+    <form onSubmit={handleSubmit} className="form">
+      <h1>Login</h1>
       <label htmlFor="username">Username</label>
-      <input id="username" required value={form.username} onChange={change} />
-
+      <input id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
       <label htmlFor="password">Password</label>
-      <input id="password" type="password" required value={form.password} onChange={change} />
-
-      {form.role === "EMPLOYER" && (
-        <>
-          <label htmlFor="companyName">Company Name</label>
-          <input id="companyName" required value={form.companyName} onChange={change} />
-        </>
-      )}
-
-      <button id="register-btn-127" type="submit" className="primary">Register</button>
+      <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <button type="submit" className="primary">Log In</button>
     </form>
   );
 }
+
