@@ -1,65 +1,75 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-export default function SeekerDashboard() {
-  const [jobs, setJobs] = useState([]);
-  const [query, setQuery] = useState("");
-  const [applications, setApplications] = useState([]);
+export default function Register() {
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+  const [form, setForm] = useState({
+    role: "JOB_SEEKER",
+    fullName: "",
+    username: "",
+    password: "",
+    companyName: "",
+  });
 
-  useEffect(() => {
-    axios.get("/api/jobs")
-      .then((res) => setJobs(Array.isArray(res.data) ? res.data : res.data?.content || []))
-      .catch(() => setJobs([]));
-    axios.get("/api/applications/seeker")
-      .then((res) => setApplications(Array.isArray(res.data) ? res.data : res.data?.content || []))
-      .catch(() => setApplications([]));
-  }, []);
+  const change = (e) => setForm((old) => ({ ...old, [e.target.id]: e.target.value }));
 
-  const apply = async (jobId) => {
+  const submit = async (e) => {
+    e.preventDefault();
     try {
-      await axios.post("/api/applications", { jobId });
-      const res = await axios.get("/api/applications/seeker");
-      setApplications(Array.isArray(res.data) ? res.data : res.data?.content || []);
+      const res = await axios.post("/api/auth/register", form);
+      if (res.data?.token) {
+        const userData = res.data.user || {
+          username: form.username,
+          fullName: form.fullName,
+          companyName: form.companyName,
+          role: res.data.role || form.role,
+        };
+        login(userData, res.data.token);
+        const role = userData.role;
+        if (role === "JOB_SEEKER") navigate("/seeker-dashboard");
+        else if (role === "EMPLOYER") navigate("/employer-dashboard");
+        else if (role === "ADMIN") navigate("/admin-dashboard");
+        else navigate("/");
+      } else {
+        navigate("/login");
+      }
     } catch {
-      alert("Application failed");
+      alert("Registration failed");
     }
   };
 
-  const filtered = jobs.filter((job) =>
-    `${job.jobTitle || job.title || ""} ${job.location || ""} ${job.requiredSkills || ""}`
-      .toLowerCase().includes(query.toLowerCase())
-  );
-
   return (
-    <main className="container">
-      <h1>Seeker Dashboard</h1>
-      <input
-        placeholder="Search opportunities..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <div className="grid" style={{ marginTop: 20 }}>
-        <section>
-          <h2>Live Jobs</h2>
-          {filtered.map((job) => (
-            <div className="card" key={job.id}>
-              <h3>{job.jobTitle || job.title}</h3>
-              <p>{job.location}</p>
-              <p>{job.description}</p>
-              <button onClick={() => apply(job.id)}>Apply</button>
-            </div>
-          ))}
-        </section>
-        <section>
-          <h2>My Applications</h2>
-          {applications.map((app) => (
-            <div className="card" key={app.id}>
-              {app.jobTitle || app.job?.jobTitle || app.job?.title}
-              <div>{app.status}</div>
-            </div>
-          ))}
-        </section>
-      </div>
-    </main>
+    <form onSubmit={submit} className="form">
+      <h1>Register</h1>
+      <label htmlFor="role">Role</label>
+      <select id="role" value={form.role} onChange={change}>
+        <option value="JOB_SEEKER">JOB_SEEKER</option>
+        <option value="EMPLOYER">EMPLOYER</option>
+        <option value="ADMIN">ADMIN</option>
+      </select>
+
+      <label htmlFor="fullName">Full Name</label>
+      <input id="fullName" required value={form.fullName} onChange={change} />
+
+      <label htmlFor="username">Username</label>
+      <input id="username" required value={form.username} onChange={change} />
+
+      <label htmlFor="password">Password</label>
+      <input id="password" type="password" required value={form.password} onChange={change} />
+
+      {form.role === "EMPLOYER" && (
+        <>
+          <label htmlFor="companyName">Company Name</label>
+          <input id="companyName" required value={form.companyName} onChange={change} />
+        </>
+      )}
+
+      <button id="register-btn-127" type="submit" className="primary">Register</button>
+    </form>
   );
 }
+
