@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Register() {
@@ -16,10 +16,11 @@ export default function Register() {
   });
 
   const handleChange = (event) => {
-    const { id, value } = event.target;
+    const { name, value } = event.target;
+
     setFormData((previous) => ({
       ...previous,
-      [id]: value,
+      [name]: value,
     }));
   };
 
@@ -27,31 +28,23 @@ export default function Register() {
     event.preventDefault();
 
     const payload = {
-      fullName: formData.fullName,
       username: formData.username,
       password: formData.password,
+      fullName: formData.fullName,
       role: formData.role,
       companyName:
         formData.role === "EMPLOYER" ? formData.companyName : "",
     };
 
     try {
-      const response = await api.post("/auth/register", payload);
+      const response = await axios.post("/auth/register", payload);
+
       const data = response.data || {};
+      const userData = data.user || data;
 
-      const userData = data.user || {
-        username: data.username || formData.username,
-        email: data.email || data.username || formData.username,
-        fullName: data.fullName || formData.fullName,
-        role: data.role || formData.role,
-        companyName: formData.companyName,
-      };
+      login(userData, data.token);
 
-      if (data.token) {
-        login(userData, data.token);
-      }
-
-      const role = userData.role;
+      const role = userData.role || data.role || formData.role;
 
       if (role === "JOB_SEEKER") {
         navigate("/seeker-dashboard");
@@ -63,7 +56,7 @@ export default function Register() {
         navigate("/login");
       }
     } catch (error) {
-      alert("Registration failed");
+      window.alert("Registration failed");
     }
   };
 
@@ -72,7 +65,12 @@ export default function Register() {
       <h1>Register</h1>
 
       <label htmlFor="role">Role</label>
-      <select id="role" value={formData.role} onChange={handleChange}>
+      <select
+        id="role"
+        name="role"
+        value={formData.role}
+        onChange={handleChange}
+      >
         <option value="JOB_SEEKER">JOB_SEEKER</option>
         <option value="EMPLOYER">EMPLOYER</option>
         <option value="ADMIN">ADMIN</option>
@@ -81,6 +79,8 @@ export default function Register() {
       <label htmlFor="fullName">Full Name</label>
       <input
         id="fullName"
+        name="fullName"
+        type="text"
         required
         value={formData.fullName}
         onChange={handleChange}
@@ -89,6 +89,8 @@ export default function Register() {
       <label htmlFor="username">Username</label>
       <input
         id="username"
+        name="username"
+        type="text"
         required
         value={formData.username}
         onChange={handleChange}
@@ -97,6 +99,7 @@ export default function Register() {
       <label htmlFor="password">Password</label>
       <input
         id="password"
+        name="password"
         type="password"
         required
         value={formData.password}
@@ -108,6 +111,8 @@ export default function Register() {
           <label htmlFor="companyName">Company Name</label>
           <input
             id="companyName"
+            name="companyName"
+            type="text"
             required
             value={formData.companyName}
             onChange={handleChange}
@@ -115,7 +120,7 @@ export default function Register() {
         </>
       )}
 
-      <button id="register-btn-127" type="submit" className="primary">
+      <button id="register-btn-127" type="submit">
         Register
       </button>
     </form>
