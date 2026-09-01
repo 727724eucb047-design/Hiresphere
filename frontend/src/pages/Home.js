@@ -17,24 +17,30 @@ const features = [
 ];
 
 export default function Home() {
-  const handleEnter = (event) => {
-    event.currentTarget.style.transform = "translateY(-6px)";
+  const handleMouseOver = (event) => {
+    event.currentTarget.style.transform = "translateY(-5px)";
   };
 
-  const handleLeave = (event) => {
+  const handleMouseOut = (event) => {
     event.currentTarget.style.transform = "translateY(0px)";
   };
 
   return (
     <main>
       <section className="hero">
-        <h1 id="hero-heading-t30">Connect with Your Dream Job</h1>
-        <p>Discover opportunities, showcase your skills, and grow your career.</p>
+        <h1 id="hero-heading-t30">
+          Connect with Your Dream Job
+        </h1>
+
+        <p>
+          Discover opportunities, showcase your skills, and grow your career.
+        </p>
 
         <div className="actions hero-actions">
           <Link to="/register" className="primary">
             Get Started
           </Link>
+
           <Link to="/login" className="secondary">
             Login
           </Link>
@@ -45,11 +51,14 @@ export default function Home() {
         <div className="grid">
           {features.map((feature) => (
             <div
-              className="card feature-card"
               key={feature.title}
-              onMouseEnter={handleEnter}
-              onMouseLeave={handleLeave}
-              style={{ transform: "translateY(0px)", transition: "transform 0.2s ease" }}
+              className="card feature-card"
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+              style={{
+                transform: "translateY(0px)",
+                transition: "transform 0.3s ease",
+              }}
             >
               <h3>{feature.title}</h3>
               <p>{feature.text}</p>
