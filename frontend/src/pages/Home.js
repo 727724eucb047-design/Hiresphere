@@ -1,3 +1,4 @@
+// src/pages/Home.js
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -17,59 +18,47 @@ const features = [
 ];
 
 export default function Home() {
-  const handleMouseOver = (event) => {
-    event.currentTarget.style.transform = "translateY(-5px)";
+  const handleEnter = (event) => {
+    event.currentTarget.style.transform = "scale(1.05)";
   };
 
-  const handleMouseOut = (event) => {
-    event.currentTarget.style.transform = "translateY(0px)";
+  const handleLeave = (event) => {
+    event.currentTarget.style.transform = "scale(1)";
   };
 
   return (
     <main>
-      <section className="hero">
-        <h1 id="hero-heading-t30">
-          Connect with Your Dream Job
-        </h1>
-
+      <section>
+        <h1 id="hero-heading-t30">Connect with Your Dream Job</h1>
         <p>
           Discover opportunities, showcase your skills, and grow your career.
         </p>
 
-        <div className="actions hero-actions">
-          <Link to="/register" className="primary">
-            Get Started
-          </Link>
-
-          <Link to="/login" className="secondary">
-            Login
-          </Link>
-        </div>
+        <Link to="/register">Get Started</Link>
+        <Link to="/login">Login</Link>
       </section>
 
-      <section className="container">
-        <div className="grid">
-          {features.map((feature) => (
-            <div
-              key={feature.title}
-              className="card feature-card"
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
-              style={{
-                transform: "translateY(0px)",
-                transition: "transform 0.3s ease",
-              }}
-            >
-              <h3>{feature.title}</h3>
-              <p>{feature.text}</p>
-            </div>
-          ))}
-        </div>
+      <section>
+        {features.map((feature) => (
+          <div
+            key={feature.title}
+            className="feature-card"
+            style={{
+              transform: "scale(1)",
+              transition: "transform 0.2s ease",
+            }}
+            onMouseEnter={handleEnter}
+            onMouseOver={handleEnter}
+            onMouseLeave={handleLeave}
+            onMouseOut={handleLeave}
+          >
+            <h3>{feature.title}</h3>
+            <p>{feature.text}</p>
+          </div>
+        ))}
       </section>
 
-      <footer className="container">
-        © 2026 HireSphere. Built for excellence.
-      </footer>
+      <footer>© 2026 HireSphere. Built for excellence.</footer>
     </main>
   );
 }
