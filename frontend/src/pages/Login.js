@@ -1,3 +1,4 @@
+// src/pages/Login.js
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +20,7 @@ export default function Login() {
         password,
       });
 
-      const data = response.data;
+      const data = response.data || {};
       const userData = data.user || data;
 
       login(userData, data.token);
@@ -32,8 +33,6 @@ export default function Login() {
         navigate("/employer-dashboard");
       } else if (role === "ADMIN") {
         navigate("/admin-dashboard");
-      } else {
-        navigate("/");
       }
     } catch (error) {
       window.alert("Invalid credentials / Login failed");
@@ -41,7 +40,7 @@ export default function Login() {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <h1>Login</h1>
 
       <label htmlFor="username">Username</label>
@@ -49,9 +48,8 @@ export default function Login() {
         id="username"
         name="username"
         type="text"
-        required
         value={username}
-        onChange={(event) => setUsername(event.target.value)}
+        onChange={(e) => setUsername(e.target.value)}
       />
 
       <label htmlFor="password">Password</label>
@@ -59,14 +57,11 @@ export default function Login() {
         id="password"
         name="password"
         type="password"
-        required
         value={password}
-        onChange={(event) => setPassword(event.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button type="submit">
-        Log In
-      </button>
+      <button type="submit">Log In</button>
     </form>
   );
 }

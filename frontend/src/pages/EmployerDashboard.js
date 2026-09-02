@@ -1,7 +1,8 @@
+// src/pages/EmployerDashboard.js
 import React, { useEffect, useState } from "react";
-import api from "../api";
+import axios from "axios";
 
-const EMPTY_JOB = {
+const emptyJob = {
   title: "",
   description: "",
   location: "",
@@ -12,50 +13,22 @@ const EMPTY_JOB = {
 
 export default function EmployerDashboard() {
   const [jobs, setJobs] = useState([]);
-  const [view, setView] = useState("list");
-  const [formData, setFormData] = useState(EMPTY_JOB);
-  const [editingId, setEditingId] = useState(null);
-  const [applications, setApplications] = useState([]);
-  const [error, setError] = useState("");
-
-  const loadJobs = async () => {
-    try {
-      const response = await api.get("/jobs/employer");
-      setJobs(Array.isArray(response.data) ? response.data : []);
-      setError("");
-    } catch (err) {
-      setError("Failed to load jobs");
-    }
-  };
+  const [view, setView] = useState("jobs");
+  const [formData, setFormData] = useState(emptyJob);
 
   useEffect(() => {
-    loadJobs();
+    axios
+      .get("/jobs/employer")
+      .then((response) => {
+        setJobs(response.data || []);
+      })
+      .catch(() => {});
   }, []);
 
-  const openNewJob = () => {
-    setEditingId(null);
-    setFormData(EMPTY_JOB);
-    setView("form");
-  };
-
-  const openEdit = (job) => {
-    setEditingId(job.id);
-    setFormData({
-      title: job.title || "",
-      description: job.description || "",
-      location: job.location || "",
-      salary: job.salary ?? "",
-      requiredSkills: job.requiredSkills || "",
-      experienceRequired: job.experienceRequired ?? "",
-    });
-    setView("form");
-  };
-
   const handleChange = (event) => {
-    const { name, value } = event.target;
     setFormData((previous) => ({
       ...previous,
-      [name]: value,
+      [event.target.name]: event.target.value,
     }));
   };
 
@@ -63,20 +36,16 @@ export default function EmployerDashboard() {
     event.preventDefault();
 
     try {
-      if (editingId) {
-        await api.put(`/jobs/${editingId}`, formData);
-        alert("Job updated successfully!");
-      } else {
-        await api.post("/jobs", formData);
-        alert("Job posted successfully");
+      const response = await axios.post("/jobs", formData);
+
+      if (response.data) {
+        setJobs((previous) => [...previous, response.data]);
       }
 
-      await loadJobs();
-      setView("list");
-      setEditingId(null);
-      setFormData(EMPTY_JOB);
-    } catch (err) {
-      setError("Failed to save job");
+      setFormData(emptyJob);
+      setView("jobs");
+    } catch (error) {
+      window.alert("Failed to post job");
     }
   };
 
@@ -87,50 +56,53 @@ export default function EmployerDashboard() {
 
     if (!confirmed) return;
 
-    try {
-      await api.delete(`/jobs/${id}`);
-      setJobs((previous) => previous.filter((job) => job.id !== id));
-    } catch (err) {
-      setError("Failed to delete job");
-    }
-  };
+    await axios.delete(`/jobs/${id}`);
 
-  const reviewApplications = async (jobId) => {
-    try {
-      const response = await api.get(`/applications/job/${jobId}`);
-      setApplications(Array.isArray(response.data) ? response.data : []);
-      setView("candidates");
-    } catch (err) {
-      setError("Failed to load applications");
-    }
-  };
-
-  const updateStatus = async (applicationId, status) => {
-    await api.put(
-      `/applications/${applicationId}/status?status=${status}`
-    );
-
-    setApplications((previous) =>
-      previous.map((application) =>
-        application.id === applicationId
-          ? { ...application, status }
-          : application
-      )
+    setJobs((previous) =>
+      previous.filter((job) => job.id !== id)
     );
   };
 
-  if (view === "form") {
-    return (
-      <main className="container">
-        <h1>Employer Dashboard</h1>
-        <h2>{editingId ? "Edit Job" : "Post Job"}</h2>
+  return (
+    <main>
+      <h1>Employer Dashboard</h1>
 
-        <form className="form" onSubmit={handleSubmit}>
+      <button type="button" onClick={() => setView("jobs")}>
+        My Jobs
+      </button>
+
+      <button type="button" onClick={() => setView("form")}>
+        Post Job
+      </button>
+
+      {view === "jobs" && (
+        <section>
+          <h2>My Jobs</h2>
+
+          {jobs.map((job) => (
+            <article key={job.id}>
+              <h3>{job.title || job.jobTitle}</h3>
+              <p>{job.location}</p>
+
+              <button
+                type="button"
+                onClick={() => handleDelete(job.id)}
+              >
+                Delete
+              </button>
+            </article>
+          ))}
+        </section>
+      )}
+
+      {view === "form" && (
+        <form onSubmit={handleSubmit}>
+          <h2>Post Job</h2>
+
           <label htmlFor="title">Job Title</label>
           <input
             id="title"
             name="title"
-            required
             value={formData.title}
             onChange={handleChange}
           />
@@ -155,12 +127,13 @@ export default function EmployerDashboard() {
           <input
             id="salary"
             name="salary"
-            type="number"
             value={formData.salary}
             onChange={handleChange}
           />
 
-          <label htmlFor="requiredSkills">Required Skills</label>
+          <label htmlFor="requiredSkills">
+            Required Skills
+          </label>
           <input
             id="requiredSkills"
             name="requiredSkills"
@@ -168,116 +141,19 @@ export default function EmployerDashboard() {
             onChange={handleChange}
           />
 
-          <label htmlFor="experienceRequired">Experience Required</label>
+          <label htmlFor="experienceRequired">
+            Experience Required
+          </label>
           <input
             id="experienceRequired"
             name="experienceRequired"
-            type="number"
             value={formData.experienceRequired}
             onChange={handleChange}
           />
 
-          <div className="actions">
-            <button type="submit" className="primary">
-              {editingId ? "Update Job" : "Publish Job"}
-            </button>
-            <button
-              type="button"
-              className="secondary"
-              onClick={() => setView("list")}
-            >
-              My Jobs
-            </button>
-          </div>
+          <button type="submit">Publish Job</button>
         </form>
-      </main>
-    );
-  }
-
-  if (view === "candidates") {
-    return (
-      <main className="container">
-        <h1>Employer Dashboard</h1>
-        <button type="button" onClick={() => setView("list")}>
-          My Jobs
-        </button>
-
-        <h2>Candidates</h2>
-
-        {applications.map((application) => (
-          <div className="card" key={application.id}>
-            <h3>{application.fullName}</h3>
-            <p>Experience: {application.experience}</p>
-            <p>Match Score: {application.matchScore}</p>
-            <p>Status: {application.status}</p>
-
-            <div className="actions">
-              <button
-                type="button"
-                onClick={() =>
-                  updateStatus(application.id, "REJECTED")
-                }
-              >
-                Reject
-              </button>
-              <button
-                type="button"
-                onClick={() =>
-                  updateStatus(application.id, "SHORTLISTED")
-                }
-              >
-                Shortlist
-              </button>
-            </div>
-          </div>
-        ))}
-      </main>
-    );
-  }
-
-  return (
-    <main className="container">
-      <h1>Employer Dashboard</h1>
-
-      <div className="actions">
-        <button type="button" onClick={() => setView("list")}>
-          My Jobs
-        </button>
-        <button type="button" onClick={openNewJob}>
-          Post Job
-        </button>
-      </div>
-
-      {error && <div className="error-message">{error}</div>}
-
-      <h2>My Jobs</h2>
-
-      {jobs.map((job) => (
-        <div className="card" key={job.id}>
-          <h3>{job.title}</h3>
-          <p>{job.location}</p>
-          <p>Experience: {job.experienceRequired}</p>
-          <p>
-            Applications:{" "}
-            {job.applicationsCount ?? job.applicationCount ?? 0}
-          </p>
-
-          <div className="actions">
-            <button type="button" onClick={() => openEdit(job)}>
-              Edit
-            </button>
-            <button type="button" onClick={() => handleDelete(job.id)}>
-              Delete
-            </button>
-            <button
-              type="button"
-              onClick={() => reviewApplications(job.id)}
-            >
-              Review
-            </button>
-          </div>
-        </div>
-      ))}
+      )}
     </main>
   );
 }
