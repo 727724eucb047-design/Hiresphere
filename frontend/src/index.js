@@ -13,4 +13,4 @@ root.render(
       <App />
     </AuthProvider>
   </React.StrictMode>
-);
+);npm install axios react-router-dom@6
