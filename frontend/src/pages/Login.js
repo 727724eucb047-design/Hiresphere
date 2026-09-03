@@ -1,7 +1,7 @@
 // src/pages/Login.js
 import React, { useContext, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../api";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
@@ -15,17 +15,19 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      const response = await axios.post("/auth/authenticate", {
+      const response = await api.post("/auth/authenticate", {
         username,
         password,
       });
 
-      const data = response.data || {};
+      const data = response?.data || {};
       const userData = data.user || data;
 
       login(userData, data.token);
 
-      const role = userData.role || data.role;
+      const role =
+        userData?.role ||
+        data?.role;
 
       if (role === "JOB_SEEKER") {
         navigate("/seeker-dashboard");
@@ -33,6 +35,8 @@ export default function Login() {
         navigate("/employer-dashboard");
       } else if (role === "ADMIN") {
         navigate("/admin-dashboard");
+      } else {
+        navigate("/");
       }
     } catch (error) {
       window.alert("Invalid credentials / Login failed");
@@ -40,28 +44,44 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Login</h1>
+    <main className="container">
+      <form className="form" onSubmit={handleSubmit}>
+        <h1>Login</h1>
 
-      <label htmlFor="username">Username</label>
-      <input
-        id="username"
-        name="username"
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+        <label htmlFor="username">
+          Username
+        </label>
 
-      <label htmlFor="password">Password</label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          id="username"
+          name="username"
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(event) =>
+            setUsername(event.target.value)
+          }
+        />
 
-      <button type="submit">Log In</button>
-    </form>
+        <label htmlFor="password">
+          Password
+        </label>
+
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(event) =>
+            setPassword(event.target.value)
+          }
+        />
+
+        <button type="submit">
+          Log In
+        </button>
+      </form>
+    </main>
   );
 }
