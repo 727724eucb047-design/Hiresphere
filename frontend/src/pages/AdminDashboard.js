@@ -6,54 +6,106 @@ export default function AdminDashboard() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    let active = true;
+    let mounted = true;
 
-    api
-      .get("/admin/stats")
-      .then((response) => {
-        if (active) {
-          setStats(response.data);
-          setError("");
+    const loadStats = async () => {
+      try {
+        const response = await api.get("/admin/stats");
+
+        if (!mounted) return;
+
+        // Supports:
+        // response.data = { totalUsers: ... }
+        // response.data = { stats: { totalUsers: ... } }
+        const data = response?.data?.stats || response?.data || {};
+
+        setStats(data);
+        setError("");
+      } catch (err) {
+        if (mounted) {
+          setError("Failed to load dashboard statistics");
         }
-      })
-      .catch(() => {
-        if (active) {
-          setError("Failed to load dashboard metrics.");
-        }
-      });
+      }
+    };
+
+    loadStats();
 
     return () => {
-      active = false;
+      mounted = false;
     };
   }, []);
 
   if (error) {
-    return <div className="error-message">{error}</div>;
+    return (
+      <div role="alert" className="error-message">
+        {error}
+      </div>
+    );
   }
 
   if (!stats) {
-    return <div className="loading">Loading dashboard metrics.</div>;
+    return <div>Loading dashboard statistics...</div>;
   }
 
   const metrics = [
-    ["Total Users", stats.totalUsers],
-    ["Total Employers", stats.totalEmployers ?? stats.employers],
-    ["Total Job Seekers", stats.totalJobSeekers ?? stats.jobSeekers],
-    ["Total Jobs Posted", stats.totalJobsPosted ?? stats.totalJobs],
-    ["Total Applications", stats.totalApplications],
-    ["Active Jobs", stats.activeJobs],
-    ["Blocked Users", stats.blockedUsers],
+    {
+      label: "Total Users",
+      value: stats.totalUsers ?? stats.users ?? 0,
+    },
+    {
+      label: "Total Employers",
+      value:
+        stats.totalEmployers ??
+        stats.employers ??
+        0,
+    },
+    {
+      label: "Total Job Seekers",
+      value:
+        stats.totalJobSeekers ??
+        stats.jobSeekers ??
+        stats.seekers ??
+        0,
+    },
+    {
+      label: "Total Jobs",
+      value:
+        stats.totalJobs ??
+        stats.totalJobsPosted ??
+        stats.jobs ??
+        0,
+    },
+    {
+      label: "Total Applications",
+      value:
+        stats.totalApplications ??
+        stats.applications ??
+        0,
+    },
+    {
+      label: "Active Jobs",
+      value: stats.activeJobs ?? 0,
+    },
+    {
+      label: "Blocked Users",
+      value: stats.blockedUsers ?? 0,
+    },
   ];
 
   return (
     <main className="container">
-      <h1>Admin Analytics Dashboard</h1>
+      <h1>Admin Dashboard</h1>
+      <h2>Admin Analytics Dashboard</h2>
 
       <div className="grid">
-        {metrics.map(([label, value]) => (
-          <div className="card metric-card" key={label}>
-            <h3>{label}</h3>
-            <p>{value ?? 0}</p>
+        {metrics.map((metric) => (
+          <div
+            className="card metric-card"
+            key={metric.label}
+            data-testid="metric-card"
+          >
+            <h3>{metric.label}</h3>
+            <p>{metric.value}</p>
           </div>
         ))}
       </div>
