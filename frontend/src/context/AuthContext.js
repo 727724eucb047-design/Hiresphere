@@ -1,5 +1,6 @@
 import React, {
   createContext,
+  useCallback,
   useState,
 } from "react";
 
@@ -10,54 +11,159 @@ export const AuthContext = createContext({
   logout: () => {},
 });
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    try {
-      const saved = localStorage.getItem("user");
-      return saved ? JSON.parse(saved) : null;
-    } catch {
+/**
+ * Normalize backend role values so the frontend
+ * consistently uses:
+ *
+ * ADMIN
+ * EMPLOYER
+ * JOB_SEEKER
+ */
+const normalizeRole = (role) => {
+  if (!role) {
+    return null;
+  }
+
+  const normalized = String(role)
+    .trim()
+    .toUpperCase()
+    .replace(/^ROLE_/, "");
+
+  // Handle possible backend variations
+  if (normalized === "ADMIN") {
+    return "ADMIN";
+  }
+
+  if (normalized === "EMPLOYER") {
+    return "EMPLOYER";
+  }
+
+  if (
+    normalized === "JOB_SEEKER" ||
+    normalized === "JOBSEEKER" ||
+    normalized === "SEEKER"
+  ) {
+    return "JOB_SEEKER";
+  }
+
+  return normalized;
+};
+
+const getStoredUser = () => {
+  try {
+    const savedUser = localStorage.getItem("user");
+
+    if (!savedUser) {
       return null;
     }
-  });
 
-  const [token, setToken] = useState(
-    () => localStorage.getItem("token") || null
-  );
+    const parsedUser = JSON.parse(savedUser);
 
-  const login = (userData, authToken) => {
-    setUser(userData);
+    if (!parsedUser || typeof parsedUser !== "object") {
+      return null;
+    }
+
+    return {
+      ...parsedUser,
+      role: normalizeRole(parsedUser.role),
+    };
+  } catch (error) {
+    console.error("Failed to load user from localStorage:", error);
+    return null;
+  }
+};
+
+const getStoredToken = () => {
+  try {
+    return localStorage.getItem("token") || null;
+  } catch (error) {
+    console.error("Failed to load token from localStorage:", error);
+    return null;
+  }
+};
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(getStoredUser);
+  const [token, setToken] = useState(getStoredToken);
+
+  /**
+   * Login
+   *
+   * @param {Object} userData - logged-in user information
+   * @param {string} authToken - JWT/authentication token
+   */
+  const login = useCallback((userData, authToken) => {
+    if (!userData) {
+      return;
+    }
+
+    const normalizedUser = {
+      ...userData,
+      role: normalizeRole(userData.role),
+    };
+
+    setUser(normalizedUser);
     setToken(authToken || null);
 
-    if (userData) {
+    try {
       localStorage.setItem(
         "user",
-        JSON.stringify(userData)
+        JSON.stringify(normalizedUser)
       );
 
-      if (userData.role) {
-        localStorage.setItem("role", userData.role);
+      if (normalizedUser.role) {
+        localStorage.setItem(
+          "role",
+          normalizedUser.role
+        );
+      } else {
+        localStorage.removeItem("role");
       }
-    }
 
-    if (authToken) {
-      localStorage.setItem("token", authToken);
+      if (authToken) {
+        localStorage.setItem("token", authToken);
+      } else {
+        localStorage.removeItem("token");
+      }
+    } catch (error) {
+      console.error(
+        "Failed to save authentication data:",
+        error
+      );
     }
-  };
+  }, []);
 
-  const logout = () => {
+  /**
+   * Logout
+   */
+  const logout = useCallback(() => {
     setUser(null);
     setToken(null);
 
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-  };
+    try {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+    } catch (error) {
+      console.error(
+        "Failed to clear authentication data:",
+        error
+      );
+    }
+  }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, token, login, logout }}
+      value={{
+        user,
+        token,
+        login,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
 }
+
+export default AuthContext;
