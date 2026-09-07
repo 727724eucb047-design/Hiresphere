@@ -22,32 +22,16 @@ export default function EmployerDashboard() {
   const [formData, setFormData] = useState(initialForm);
   const [error, setError] = useState("");
 
-  /*
-   * Load jobs posted by the logged-in employer.
-   */
   const loadJobs = useCallback(async () => {
     try {
       setError("");
 
-      const response = await api.get("/jobs/employer");
+      const response = await api.get(
+        "/jobs/employer"
+      );
 
       const result = response?.data;
 
-      /*
-       * Support:
-       *
-       * [
-       *   { id: 1, title: "Java Developer" }
-       * ]
-       *
-       * or:
-       *
-       * {
-       *   content: [
-       *     { id: 1, title: "Java Developer" }
-       *   ]
-       * }
-       */
       if (Array.isArray(result)) {
         setJobs(result);
       } else if (Array.isArray(result?.content)) {
@@ -58,7 +42,10 @@ export default function EmployerDashboard() {
         setJobs([]);
       }
     } catch (error) {
-      console.error("Failed to load employer jobs:", error);
+      console.error(
+        "Failed to load employer jobs:",
+        error
+      );
 
       setJobs([]);
       setError("Failed to load jobs");
@@ -69,9 +56,6 @@ export default function EmployerDashboard() {
     loadJobs();
   }, [loadJobs]);
 
-  /*
-   * Handle form input changes.
-   */
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -81,9 +65,6 @@ export default function EmployerDashboard() {
     }));
   };
 
-  /*
-   * Submit a new job.
-   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -95,13 +76,10 @@ export default function EmployerDashboard() {
         formData
       );
 
-      /*
-       * If the backend returns the newly-created job,
-       * add it to the current list.
-       */
       if (response?.data) {
         const createdJob =
-          response.data.job || response.data;
+          response.data.job ||
+          response.data;
 
         setJobs((previous) => [
           ...previous,
@@ -109,20 +87,24 @@ export default function EmployerDashboard() {
         ]);
       }
 
+      window.alert(
+        "Job posted successfully!"
+      );
+
       setFormData(initialForm);
 
-      // Return to My Jobs after successful posting.
       setView("list");
     } catch (error) {
-      console.error("Failed to post job:", error);
+      console.error(
+        "Failed to post job:",
+        error
+      );
 
       setError("Failed to post job");
+      window.alert("Failed to post job");
     }
   };
 
-  /*
-   * Delete a job after confirmation.
-   */
   const handleDelete = async (jobId) => {
     const confirmed = window.confirm(
       "Are you sure? This will also delete all applications for this job."
@@ -135,7 +117,9 @@ export default function EmployerDashboard() {
     try {
       setError("");
 
-      await api.delete(`/jobs/${jobId}`);
+      await api.delete(
+        `/jobs/${jobId}`
+      );
 
       setJobs((previous) =>
         previous.filter(
@@ -143,7 +127,9 @@ export default function EmployerDashboard() {
         )
       );
 
-      window.alert("Job deleted successfully");
+      window.alert(
+        "Job deleted successfully"
+      );
     } catch (error) {
       console.error(
         "Failed to delete job:",
@@ -248,14 +234,26 @@ export default function EmployerDashboard() {
                   </p>
                 )}
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleDelete(job.id)
-                  }
-                >
-                  Delete
-                </button>
+                <div className="job-actions">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // Edit functionality can be
+                      // implemented later.
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleDelete(job.id)
+                    }
+                  >
+                    Delete
+                  </button>
+                </div>
               </article>
             ))
           )}
@@ -267,10 +265,11 @@ export default function EmployerDashboard() {
           ========================= */}
       {view === "form" && (
         <section>
-          <h2>Post a New Opportunity</h2>
+          <h2>
+            Post a New Opportunity
+          </h2>
 
           <form onSubmit={handleSubmit}>
-            {/* Job Title */}
             <label htmlFor="jobTitle">
               Job Title
             </label>
@@ -285,7 +284,6 @@ export default function EmployerDashboard() {
               required
             />
 
-            {/* Description */}
             <label htmlFor="description">
               Description
             </label>
@@ -294,12 +292,13 @@ export default function EmployerDashboard() {
               id="description"
               name="description"
               placeholder="Description"
-              value={formData.description}
+              value={
+                formData.description
+              }
               onChange={handleChange}
               required
             />
 
-            {/* Location */}
             <label htmlFor="location">
               Location
             </label>
@@ -314,7 +313,6 @@ export default function EmployerDashboard() {
               required
             />
 
-            {/* Salary */}
             <label htmlFor="salary">
               Salary
             </label>
@@ -328,7 +326,6 @@ export default function EmployerDashboard() {
               onChange={handleChange}
             />
 
-            {/* Required Skills */}
             <label htmlFor="requiredSkills">
               Required Skills
             </label>
@@ -338,11 +335,12 @@ export default function EmployerDashboard() {
               name="requiredSkills"
               type="text"
               placeholder="Required Skills"
-              value={formData.requiredSkills}
+              value={
+                formData.requiredSkills
+              }
               onChange={handleChange}
             />
 
-            {/* Experience */}
             <label htmlFor="experienceRequired">
               Experience Required
             </label>
@@ -358,20 +356,8 @@ export default function EmployerDashboard() {
               onChange={handleChange}
             />
 
-            {/* Submit */}
             <button type="submit">
               Publish Job
-            </button>
-
-            {/* Back */}
-            <button
-              type="button"
-              onClick={() => {
-                setError("");
-                setView("list");
-              }}
-            >
-              My Jobs
             </button>
           </form>
         </section>

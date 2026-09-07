@@ -48,24 +48,24 @@ export default function Register() {
 
       const data = response?.data || {};
 
-      const userData = data.user || data;
-
       const token =
         data.token ||
         data.accessToken ||
         data.jwt ||
         null;
 
-      /*
-       * Registration API may return a user and token.
-       * Save them through AuthContext so the user
-       * becomes authenticated immediately.
-       */
+      const userData = data.user
+        ? data.user
+        : {
+            username: data.username,
+            fullName: data.fullName,
+            role: data.role,
+          };
+
       login(userData, token);
 
       const role = String(
         userData?.role ||
-          data?.role ||
           formData.role ||
           ""
       )

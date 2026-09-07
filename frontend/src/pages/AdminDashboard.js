@@ -14,16 +14,18 @@ export default function AdminDashboard() {
 
         if (!mounted) return;
 
-        // Supports:
-        // response.data = { totalUsers: ... }
-        // response.data = { stats: { totalUsers: ... } }
-        const data = response?.data?.stats || response?.data || {};
+        const data =
+          response?.data?.stats ||
+          response?.data ||
+          {};
 
         setStats(data);
         setError("");
       } catch (err) {
         if (mounted) {
-          setError("Failed to load dashboard statistics");
+          setError(
+            "Failed to fetch dashboard statistics."
+          );
         }
       }
     };
@@ -37,20 +39,30 @@ export default function AdminDashboard() {
 
   if (error) {
     return (
-      <div role="alert" className="error-message">
+      <div
+        role="alert"
+        className="error-message"
+      >
         {error}
       </div>
     );
   }
 
   if (!stats) {
-    return <div>Loading dashboard statistics...</div>;
+    return (
+      <div>
+        Loading dashboard metrics...
+      </div>
+    );
   }
 
   const metrics = [
     {
       label: "Total Users",
-      value: stats.totalUsers ?? stats.users ?? 0,
+      value:
+        stats.totalUsers ??
+        stats.users ??
+        0,
     },
     {
       label: "Total Employers",
@@ -84,18 +96,25 @@ export default function AdminDashboard() {
     },
     {
       label: "Active Jobs",
-      value: stats.activeJobs ?? 0,
+      value:
+        stats.activeJobs ??
+        0,
     },
     {
       label: "Blocked Users",
-      value: stats.blockedUsers ?? 0,
+      value:
+        stats.blockedUsers ??
+        0,
     },
   ];
 
   return (
     <main className="container">
       <h1>Admin Dashboard</h1>
-      <h2>Admin Analytics Dashboard</h2>
+
+      <h2>
+        Admin Analytics Dashboard
+      </h2>
 
       <div className="grid">
         {metrics.map((metric) => (
@@ -105,6 +124,7 @@ export default function AdminDashboard() {
             data-testid="metric-card"
           >
             <h3>{metric.label}</h3>
+
             <p>{metric.value}</p>
           </div>
         ))}
