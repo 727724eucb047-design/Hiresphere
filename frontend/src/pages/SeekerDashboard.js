@@ -40,9 +40,6 @@ export default function SeekerDashboard() {
 
   const [error, setError] = useState("");
 
-  // =========================================================
-  // LOAD JOBS, APPLICATIONS AND PROFILE
-  // =========================================================
   useEffect(() => {
     Promise.all([
       api.get("/jobs"),
@@ -61,7 +58,6 @@ export default function SeekerDashboard() {
           const profileData =
             profileResponse?.data;
 
-          // Jobs
           setJobs(
             Array.isArray(jobsData)
               ? jobsData
@@ -72,7 +68,6 @@ export default function SeekerDashboard() {
               : []
           );
 
-          // Applications
           setApplications(
             Array.isArray(applicationsData)
               ? applicationsData
@@ -87,7 +82,6 @@ export default function SeekerDashboard() {
               : []
           );
 
-          // Profile
           setProfile((previous) => ({
             ...previous,
             ...(profileData || {}),
@@ -97,19 +91,12 @@ export default function SeekerDashboard() {
         }
       )
       .catch(() => {
-        setError(
-          "Failed to load seeker dashboard"
-        );
+        setError("Failed to load seeker dashboard");
       });
   }, []);
 
-  // =========================================================
-  // SEARCH JOBS
-  // =========================================================
   const filteredJobs = useMemo(() => {
-    const search = query
-      .trim()
-      .toLowerCase();
+    const search = query.trim().toLowerCase();
 
     if (!search) {
       return jobs;
@@ -133,9 +120,6 @@ export default function SeekerDashboard() {
     });
   }, [jobs, query]);
 
-  // =========================================================
-  // PROFILE INPUT CHANGE
-  // =========================================================
   const handleProfileChange = (event) => {
     const { name, value } = event.target;
 
@@ -145,9 +129,6 @@ export default function SeekerDashboard() {
     }));
   };
 
-  // =========================================================
-  // T29 - UPDATE PROFILE
-  // =========================================================
   const updateProfile = async (event) => {
     event.preventDefault();
 
@@ -166,29 +147,20 @@ export default function SeekerDashboard() {
 
       setError("");
 
-      // Required success message
       window.alert(
         "Profile updated successfully!"
       );
     } catch (err) {
-      setError(
-        "Failed to update profile"
-      );
+      setError("Failed to update profile");
     }
   };
 
-  // =========================================================
-  // T30 - OPEN APPLICATION MODAL
-  // =========================================================
   const openApplication = (job) => {
     setSelectedJob(job);
 
     setApplyData((previous) => ({
       ...previous,
 
-      // Get from profile first.
-      // Fallback values ensure the application
-      // contains the expected applicant information.
       fullName:
         previous.fullName ||
         profile.fullName ||
@@ -217,9 +189,6 @@ export default function SeekerDashboard() {
     }));
   };
 
-  // =========================================================
-  // APPLICATION INPUT CHANGE
-  // =========================================================
   const handleApplyChange = (event) => {
     const { name, value } = event.target;
 
@@ -229,9 +198,6 @@ export default function SeekerDashboard() {
     }));
   };
 
-  // =========================================================
-  // T30 - SUBMIT APPLICATION
-  // =========================================================
   const submitApplication = async (event) => {
     event.preventDefault();
 
@@ -255,64 +221,46 @@ export default function SeekerDashboard() {
       setSelectedJob(null);
       setApplyData(EMPTY_APPLICATION);
       setError("");
+
+      window.alert("Applied successfully!");
     } catch (err) {
-      setError(
-        "Failed to submit application"
-      );
+      setError("Failed to submit application");
     }
   };
 
-  // =========================================================
-  // UI
-  // =========================================================
   return (
     <main className="container">
       <h1>Seeker Dashboard</h1>
 
-      {/* =========================
-          NAVIGATION
-          ========================= */}
       <div className="actions">
         <button
           type="button"
-          onClick={() =>
-            setView("jobs")
-          }
+          onClick={() => setView("jobs")}
         >
           Live Jobs
         </button>
 
         <button
           type="button"
-          onClick={() =>
-            setView("applications")
-          }
+          onClick={() => setView("applications")}
         >
           My Applications
         </button>
 
         <button
           type="button"
-          onClick={() =>
-            setView("profile")
-          }
+          onClick={() => setView("profile")}
         >
           Profile
         </button>
       </div>
 
-      {/* =========================
-          ERROR MESSAGE
-          ========================= */}
       {error && (
         <div role="alert">
           {error}
         </div>
       )}
 
-      {/* =========================
-          LIVE JOBS
-          ========================= */}
       {view === "jobs" && (
         <section>
           <h2>Live Jobs</h2>
@@ -366,9 +314,6 @@ export default function SeekerDashboard() {
         </section>
       )}
 
-      {/* =========================
-          MY APPLICATIONS
-          ========================= */}
       {view === "applications" && (
         <section>
           <h2>My Applications</h2>
@@ -397,9 +342,7 @@ export default function SeekerDashboard() {
                   undefined && (
                   <p>
                     Match Score:{" "}
-                    {
-                      application.matchScore
-                    }
+                    {application.matchScore}
                   </p>
                 )}
               </article>
@@ -408,9 +351,6 @@ export default function SeekerDashboard() {
         </section>
       )}
 
-      {/* =========================
-          T29 - PROFILE
-          ========================= */}
       {view === "profile" && (
         <section>
           <h2>Update My Profile</h2>
@@ -549,9 +489,6 @@ export default function SeekerDashboard() {
         </section>
       )}
 
-      {/* =========================
-          T30 - APPLY MODAL
-          ========================= */}
       {selectedJob && (
         <div
           role="dialog"
@@ -560,9 +497,7 @@ export default function SeekerDashboard() {
         >
           <form
             className="form"
-            onSubmit={
-              submitApplication
-            }
+            onSubmit={submitApplication}
           >
             <h2>
               Apply for{" "}
