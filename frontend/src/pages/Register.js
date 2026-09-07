@@ -83,13 +83,17 @@ export default function Register() {
         navigate("/login");
       }
     } catch (error) {
-      console.error(
-        "Registration failed:",
-        error
-      );
+  console.error("Registration failed:", error);
 
-      window.alert("Registration failed");
-    }
+  console.log("Status:", error?.response?.status);
+  console.log("Backend response:", error?.response?.data);
+
+  window.alert(
+    error?.response?.data?.message ||
+    error?.response?.data?.error ||
+    "Registration failed"
+  );
+}
   };
 
   return (
