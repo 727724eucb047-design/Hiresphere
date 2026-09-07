@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+// src/pages/SeekerDashboard.js
+
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import api from "../api";
 
 const EMPTY_APPLICATION = {
@@ -33,7 +39,8 @@ export default function SeekerDashboard() {
   const [view, setView] = useState("jobs");
 
   const [selectedJob, setSelectedJob] = useState(null);
-  const [applyData, setApplyData] = useState(EMPTY_APPLICATION);
+  const [applyData, setApplyData] =
+    useState(EMPTY_APPLICATION);
 
   const [error, setError] = useState("");
 
@@ -51,25 +58,37 @@ export default function SeekerDashboard() {
           profileResponse,
         ]) => {
           const jobsData = jobsResponse?.data;
-          const applicationsData = applicationsResponse?.data;
-          const profileData = profileResponse?.data;
+          const applicationsData =
+            applicationsResponse?.data;
+          const profileData =
+            profileResponse?.data;
 
           setJobs(
             Array.isArray(jobsData)
               ? jobsData
-              : Array.isArray(jobsData?.content)
+              : Array.isArray(
+                  jobsData?.content
+                )
               ? jobsData.content
-              : Array.isArray(jobsData?.jobs)
+              : Array.isArray(
+                  jobsData?.jobs
+                )
               ? jobsData.jobs
               : []
           );
 
           setApplications(
-            Array.isArray(applicationsData)
+            Array.isArray(
+              applicationsData
+            )
               ? applicationsData
-              : Array.isArray(applicationsData?.content)
+              : Array.isArray(
+                  applicationsData?.content
+                )
               ? applicationsData.content
-              : Array.isArray(applicationsData?.applications)
+              : Array.isArray(
+                  applicationsData?.applications
+                )
               ? applicationsData.applications
               : []
           );
@@ -83,13 +102,17 @@ export default function SeekerDashboard() {
         }
       )
       .catch(() => {
-        setError("Failed to load seeker dashboard");
+        setError(
+          "Failed to load seeker dashboard"
+        );
       });
   }, []);
 
   // T28 - Search jobs by title or location
   const filteredJobs = useMemo(() => {
-    const search = query.trim().toLowerCase();
+    const search = query
+      .trim()
+      .toLowerCase();
 
     if (!search) {
       return jobs;
@@ -97,7 +120,9 @@ export default function SeekerDashboard() {
 
     return jobs.filter((job) => {
       const title = String(
-        job.title || job.jobTitle || ""
+        job.title ||
+          job.jobTitle ||
+          ""
       ).toLowerCase();
 
       const location = String(
@@ -111,8 +136,13 @@ export default function SeekerDashboard() {
     });
   }, [jobs, query]);
 
-  const handleProfileChange = (event) => {
-    const { name, value } = event.target;
+  const handleProfileChange = (
+    event
+  ) => {
+    const {
+      name,
+      value,
+    } = event.target;
 
     setProfile((previous) => ({
       ...previous,
@@ -121,7 +151,9 @@ export default function SeekerDashboard() {
   };
 
   // T29 - Update profile
-  const updateProfile = async (event) => {
+  const updateProfile = async (
+    event
+  ) => {
     event.preventDefault();
 
     try {
@@ -139,7 +171,9 @@ export default function SeekerDashboard() {
 
       setError("");
     } catch (err) {
-      setError("Failed to update profile");
+      setError(
+        "Failed to update profile"
+      );
     }
   };
 
@@ -171,8 +205,13 @@ export default function SeekerDashboard() {
     }));
   };
 
-  const handleApplyChange = (event) => {
-    const { name, value } = event.target;
+  const handleApplyChange = (
+    event
+  ) => {
+    const {
+      name,
+      value,
+    } = event.target;
 
     setApplyData((previous) => ({
       ...previous,
@@ -181,7 +220,9 @@ export default function SeekerDashboard() {
   };
 
   // T30 - Submit job application
-  const submitApplication = async (event) => {
+  const submitApplication = async (
+    event
+  ) => {
     event.preventDefault();
 
     if (!selectedJob) {
@@ -195,17 +236,23 @@ export default function SeekerDashboard() {
       );
 
       if (response?.data) {
-        setApplications((previous) => [
-          ...previous,
-          response.data,
-        ]);
+        setApplications(
+          (previous) => [
+            ...previous,
+            response.data,
+          ]
+        );
       }
 
       setSelectedJob(null);
-      setApplyData(EMPTY_APPLICATION);
+      setApplyData(
+        EMPTY_APPLICATION
+      );
       setError("");
     } catch (err) {
-      setError("Failed to submit application");
+      setError(
+        "Failed to submit application"
+      );
     }
   };
 
@@ -216,21 +263,27 @@ export default function SeekerDashboard() {
       <div className="actions">
         <button
           type="button"
-          onClick={() => setView("jobs")}
+          onClick={() =>
+            setView("jobs")
+          }
         >
           Live Jobs
         </button>
 
         <button
           type="button"
-          onClick={() => setView("applications")}
+          onClick={() =>
+            setView("applications")
+          }
         >
           My Applications
         </button>
 
         <button
           type="button"
-          onClick={() => setView("profile")}
+          onClick={() =>
+            setView("profile")
+          }
         >
           Profile
         </button>
@@ -258,10 +311,12 @@ export default function SeekerDashboard() {
             name="search"
             type="search"
             aria-label="Search jobs"
-            placeholder="Search jobs by title or location"
+            placeholder="Search opportunities..."
             value={query}
             onChange={(event) =>
-              setQuery(event.target.value)
+              setQuery(
+                event.target.value
+              )
             }
           />
 
@@ -271,13 +326,18 @@ export default function SeekerDashboard() {
               key={job.id}
             >
               <h3>
-                {job.title || job.jobTitle}
+                {job.title ||
+                  job.jobTitle}
               </h3>
 
-              <p>{job.location}</p>
+              <p>
+                {job.location}
+              </p>
 
               {job.description && (
-                <p>{job.description}</p>
+                <p>
+                  {job.description}
+                </p>
               )}
 
               <button
@@ -298,35 +358,43 @@ export default function SeekerDashboard() {
           ========================= */}
       {view === "applications" && (
         <section>
-          <h2>My Applications</h2>
+          <h2>
+            My Applications
+          </h2>
 
-          {applications.map((application) => (
-            <article
-              className="card"
-              key={application.id}
-            >
-              <h3>
-                {application.job?.title ||
-                  application.jobTitle ||
-                  application.title ||
-                  "Application"}
-              </h3>
+          {applications.map(
+            (application) => (
+              <article
+                className="card"
+                key={application.id}
+              >
+                <h3>
+                  {application.job
+                    ?.title ||
+                    application.jobTitle ||
+                    application.title ||
+                    "Application"}
+                </h3>
 
-              {application.status && (
-                <p>
-                  Status: {application.status}
-                </p>
-              )}
+                {application.status && (
+                  <p>
+                    Status:{" "}
+                    {application.status}
+                  </p>
+                )}
 
-              {application.matchScore !==
-                undefined && (
-                <p>
-                  Match Score:{" "}
-                  {application.matchScore}
-                </p>
-              )}
-            </article>
-          ))}
+                {application.matchScore !==
+                  undefined && (
+                  <p>
+                    Match Score:{" "}
+                    {
+                      application.matchScore
+                    }
+                  </p>
+                )}
+              </article>
+            )
+          )}
         </section>
       )}
 
@@ -335,7 +403,9 @@ export default function SeekerDashboard() {
           ========================= */}
       {view === "profile" && (
         <section>
-          <h2>Update My Profile</h2>
+          <h2>
+            Update My Profile
+          </h2>
 
           <form
             className="form"
@@ -348,8 +418,12 @@ export default function SeekerDashboard() {
             <input
               id="fullName"
               name="fullName"
-              value={profile.fullName || ""}
-              onChange={handleProfileChange}
+              value={
+                profile.fullName || ""
+              }
+              onChange={
+                handleProfileChange
+              }
             />
 
             <label htmlFor="about">
@@ -359,8 +433,12 @@ export default function SeekerDashboard() {
             <textarea
               id="about"
               name="about"
-              value={profile.about || ""}
-              onChange={handleProfileChange}
+              value={
+                profile.about || ""
+              }
+              onChange={
+                handleProfileChange
+              }
             />
 
             <label htmlFor="skills">
@@ -370,8 +448,12 @@ export default function SeekerDashboard() {
             <input
               id="skills"
               name="skills"
-              value={profile.skills || ""}
-              onChange={handleProfileChange}
+              value={
+                profile.skills || ""
+              }
+              onChange={
+                handleProfileChange
+              }
             />
 
             <label htmlFor="experience">
@@ -381,8 +463,13 @@ export default function SeekerDashboard() {
             <input
               id="experience"
               name="experience"
-              value={profile.experience || ""}
-              onChange={handleProfileChange}
+              value={
+                profile.experience ||
+                ""
+              }
+              onChange={
+                handleProfileChange
+              }
             />
 
             <label htmlFor="education">
@@ -392,8 +479,13 @@ export default function SeekerDashboard() {
             <input
               id="education"
               name="education"
-              value={profile.education || ""}
-              onChange={handleProfileChange}
+              value={
+                profile.education ||
+                ""
+              }
+              onChange={
+                handleProfileChange
+              }
             />
 
             <label htmlFor="location">
@@ -403,8 +495,13 @@ export default function SeekerDashboard() {
             <input
               id="location"
               name="location"
-              value={profile.location || ""}
-              onChange={handleProfileChange}
+              value={
+                profile.location ||
+                ""
+              }
+              onChange={
+                handleProfileChange
+              }
             />
 
             <label htmlFor="resumeUrl">
@@ -414,8 +511,13 @@ export default function SeekerDashboard() {
             <input
               id="resumeUrl"
               name="resumeUrl"
-              value={profile.resumeUrl || ""}
-              onChange={handleProfileChange}
+              value={
+                profile.resumeUrl ||
+                ""
+              }
+              onChange={
+                handleProfileChange
+              }
             />
 
             <label htmlFor="companyName">
@@ -425,15 +527,20 @@ export default function SeekerDashboard() {
             <input
               id="companyName"
               name="companyName"
-              value={profile.companyName || ""}
-              onChange={handleProfileChange}
+              value={
+                profile.companyName ||
+                ""
+              }
+              onChange={
+                handleProfileChange
+              }
             />
 
             <button
               type="submit"
               className="primary"
             >
-              Update Profile
+              Save Profile
             </button>
           </form>
         </section>
@@ -450,7 +557,9 @@ export default function SeekerDashboard() {
         >
           <form
             className="form"
-            onSubmit={submitApplication}
+            onSubmit={
+              submitApplication
+            }
           >
             <h2>
               Apply for{" "}
@@ -466,8 +575,12 @@ export default function SeekerDashboard() {
               id="modalFullName"
               name="fullName"
               type="text"
-              value={applyData.fullName}
-              onChange={handleApplyChange}
+              value={
+                applyData.fullName
+              }
+              onChange={
+                handleApplyChange
+              }
             />
 
             <label htmlFor="modalEmail">
@@ -479,7 +592,9 @@ export default function SeekerDashboard() {
               name="email"
               type="email"
               value={applyData.email}
-              onChange={handleApplyChange}
+              onChange={
+                handleApplyChange
+              }
             />
 
             <label htmlFor="modalPhone">
@@ -491,7 +606,9 @@ export default function SeekerDashboard() {
               name="phone"
               type="text"
               value={applyData.phone}
-              onChange={handleApplyChange}
+              onChange={
+                handleApplyChange
+              }
             />
 
             <label htmlFor="modalSkills">
@@ -503,7 +620,9 @@ export default function SeekerDashboard() {
               name="skills"
               type="text"
               value={applyData.skills}
-              onChange={handleApplyChange}
+              onChange={
+                handleApplyChange
+              }
             />
 
             <label htmlFor="modalExp">
@@ -514,8 +633,12 @@ export default function SeekerDashboard() {
               id="modalExp"
               name="experience"
               type="text"
-              value={applyData.experience}
-              onChange={handleApplyChange}
+              value={
+                applyData.experience
+              }
+              onChange={
+                handleApplyChange
+              }
             />
 
             <label htmlFor="modalResumeUrl">
@@ -526,8 +649,12 @@ export default function SeekerDashboard() {
               id="modalResumeUrl"
               name="resumeUrl"
               type="text"
-              value={applyData.resumeUrl}
-              onChange={handleApplyChange}
+              value={
+                applyData.resumeUrl
+              }
+              onChange={
+                handleApplyChange
+              }
             />
 
             <label htmlFor="modalExpectedSalary">
@@ -538,8 +665,12 @@ export default function SeekerDashboard() {
               id="modalExpectedSalary"
               name="expectedSalary"
               type="text"
-              value={applyData.expectedSalary}
-              onChange={handleApplyChange}
+              value={
+                applyData.expectedSalary
+              }
+              onChange={
+                handleApplyChange
+              }
             />
 
             <label htmlFor="modalNoticePeriod">
@@ -550,8 +681,12 @@ export default function SeekerDashboard() {
               id="modalNoticePeriod"
               name="noticePeriod"
               type="text"
-              value={applyData.noticePeriod}
-              onChange={handleApplyChange}
+              value={
+                applyData.noticePeriod
+              }
+              onChange={
+                handleApplyChange
+              }
             />
 
             <label htmlFor="modalCoverLetter">
@@ -561,15 +696,19 @@ export default function SeekerDashboard() {
             <textarea
               id="modalCoverLetter"
               name="coverLetter"
-              value={applyData.coverLetter}
-              onChange={handleApplyChange}
+              value={
+                applyData.coverLetter
+              }
+              onChange={
+                handleApplyChange
+              }
             />
 
             <button
               type="submit"
               className="primary"
             >
-              Submit Application
+              Submit
             </button>
 
             <button
