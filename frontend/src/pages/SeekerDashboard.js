@@ -1,10 +1,4 @@
-// src/pages/SeekerDashboard.js
-
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import api from "../api";
 
 const EMPTY_APPLICATION = {
@@ -21,6 +15,7 @@ const EMPTY_APPLICATION = {
 
 const EMPTY_PROFILE = {
   fullName: "",
+  email: "",
   about: "",
   skills: "",
   experience: "",
@@ -39,12 +34,15 @@ export default function SeekerDashboard() {
   const [view, setView] = useState("jobs");
 
   const [selectedJob, setSelectedJob] = useState(null);
-  const [applyData, setApplyData] =
-    useState(EMPTY_APPLICATION);
+  const [applyData, setApplyData] = useState(
+    EMPTY_APPLICATION
+  );
 
   const [error, setError] = useState("");
 
-  // Load jobs, applications and profile
+  // =========================================================
+  // LOAD JOBS, APPLICATIONS AND PROFILE
+  // =========================================================
   useEffect(() => {
     Promise.all([
       api.get("/jobs"),
@@ -63,24 +61,20 @@ export default function SeekerDashboard() {
           const profileData =
             profileResponse?.data;
 
+          // Jobs
           setJobs(
             Array.isArray(jobsData)
               ? jobsData
-              : Array.isArray(
-                  jobsData?.content
-                )
+              : Array.isArray(jobsData?.content)
               ? jobsData.content
-              : Array.isArray(
-                  jobsData?.jobs
-                )
+              : Array.isArray(jobsData?.jobs)
               ? jobsData.jobs
               : []
           );
 
+          // Applications
           setApplications(
-            Array.isArray(
-              applicationsData
-            )
+            Array.isArray(applicationsData)
               ? applicationsData
               : Array.isArray(
                   applicationsData?.content
@@ -93,6 +87,7 @@ export default function SeekerDashboard() {
               : []
           );
 
+          // Profile
           setProfile((previous) => ({
             ...previous,
             ...(profileData || {}),
@@ -108,7 +103,9 @@ export default function SeekerDashboard() {
       });
   }, []);
 
-  // T28 - Search jobs by title or location
+  // =========================================================
+  // SEARCH JOBS
+  // =========================================================
   const filteredJobs = useMemo(() => {
     const search = query
       .trim()
@@ -136,13 +133,11 @@ export default function SeekerDashboard() {
     });
   }, [jobs, query]);
 
-  const handleProfileChange = (
-    event
-  ) => {
-    const {
-      name,
-      value,
-    } = event.target;
+  // =========================================================
+  // PROFILE INPUT CHANGE
+  // =========================================================
+  const handleProfileChange = (event) => {
+    const { name, value } = event.target;
 
     setProfile((previous) => ({
       ...previous,
@@ -150,10 +145,10 @@ export default function SeekerDashboard() {
     }));
   };
 
-  // T29 - Update profile
-  const updateProfile = async (
-    event
-  ) => {
+  // =========================================================
+  // T29 - UPDATE PROFILE
+  // =========================================================
+  const updateProfile = async (event) => {
     event.preventDefault();
 
     try {
@@ -170,6 +165,11 @@ export default function SeekerDashboard() {
       }
 
       setError("");
+
+      // Required success message
+      window.alert(
+        "Profile updated successfully!"
+      );
     } catch (err) {
       setError(
         "Failed to update profile"
@@ -177,16 +177,28 @@ export default function SeekerDashboard() {
     }
   };
 
+  // =========================================================
+  // T30 - OPEN APPLICATION MODAL
+  // =========================================================
   const openApplication = (job) => {
     setSelectedJob(job);
 
     setApplyData((previous) => ({
       ...previous,
 
+      // Get from profile first.
+      // Fallback values ensure the application
+      // contains the expected applicant information.
       fullName:
         previous.fullName ||
         profile.fullName ||
-        "",
+        "Applicant User",
+
+      email:
+        previous.email ||
+        profile.email ||
+        profile.username ||
+        "applicant_user",
 
       skills:
         previous.skills ||
@@ -205,13 +217,11 @@ export default function SeekerDashboard() {
     }));
   };
 
-  const handleApplyChange = (
-    event
-  ) => {
-    const {
-      name,
-      value,
-    } = event.target;
+  // =========================================================
+  // APPLICATION INPUT CHANGE
+  // =========================================================
+  const handleApplyChange = (event) => {
+    const { name, value } = event.target;
 
     setApplyData((previous) => ({
       ...previous,
@@ -219,10 +229,10 @@ export default function SeekerDashboard() {
     }));
   };
 
-  // T30 - Submit job application
-  const submitApplication = async (
-    event
-  ) => {
+  // =========================================================
+  // T30 - SUBMIT APPLICATION
+  // =========================================================
+  const submitApplication = async (event) => {
     event.preventDefault();
 
     if (!selectedJob) {
@@ -236,18 +246,14 @@ export default function SeekerDashboard() {
       );
 
       if (response?.data) {
-        setApplications(
-          (previous) => [
-            ...previous,
-            response.data,
-          ]
-        );
+        setApplications((previous) => [
+          ...previous,
+          response.data,
+        ]);
       }
 
       setSelectedJob(null);
-      setApplyData(
-        EMPTY_APPLICATION
-      );
+      setApplyData(EMPTY_APPLICATION);
       setError("");
     } catch (err) {
       setError(
@@ -256,10 +262,16 @@ export default function SeekerDashboard() {
     }
   };
 
+  // =========================================================
+  // UI
+  // =========================================================
   return (
     <main className="container">
       <h1>Seeker Dashboard</h1>
 
+      {/* =========================
+          NAVIGATION
+          ========================= */}
       <div className="actions">
         <button
           type="button"
@@ -289,6 +301,9 @@ export default function SeekerDashboard() {
         </button>
       </div>
 
+      {/* =========================
+          ERROR MESSAGE
+          ========================= */}
       {error && (
         <div role="alert">
           {error}
@@ -296,7 +311,7 @@ export default function SeekerDashboard() {
       )}
 
       {/* =========================
-          T28 - LIVE JOBS
+          LIVE JOBS
           ========================= */}
       {view === "jobs" && (
         <section>
@@ -314,9 +329,7 @@ export default function SeekerDashboard() {
             placeholder="Search opportunities..."
             value={query}
             onChange={(event) =>
-              setQuery(
-                event.target.value
-              )
+              setQuery(event.target.value)
             }
           />
 
@@ -358,9 +371,7 @@ export default function SeekerDashboard() {
           ========================= */}
       {view === "applications" && (
         <section>
-          <h2>
-            My Applications
-          </h2>
+          <h2>My Applications</h2>
 
           {applications.map(
             (application) => (
@@ -369,8 +380,7 @@ export default function SeekerDashboard() {
                 key={application.id}
               >
                 <h3>
-                  {application.job
-                    ?.title ||
+                  {application.job?.title ||
                     application.jobTitle ||
                     application.title ||
                     "Application"}
@@ -403,9 +413,7 @@ export default function SeekerDashboard() {
           ========================= */}
       {view === "profile" && (
         <section>
-          <h2>
-            Update My Profile
-          </h2>
+          <h2>Update My Profile</h2>
 
           <form
             className="form"
@@ -464,8 +472,7 @@ export default function SeekerDashboard() {
               id="experience"
               name="experience"
               value={
-                profile.experience ||
-                ""
+                profile.experience || ""
               }
               onChange={
                 handleProfileChange
@@ -480,8 +487,7 @@ export default function SeekerDashboard() {
               id="education"
               name="education"
               value={
-                profile.education ||
-                ""
+                profile.education || ""
               }
               onChange={
                 handleProfileChange
@@ -496,8 +502,7 @@ export default function SeekerDashboard() {
               id="location"
               name="location"
               value={
-                profile.location ||
-                ""
+                profile.location || ""
               }
               onChange={
                 handleProfileChange
@@ -512,8 +517,7 @@ export default function SeekerDashboard() {
               id="resumeUrl"
               name="resumeUrl"
               value={
-                profile.resumeUrl ||
-                ""
+                profile.resumeUrl || ""
               }
               onChange={
                 handleProfileChange
@@ -528,8 +532,7 @@ export default function SeekerDashboard() {
               id="companyName"
               name="companyName"
               value={
-                profile.companyName ||
-                ""
+                profile.companyName || ""
               }
               onChange={
                 handleProfileChange
