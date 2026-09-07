@@ -23,9 +23,7 @@ export default function AdminDashboard() {
         setError("");
       } catch (err) {
         if (mounted) {
-          setError(
-            "Failed to fetch dashboard statistics."
-          );
+          setError("Failed to fetch dashboard statistics.");
         }
       }
     };
@@ -39,21 +37,14 @@ export default function AdminDashboard() {
 
   if (error) {
     return (
-      <div
-        role="alert"
-        className="error-message"
-      >
+      <div role="alert" className="error-message">
         {error}
       </div>
     );
   }
 
   if (!stats) {
-    return (
-      <div>
-        Loading dashboard metrics...
-      </div>
-    );
+    return <div>Loading dashboard metrics...</div>;
   }
 
   const metrics = [
@@ -96,15 +87,11 @@ export default function AdminDashboard() {
     },
     {
       label: "Active Jobs",
-      value:
-        stats.activeJobs ??
-        0,
+      value: stats.activeJobs ?? 0,
     },
     {
       label: "Blocked Users",
-      value:
-        stats.blockedUsers ??
-        0,
+      value: stats.blockedUsers ?? 0,
     },
   ];
 
@@ -112,9 +99,7 @@ export default function AdminDashboard() {
     <main className="container">
       <h1>Admin Dashboard</h1>
 
-      <h2>
-        Admin Analytics Dashboard
-      </h2>
+      <h2>Admin Analytics Dashboard</h2>
 
       <div className="grid">
         {metrics.map((metric) => (
@@ -125,7 +110,9 @@ export default function AdminDashboard() {
           >
             <h3>{metric.label}</h3>
 
-            <p>{metric.value}</p>
+            <p>
+              {Number(metric.value).toLocaleString("en-US")}
+            </p>
           </div>
         ))}
       </div>
