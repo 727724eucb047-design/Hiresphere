@@ -20,11 +20,11 @@ const features = [
 
 export default function Home() {
   const handleEnter = (event) => {
-    event.currentTarget.style.transform = "scale(1.05)";
+    event.currentTarget.style.transform = "translateY(-5px)";
   };
 
   const handleLeave = (event) => {
-    event.currentTarget.style.transform = "scale(1)";
+    event.currentTarget.style.transform = "translateY(0)";
   };
 
   return (
@@ -54,7 +54,7 @@ export default function Home() {
             key={feature.title}
             className="card feature-card"
             style={{
-              transform: "scale(1)",
+              transform: "translateY(0)",
               transition: "transform 0.2s ease",
             }}
             onMouseEnter={handleEnter}
