@@ -23,29 +23,19 @@ export default function Login() {
 
       const data = response?.data || {};
 
-      /*
-       * Support both common backend response formats:
-       *
-       * {
-       *   user: {...},
-       *   token: "..."
-       * }
-       *
-       * or
-       *
-       * {
-       *   username: "...",
-       *   role: "...",
-       *   token: "..."
-       * }
-       */
-      const userData = data.user || data;
-
       const token =
         data.token ||
         data.accessToken ||
         data.jwt ||
         null;
+
+      const userData = data.user
+        ? data.user
+        : {
+            username: data.username,
+            fullName: data.fullName,
+            role: data.role,
+          };
 
       login(userData, token);
 
