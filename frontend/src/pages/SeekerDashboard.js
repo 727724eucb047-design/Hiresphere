@@ -37,9 +37,7 @@ export default function SeekerDashboard() {
 
   const [error, setError] = useState("");
 
-  /*
-   * Keep this logic because T27 is already passing.
-   */
+  // Load jobs, applications and profile
   useEffect(() => {
     Promise.all([
       api.get("/jobs"),
@@ -53,26 +51,26 @@ export default function SeekerDashboard() {
           profileResponse,
         ]) => {
           const jobsData = jobsResponse?.data;
-          const applicationsData =
-            applicationsResponse?.data;
-          const profileData =
-            profileResponse?.data;
+          const applicationsData = applicationsResponse?.data;
+          const profileData = profileResponse?.data;
 
           setJobs(
             Array.isArray(jobsData)
               ? jobsData
               : Array.isArray(jobsData?.content)
               ? jobsData.content
+              : Array.isArray(jobsData?.jobs)
+              ? jobsData.jobs
               : []
           );
 
           setApplications(
             Array.isArray(applicationsData)
               ? applicationsData
-              : Array.isArray(
-                  applicationsData?.content
-                )
+              : Array.isArray(applicationsData?.content)
               ? applicationsData.content
+              : Array.isArray(applicationsData?.applications)
+              ? applicationsData.applications
               : []
           );
 
@@ -80,25 +78,18 @@ export default function SeekerDashboard() {
             ...previous,
             ...(profileData || {}),
           }));
+
+          setError("");
         }
       )
       .catch(() => {
-        setError(
-          "Failed to load seeker dashboard"
-        );
+        setError("Failed to load seeker dashboard");
       });
   }, []);
 
-  /*
-   * T28
-   *
-   * Support both title and jobTitle because hidden
-   * test mock objects may use either property.
-   */
+  // T28 - Search jobs by title or location
   const filteredJobs = useMemo(() => {
-    const search = query
-      .trim()
-      .toLowerCase();
+    const search = query.trim().toLowerCase();
 
     if (!search) {
       return jobs;
@@ -106,9 +97,7 @@ export default function SeekerDashboard() {
 
     return jobs.filter((job) => {
       const title = String(
-        job.title ||
-          job.jobTitle ||
-          ""
+        job.title || job.jobTitle || ""
       ).toLowerCase();
 
       const location = String(
@@ -123,8 +112,7 @@ export default function SeekerDashboard() {
   }, [jobs, query]);
 
   const handleProfileChange = (event) => {
-    const { name, value } =
-      event.target;
+    const { name, value } = event.target;
 
     setProfile((previous) => ({
       ...previous,
@@ -132,9 +120,7 @@ export default function SeekerDashboard() {
     }));
   };
 
-  /*
-   * T29
-   */
+  // T29 - Update profile
   const updateProfile = async (event) => {
     event.preventDefault();
 
@@ -153,9 +139,7 @@ export default function SeekerDashboard() {
 
       setError("");
     } catch (err) {
-      setError(
-        "Failed to update profile"
-      );
+      setError("Failed to update profile");
     }
   };
 
@@ -164,18 +148,22 @@ export default function SeekerDashboard() {
 
     setApplyData((previous) => ({
       ...previous,
+
       fullName:
         previous.fullName ||
         profile.fullName ||
         "",
+
       skills:
         previous.skills ||
         profile.skills ||
         "",
+
       experience:
         previous.experience ||
         profile.experience ||
         "",
+
       resumeUrl:
         previous.resumeUrl ||
         profile.resumeUrl ||
@@ -184,8 +172,7 @@ export default function SeekerDashboard() {
   };
 
   const handleApplyChange = (event) => {
-    const { name, value } =
-      event.target;
+    const { name, value } = event.target;
 
     setApplyData((previous) => ({
       ...previous,
@@ -193,12 +180,8 @@ export default function SeekerDashboard() {
     }));
   };
 
-  /*
-   * T30
-   */
-  const submitApplication = async (
-    event
-  ) => {
+  // T30 - Submit job application
+  const submitApplication = async (event) => {
     event.preventDefault();
 
     if (!selectedJob) {
@@ -212,23 +195,17 @@ export default function SeekerDashboard() {
       );
 
       if (response?.data) {
-        setApplications(
-          (previous) => [
-            ...previous,
-            response.data,
-          ]
-        );
+        setApplications((previous) => [
+          ...previous,
+          response.data,
+        ]);
       }
 
       setSelectedJob(null);
-      setApplyData(
-        EMPTY_APPLICATION
-      );
+      setApplyData(EMPTY_APPLICATION);
       setError("");
     } catch (err) {
-      setError(
-        "Failed to submit application"
-      );
+      setError("Failed to submit application");
     }
   };
 
@@ -239,27 +216,21 @@ export default function SeekerDashboard() {
       <div className="actions">
         <button
           type="button"
-          onClick={() =>
-            setView("jobs")
-          }
+          onClick={() => setView("jobs")}
         >
           Live Jobs
         </button>
 
         <button
           type="button"
-          onClick={() =>
-            setView("applications")
-          }
+          onClick={() => setView("applications")}
         >
           My Applications
         </button>
 
         <button
           type="button"
-          onClick={() =>
-            setView("profile")
-          }
+          onClick={() => setView("profile")}
         >
           Profile
         </button>
@@ -271,7 +242,9 @@ export default function SeekerDashboard() {
         </div>
       )}
 
-      {/* T28 */}
+      {/* =========================
+          T28 - LIVE JOBS
+          ========================= */}
       {view === "jobs" && (
         <section>
           <h2>Live Jobs</h2>
@@ -288,224 +261,172 @@ export default function SeekerDashboard() {
             placeholder="Search jobs by title or location"
             value={query}
             onChange={(event) =>
-              setQuery(
-                event.target.value
-              )
+              setQuery(event.target.value)
             }
           />
 
-          {filteredJobs.map(
-            (job) => (
-              <article
-                className="card"
-                key={job.id}
-              >
-                <h3>
-                  {job.title ||
-                    job.jobTitle}
-                </h3>
+          {filteredJobs.map((job) => (
+            <article
+              className="card"
+              key={job.id}
+            >
+              <h3>
+                {job.title || job.jobTitle}
+              </h3>
 
-                <p>
-                  {job.location}
-                </p>
+              <p>{job.location}</p>
 
-                {job.description && (
-                  <p>
-                    {
-                      job.description
-                    }
-                  </p>
-                )}
+              {job.description && (
+                <p>{job.description}</p>
+              )}
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    openApplication(
-                      job
-                    )
-                  }
-                >
-                  Apply
-                </button>
-              </article>
-            )
-          )}
-        </section>
-      )}
-
-      {view === "applications" && (
-        <section>
-          <h2>
-            My Applications
-          </h2>
-
-          {applications.map(
-            (application) => (
-              <article
-                className="card"
-                key={
-                  application.id
+              <button
+                type="button"
+                onClick={() =>
+                  openApplication(job)
                 }
               >
-                <h3>
-                  {application
-                    .job?.title ||
-                    application.jobTitle ||
-                    application.title ||
-                    "Application"}
-                </h3>
-
-                {application.status && (
-                  <p>
-                    Status:{" "}
-                    {
-                      application.status
-                    }
-                  </p>
-                )}
-
-                {application.matchScore !==
-                  undefined && (
-                  <p>
-                    Match Score:{" "}
-                    {
-                      application.matchScore
-                    }
-                  </p>
-                )}
-              </article>
-            )
-          )}
+                Apply
+              </button>
+            </article>
+          ))}
         </section>
       )}
 
-      {/* T29 */}
+      {/* =========================
+          MY APPLICATIONS
+          ========================= */}
+      {view === "applications" && (
+        <section>
+          <h2>My Applications</h2>
+
+          {applications.map((application) => (
+            <article
+              className="card"
+              key={application.id}
+            >
+              <h3>
+                {application.job?.title ||
+                  application.jobTitle ||
+                  application.title ||
+                  "Application"}
+              </h3>
+
+              {application.status && (
+                <p>
+                  Status: {application.status}
+                </p>
+              )}
+
+              {application.matchScore !==
+                undefined && (
+                <p>
+                  Match Score:{" "}
+                  {application.matchScore}
+                </p>
+              )}
+            </article>
+          ))}
+        </section>
+      )}
+
+      {/* =========================
+          T29 - PROFILE
+          ========================= */}
       {view === "profile" && (
         <section>
-          <h2>My Profile</h2>
+          <h2>Update My Profile</h2>
 
           <form
             className="form"
-            onSubmit={
-              updateProfile
-            }
+            onSubmit={updateProfile}
           >
-            <label htmlFor="profile-fullName">
+            <label htmlFor="fullName">
               Full Name
             </label>
+
             <input
-              id="profile-fullName"
+              id="fullName"
               name="fullName"
-              value={
-                profile.fullName ||
-                ""
-              }
-              onChange={
-                handleProfileChange
-              }
+              value={profile.fullName || ""}
+              onChange={handleProfileChange}
             />
 
-            <label htmlFor="profile-about">
+            <label htmlFor="about">
               About
             </label>
+
             <textarea
-              id="profile-about"
+              id="about"
               name="about"
-              value={
-                profile.about || ""
-              }
-              onChange={
-                handleProfileChange
-              }
+              value={profile.about || ""}
+              onChange={handleProfileChange}
             />
 
-            <label htmlFor="profile-skills">
+            <label htmlFor="skills">
               Skills
             </label>
+
             <input
-              id="profile-skills"
+              id="skills"
               name="skills"
-              value={
-                profile.skills || ""
-              }
-              onChange={
-                handleProfileChange
-              }
+              value={profile.skills || ""}
+              onChange={handleProfileChange}
             />
 
-            <label htmlFor="profile-experience">
+            <label htmlFor="experience">
               Experience
             </label>
+
             <input
-              id="profile-experience"
+              id="experience"
               name="experience"
-              value={
-                profile.experience ||
-                ""
-              }
-              onChange={
-                handleProfileChange
-              }
+              value={profile.experience || ""}
+              onChange={handleProfileChange}
             />
 
-            <label htmlFor="profile-education">
+            <label htmlFor="education">
               Education
             </label>
+
             <input
-              id="profile-education"
+              id="education"
               name="education"
-              value={
-                profile.education ||
-                ""
-              }
-              onChange={
-                handleProfileChange
-              }
+              value={profile.education || ""}
+              onChange={handleProfileChange}
             />
 
-            <label htmlFor="profile-location">
+            <label htmlFor="location">
               Location
             </label>
+
             <input
-              id="profile-location"
+              id="location"
               name="location"
-              value={
-                profile.location ||
-                ""
-              }
-              onChange={
-                handleProfileChange
-              }
+              value={profile.location || ""}
+              onChange={handleProfileChange}
             />
 
-            <label htmlFor="profile-resumeUrl">
+            <label htmlFor="resumeUrl">
               Resume URL
             </label>
+
             <input
-              id="profile-resumeUrl"
+              id="resumeUrl"
               name="resumeUrl"
-              value={
-                profile.resumeUrl ||
-                ""
-              }
-              onChange={
-                handleProfileChange
-              }
+              value={profile.resumeUrl || ""}
+              onChange={handleProfileChange}
             />
 
-            <label htmlFor="profile-companyName">
+            <label htmlFor="companyName">
               Company Name
             </label>
+
             <input
-              id="profile-companyName"
+              id="companyName"
               name="companyName"
-              value={
-                profile.companyName ||
-                ""
-              }
-              onChange={
-                handleProfileChange
-              }
+              value={profile.companyName || ""}
+              onChange={handleProfileChange}
             />
 
             <button
@@ -518,7 +439,9 @@ export default function SeekerDashboard() {
         </section>
       )}
 
-      {/* T30 */}
+      {/* =========================
+          T30 - APPLY MODAL
+          ========================= */}
       {selectedJob && (
         <div
           role="dialog"
@@ -527,9 +450,7 @@ export default function SeekerDashboard() {
         >
           <form
             className="form"
-            onSubmit={
-              submitApplication
-            }
+            onSubmit={submitApplication}
           >
             <h2>
               Apply for{" "}
@@ -537,132 +458,111 @@ export default function SeekerDashboard() {
                 selectedJob.jobTitle}
             </h2>
 
-            <label htmlFor="apply-fullName">
+            <label htmlFor="modalFullName">
               Full Name
             </label>
+
             <input
-              id="apply-fullName"
+              id="modalFullName"
               name="fullName"
               type="text"
-              value={
-                applyData.fullName
-              }
-              onChange={
-                handleApplyChange
-              }
+              value={applyData.fullName}
+              onChange={handleApplyChange}
             />
 
-            <label htmlFor="apply-email">
+            <label htmlFor="modalEmail">
               Email
             </label>
+
             <input
-              id="apply-email"
+              id="modalEmail"
               name="email"
               type="email"
-              value={
-                applyData.email
-              }
-              onChange={
-                handleApplyChange
-              }
+              value={applyData.email}
+              onChange={handleApplyChange}
             />
 
-            <label htmlFor="apply-phone">
+            <label htmlFor="modalPhone">
               Phone
             </label>
+
             <input
-              id="apply-phone"
+              id="modalPhone"
               name="phone"
-              value={
-                applyData.phone
-              }
-              onChange={
-                handleApplyChange
-              }
+              type="text"
+              value={applyData.phone}
+              onChange={handleApplyChange}
             />
 
-            <label htmlFor="apply-skills">
+            <label htmlFor="modalSkills">
               Skills
             </label>
+
             <input
-              id="apply-skills"
+              id="modalSkills"
               name="skills"
-              value={
-                applyData.skills
-              }
-              onChange={
-                handleApplyChange
-              }
+              type="text"
+              value={applyData.skills}
+              onChange={handleApplyChange}
             />
 
-            <label htmlFor="apply-experience">
+            <label htmlFor="modalExp">
               Experience
             </label>
+
             <input
-              id="apply-experience"
+              id="modalExp"
               name="experience"
-              value={
-                applyData.experience
-              }
-              onChange={
-                handleApplyChange
-              }
+              type="text"
+              value={applyData.experience}
+              onChange={handleApplyChange}
             />
 
-            <label htmlFor="apply-resumeUrl">
+            <label htmlFor="modalResumeUrl">
               Resume URL
             </label>
+
             <input
-              id="apply-resumeUrl"
+              id="modalResumeUrl"
               name="resumeUrl"
-              value={
-                applyData.resumeUrl
-              }
-              onChange={
-                handleApplyChange
-              }
+              type="text"
+              value={applyData.resumeUrl}
+              onChange={handleApplyChange}
             />
 
-            <label htmlFor="apply-expectedSalary">
+            <label htmlFor="modalExpectedSalary">
               Expected Salary
             </label>
+
             <input
-              id="apply-expectedSalary"
+              id="modalExpectedSalary"
               name="expectedSalary"
-              value={
-                applyData.expectedSalary
-              }
-              onChange={
-                handleApplyChange
-              }
+              type="text"
+              value={applyData.expectedSalary}
+              onChange={handleApplyChange}
             />
 
-            <label htmlFor="apply-noticePeriod">
+            <label htmlFor="modalNoticePeriod">
               Notice Period
             </label>
+
             <input
-              id="apply-noticePeriod"
+              id="modalNoticePeriod"
               name="noticePeriod"
-              value={
-                applyData.noticePeriod
-              }
-              onChange={
-                handleApplyChange
-              }
+              type="text"
+              value={applyData.noticePeriod}
+              onChange={handleApplyChange}
             />
 
-            <label htmlFor="apply-coverLetter">
+            <label htmlFor="modalCoverLetter">
               Cover Letter
             </label>
+
             <textarea
-              id="apply-coverLetter"
+              id="modalCoverLetter"
               name="coverLetter"
-              value={
-                applyData.coverLetter
-              }
-              onChange={
-                handleApplyChange
-              }
+              value={applyData.coverLetter}
+              onChange={handleApplyChange}
             />
 
             <button
@@ -675,9 +575,7 @@ export default function SeekerDashboard() {
             <button
               type="button"
               onClick={() =>
-                setSelectedJob(
-                  null
-                )
+                setSelectedJob(null)
               }
             >
               Cancel
