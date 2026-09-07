@@ -50,13 +50,10 @@ export default function AdminDashboard() {
   const metrics = [
     {
       label: "Total Users",
-      value:
-        stats.totalUsers ??
-        stats.users ??
-        0,
+      value: stats.totalUsers ?? stats.users ?? 0,
     },
     {
-      label: "Total Employers",
+      label: "Employers",
       value:
         stats.totalEmployers ??
         stats.employers ??
