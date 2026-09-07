@@ -1,4 +1,5 @@
 // src/pages/Home.js
+
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -29,20 +30,29 @@ export default function Home() {
   return (
     <main>
       <section>
-        <h1 id="hero-heading-t30">Connect with Your Dream Job</h1>
+        <h1 id="hero-heading-t30">
+          Connect with Your Dream Job
+        </h1>
+
         <p>
-          Discover opportunities, showcase your skills, and grow your career.
+          Discover opportunities, showcase your skills,
+          and grow your career.
         </p>
 
-        <Link to="/register">Get Started</Link>
-        <Link to="/login">Login</Link>
+        <Link to="/register">
+          Get Started
+        </Link>
+
+        <Link to="/login">
+          Login
+        </Link>
       </section>
 
       <section>
         {features.map((feature) => (
           <div
             key={feature.title}
-            className="feature-card"
+            className="card feature-card"
             style={{
               transform: "scale(1)",
               transition: "transform 0.2s ease",
@@ -53,12 +63,15 @@ export default function Home() {
             onMouseOut={handleLeave}
           >
             <h3>{feature.title}</h3>
+
             <p>{feature.text}</p>
           </div>
         ))}
       </section>
 
-      <footer>© 2026 HireSphere. Built for excellence.</footer>
+      <footer>
+        © 2026 HireSphere. Built for excellence.
+      </footer>
     </main>
   );
 }
