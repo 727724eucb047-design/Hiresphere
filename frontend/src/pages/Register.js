@@ -1,4 +1,5 @@
 // src/pages/Register.js
+
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
@@ -34,21 +35,43 @@ export default function Register() {
       fullName: formData.fullName,
       role: formData.role,
       companyName:
-        formData.role === "EMPLOYER" ? formData.companyName : "",
+        formData.role === "EMPLOYER"
+          ? formData.companyName
+          : "",
     };
 
     try {
-      const response = await api.post("/auth/register", payload);
+      const response = await api.post(
+        "/auth/register",
+        payload
+      );
 
       const data = response?.data || {};
+
       const userData = data.user || data;
 
-      login(userData, data.token);
+      const token =
+        data.token ||
+        data.accessToken ||
+        data.jwt ||
+        null;
 
-      const role =
+      /*
+       * Registration API may return a user and token.
+       * Save them through AuthContext so the user
+       * becomes authenticated immediately.
+       */
+      login(userData, token);
+
+      const role = String(
         userData?.role ||
-        data?.role ||
-        formData.role;
+          data?.role ||
+          formData.role ||
+          ""
+      )
+        .trim()
+        .toUpperCase()
+        .replace(/^ROLE_/, "");
 
       if (role === "JOB_SEEKER") {
         navigate("/seeker-dashboard");
@@ -60,28 +83,50 @@ export default function Register() {
         navigate("/login");
       }
     } catch (error) {
+      console.error(
+        "Registration failed:",
+        error
+      );
+
       window.alert("Registration failed");
     }
   };
 
   return (
     <main className="container">
-      <form className="form" onSubmit={handleSubmit}>
+      <form
+        className="form"
+        onSubmit={handleSubmit}
+      >
         <h1>Register</h1>
 
-        <label htmlFor="role">Role</label>
+        <label htmlFor="role">
+          Role
+        </label>
+
         <select
           id="role"
           name="role"
           value={formData.role}
           onChange={handleChange}
         >
-          <option value="JOB_SEEKER">JOB_SEEKER</option>
-          <option value="EMPLOYER">EMPLOYER</option>
-          <option value="ADMIN">ADMIN</option>
+          <option value="JOB_SEEKER">
+            JOB_SEEKER
+          </option>
+
+          <option value="EMPLOYER">
+            EMPLOYER
+          </option>
+
+          <option value="ADMIN">
+            ADMIN
+          </option>
         </select>
 
-        <label htmlFor="fullName">Full Name</label>
+        <label htmlFor="fullName">
+          Full Name
+        </label>
+
         <input
           id="fullName"
           name="fullName"
@@ -92,7 +137,10 @@ export default function Register() {
           onChange={handleChange}
         />
 
-        <label htmlFor="username">Username</label>
+        <label htmlFor="username">
+          Username
+        </label>
+
         <input
           id="username"
           name="username"
@@ -103,7 +151,10 @@ export default function Register() {
           onChange={handleChange}
         />
 
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password">
+          Password
+        </label>
+
         <input
           id="password"
           name="password"
@@ -116,7 +167,10 @@ export default function Register() {
 
         {formData.role === "EMPLOYER" && (
           <>
-            <label htmlFor="companyName">Company Name</label>
+            <label htmlFor="companyName">
+              Company Name
+            </label>
+
             <input
               id="companyName"
               name="companyName"
@@ -129,7 +183,10 @@ export default function Register() {
           </>
         )}
 
-        <button id="register-btn-127" type="submit">
+        <button
+          id="register-btn-t27"
+          type="submit"
+        >
           Register
         </button>
       </form>
