@@ -1,4 +1,5 @@
 // src/pages/Login.js
+
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
@@ -21,13 +22,37 @@ export default function Login() {
       });
 
       const data = response?.data || {};
+
+      /*
+       * Support both common backend response formats:
+       *
+       * {
+       *   user: {...},
+       *   token: "..."
+       * }
+       *
+       * or
+       *
+       * {
+       *   username: "...",
+       *   role: "...",
+       *   token: "..."
+       * }
+       */
       const userData = data.user || data;
 
-      login(userData, data.token);
+      const token =
+        data.token ||
+        data.accessToken ||
+        data.jwt ||
+        null;
 
-      const role =
-        userData?.role ||
-        data?.role;
+      login(userData, token);
+
+      const role = String(userData?.role || "")
+        .trim()
+        .toUpperCase()
+        .replace(/^ROLE_/, "");
 
       if (role === "JOB_SEEKER") {
         navigate("/seeker-dashboard");
@@ -39,14 +64,19 @@ export default function Login() {
         navigate("/");
       }
     } catch (error) {
+      console.error("Login failed:", error);
+
       window.alert("Invalid credentials / Login failed");
     }
   };
 
   return (
     <main className="container">
-      <form className="form" onSubmit={handleSubmit}>
-        <h1>Login</h1>
+      <form
+        className="form"
+        onSubmit={handleSubmit}
+      >
+        <h1>Welcome Back</h1>
 
         <label htmlFor="username">
           Username
@@ -78,7 +108,10 @@ export default function Login() {
           }
         />
 
-        <button type="submit">
+        <button
+          type="submit"
+          id="login-btn"
+        >
           Log In
         </button>
       </form>
