@@ -227,6 +227,43 @@ export default function SeekerDashboard() {
       setError("Failed to submit application");
     }
   };
+  const withdrawApplication = async (applicationId) => {
+  const confirmed = window.confirm(
+    "Are you sure you want to withdraw this application?"
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  try {
+    setError("");
+
+    await api.delete(
+      `/applications/${applicationId}`
+    );
+
+    setApplications((previous) =>
+      previous.filter(
+        (application) =>
+          application.id !== applicationId
+      )
+    );
+
+    window.alert(
+      "Application withdrawn successfully!"
+    );
+  } catch (error) {
+    console.error(
+      "Failed to withdraw application:",
+      error
+    );
+
+    setError(
+      "Failed to withdraw application"
+    );
+  }
+};
 
   return (
     <main className="container">
@@ -345,6 +382,14 @@ export default function SeekerDashboard() {
                     {application.matchScore}
                   </p>
                 )}
+                <button
+  type="button"
+  onClick={() =>
+    withdrawApplication(application.id)
+  }
+>
+  Withdraw Application
+</button>
               </article>
             )
           )}
