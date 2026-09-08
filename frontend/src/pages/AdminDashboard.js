@@ -4,6 +4,7 @@ import api from "../api";
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState("");
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     let mounted = true;
@@ -31,6 +32,23 @@ export default function AdminDashboard() {
     };
 
     loadStats();
+    const loadUsers = async () => {
+  try {
+    const response = await api.get("/admin/users");
+
+    if (mounted) {
+      setUsers(
+        Array.isArray(response?.data)
+          ? response.data
+          : []
+      );
+    }
+  } catch (err) {
+    console.error("Failed to load users:", err);
+  }
+};
+
+loadUsers();
 
     return () => {
       mounted = false;
