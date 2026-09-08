@@ -233,12 +233,12 @@ export default function EmployerDashboard() {
                 )}
 
                 {job.salary !== undefined &&
-                  job.salary !== null &&
-                  job.salary !== "" && (
-                    <p>
-                      {job.salary}
-                    </p>
-                  )}
+                 job.salary !== null &&
+                 job.salary !== "" && (
+                <p>
+                 Salary: ₹{Number(job.salary) / 100000} LPA
+                </p>
+                )}
 
                 {job.requiredSkills && (
                   <p>
