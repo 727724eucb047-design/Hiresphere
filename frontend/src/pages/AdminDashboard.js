@@ -54,7 +54,51 @@ loadUsers();
       mounted = false;
     };
   }, []);
+     const toggleBlockUser = async (user) => {
+  try {
+    const action = user.blocked
+      ? "unblock"
+      : "block";
 
+    const response = await api.put(
+      `/admin/users/${user.id}/${action}`
+    );
+
+    setUsers((previous) =>
+      previous.map((item) =>
+        item.id === user.id
+          ? response.data
+          : item
+      )
+    );
+
+    // Refresh statistics
+    const statsResponse = await api.get(
+      "/admin/stats"
+    );
+
+    setStats(
+      statsResponse?.data?.stats ||
+      statsResponse?.data ||
+      {}
+    );
+
+    window.alert(
+      user.blocked
+        ? "User unblocked successfully!"
+        : "User blocked successfully!"
+    );
+  } catch (err) {
+    console.error(
+      "Failed to update user:",
+      err
+    );
+
+    window.alert(
+      "Failed to update user"
+    );
+  }
+};
   // Error state
   if (error) {
     return (
