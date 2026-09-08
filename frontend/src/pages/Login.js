@@ -47,20 +47,22 @@ export default function Login() {
 
     login(userData, token);
 
-    const role = String(userData?.role || "")
-      .trim()
-      .toUpperCase()
-      .replace(/^ROLE_/, "");
+const role = String(userData?.role || "")
+  .trim()
+  .toUpperCase()
+  .replace(/^ROLE_/, "");
 
-    if (role === "JOB_SEEKER") {
-      navigate("/seeker-dashboard");
-    } else if (role === "EMPLOYER") {
-      navigate("/employer-dashboard");
-    } else if (role === "ADMIN") {
-      navigate("/admin-dashboard");
-    } else {
-      navigate("/");
-    }
+setTimeout(() => {
+  if (role === "JOB_SEEKER") {
+    navigate("/seeker-dashboard");
+  } else if (role === "EMPLOYER") {
+    navigate("/employer-dashboard");
+  } else if (role === "ADMIN") {
+    navigate("/admin-dashboard");
+  } else {
+    navigate("/");
+  }
+}, 0);
   } catch (error) {
     console.error("LOGIN FAILED:", error);
     console.log("STATUS:", error?.response?.status);
