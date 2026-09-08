@@ -42,6 +42,9 @@ export default function Login() {
           role: data.role,
         };
 
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData));
+
     login(userData, token);
 
     const role = String(userData?.role || "")
