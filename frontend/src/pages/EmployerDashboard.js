@@ -137,6 +137,7 @@ export default function EmployerDashboard() {
     const confirmed = window.confirm(
       "Are you sure? This will also delete all applications for this job."
     );
+
   const loadApplications = async (job) => {
   try {
     setError("");
@@ -296,7 +297,13 @@ export default function EmployerDashboard() {
                   >
                     Edit
                   </button>
-
+                   
+                   <button
+  type="button"
+  onClick={() => loadApplications(job)}
+>
+  View Applicants
+</button>
                   <button
                     type="button"
                     onClick={() =>
