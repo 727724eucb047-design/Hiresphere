@@ -533,6 +533,43 @@ const updateApplicationStatus = async (
               Status: {application.status}
             </p>
           )}
+          <div className="job-actions">
+  <button
+    type="button"
+    onClick={() =>
+      updateApplicationStatus(
+        application.id,
+        "SHORTLISTED"
+      )
+    }
+  >
+    Shortlist
+  </button>
+
+  <button
+    type="button"
+    onClick={() =>
+      updateApplicationStatus(
+        application.id,
+        "ACCEPTED"
+      )
+    }
+  >
+    Accept
+  </button>
+
+  <button
+    type="button"
+    onClick={() =>
+      updateApplicationStatus(
+        application.id,
+        "REJECTED"
+      )
+    }
+  >
+    Reject
+  </button>
+</div>
         </article>
       ))
     )}
