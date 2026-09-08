@@ -66,44 +66,68 @@ export default function EmployerDashboard() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    try {
-      setError("");
+  try {
+    setError("");
 
-      const response = await api.post(
-        "/jobs",
-        formData
-      );
+    const payload = {
+      ...formData,
 
-      if (response?.data) {
-        const createdJob =
-          response.data.job ||
-          response.data;
+      // If user enters 7, backend receives 700000
+      salary: formData.salary
+        ? Number(formData.salary) * 100000
+        : null,
 
-        setJobs((previous) => [
-          ...previous,
-          createdJob,
-        ]);
-      }
+      // Convert experience to integer
+      experienceRequired: formData.experienceRequired
+        ? Number(formData.experienceRequired)
+        : null,
+    };
 
-      window.alert(
-        "Job posted successfully!"
-      );
+    const response = await api.post(
+      "/jobs",
+      payload
+    );
 
-      setFormData(initialForm);
+    if (response?.data) {
+      const createdJob =
+        response.data.job ||
+        response.data;
 
-      setView("list");
-    } catch (error) {
-      console.error(
-        "Failed to post job:",
-        error
-      );
-
-      setError("Failed to post job");
-      window.alert("Failed to post job");
+      setJobs((previous) => [
+        ...previous,
+        createdJob,
+      ]);
     }
-  };
+
+    window.alert(
+      "Job posted successfully!"
+    );
+
+    setFormData(initialForm);
+
+    setView("list");
+  } catch (error) {
+    console.error(
+      "Failed to post job:",
+      error
+    );
+
+    console.log(
+      "Status:",
+      error?.response?.status
+    );
+
+    console.log(
+      "Backend response:",
+      error?.response?.data
+    );
+
+    setError("Failed to post job");
+    window.alert("Failed to post job");
+  }
+};
 
   const handleDelete = async (jobId) => {
     const confirmed = window.confirm(
