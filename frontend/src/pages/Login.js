@@ -13,52 +13,63 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    try {
-      const response = await api.post("/auth/authenticate", {
-        username,
-        password,
-      });
+  console.log("LOGIN BUTTON CLICKED");
+  console.log("Username:", username);
 
-      const data = response?.data || {};
+  try {
+    const response = await api.post("/auth/authenticate", {
+      username,
+      password,
+    });
 
-      const token =
-        data.token ||
-        data.accessToken ||
-        data.jwt ||
-        null;
+    console.log("LOGIN RESPONSE:", response.data);
 
-      const userData = data.user
-        ? data.user
-        : {
-            username: data.username,
-            fullName: data.fullName,
-            role: data.role,
-          };
+    const data = response?.data || {};
 
-      login(userData, token);
+    const token =
+      data.token ||
+      data.accessToken ||
+      data.jwt ||
+      null;
 
-      const role = String(userData?.role || "")
-        .trim()
-        .toUpperCase()
-        .replace(/^ROLE_/, "");
+    const userData = data.user
+      ? data.user
+      : {
+          username: data.username,
+          fullName: data.fullName,
+          role: data.role,
+        };
 
-      if (role === "JOB_SEEKER") {
-        navigate("/seeker-dashboard");
-      } else if (role === "EMPLOYER") {
-        navigate("/employer-dashboard");
-      } else if (role === "ADMIN") {
-        navigate("/admin-dashboard");
-      } else {
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Login failed:", error);
+    login(userData, token);
 
-      window.alert("Invalid credentials / Login failed");
+    const role = String(userData?.role || "")
+      .trim()
+      .toUpperCase()
+      .replace(/^ROLE_/, "");
+
+    if (role === "JOB_SEEKER") {
+      navigate("/seeker-dashboard");
+    } else if (role === "EMPLOYER") {
+      navigate("/employer-dashboard");
+    } else if (role === "ADMIN") {
+      navigate("/admin-dashboard");
+    } else {
+      navigate("/");
     }
-  };
+  } catch (error) {
+    console.error("LOGIN FAILED:", error);
+    console.log("STATUS:", error?.response?.status);
+    console.log("BACKEND RESPONSE:", error?.response?.data);
+
+    window.alert(
+      error?.response?.data?.message ||
+      error?.response?.data?.error ||
+      "Invalid credentials / Login failed"
+    );
+  }
+};
 
   return (
     <main className="container">
