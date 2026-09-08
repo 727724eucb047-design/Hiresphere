@@ -137,7 +137,31 @@ export default function EmployerDashboard() {
     const confirmed = window.confirm(
       "Are you sure? This will also delete all applications for this job."
     );
+  const loadApplications = async (job) => {
+  try {
+    setError("");
 
+    const response = await api.get(
+      `/applications/job/${job.id}`
+    );
+
+    setApplications(
+      Array.isArray(response?.data)
+        ? response.data
+        : []
+    );
+
+    setSelectedJob(job);
+    setView("applications");
+  } catch (error) {
+    console.error(
+      "Failed to load applications:",
+      error
+    );
+
+    setError("Failed to load applications");
+  }
+};
     if (!confirmed) {
       return;
     }
