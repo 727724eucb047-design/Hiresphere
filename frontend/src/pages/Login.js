@@ -52,8 +52,8 @@ export default function Login() {
       .toUpperCase()
       .replace(/^ROLE_/, "");
 
-      console.log("Going to role dashboard:", role);
-console.log("Stored user:", localStorage.getItem("user"));
+    console.log("Going to role dashboard:", role);
+    console.log("Stored user:", localStorage.getItem("user"));
 
     if (role === "JOB_SEEKER") {
       navigate("/seeker-dashboard");
