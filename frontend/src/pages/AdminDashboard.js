@@ -198,6 +198,53 @@ loadUsers();
           </div>
         ))}
       </div>
+      <h2>User Management</h2>
+
+{users.length === 0 ? (
+  <p>No users found.</p>
+) : (
+  <div className="grid">
+    {users.map((user) => (
+      <div
+        className="card"
+        key={user.id}
+      >
+        <h3>
+          {user.fullName || user.username}
+        </h3>
+
+        <p>
+          Username: {user.username}
+        </p>
+
+        <p>
+          Role: {user.role}
+        </p>
+
+        <p>
+          Status:{" "}
+          {user.blocked
+            ? "BLOCKED"
+            : "ACTIVE"}
+        </p>
+
+        {/* Don't allow admin to block itself/other admins */}
+        {user.role !== "ADMIN" && (
+          <button
+            type="button"
+            onClick={() =>
+              toggleBlockUser(user)
+            }
+          >
+            {user.blocked
+              ? "Unblock User"
+              : "Block User"}
+          </button>
+        )}
+      </div>
+    ))}
+  </div>
+)}
     </main>
   );
 }
