@@ -288,31 +288,32 @@ export default function EmployerDashboard() {
                 )}
 
                 <div className="job-actions">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      // Edit functionality can be
-                      // implemented later.
-                    }}
-                  >
-                    Edit
-                  </button>
-                   
-                   <button
-  type="button"
-  onClick={() => loadApplications(job)}
->
-  View Applicants
-</button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      handleDelete(job.id)
-                    }
-                  >
-                    Delete
-                  </button>
-                </div>
+
+  <button
+    type="button"
+    onClick={() => {
+      // Edit functionality later
+    }}
+  >
+    Edit
+  </button>
+
+  {/* ADD THIS 👇 */}
+  <button
+    type="button"
+    onClick={() => loadApplications(job)}
+  >
+    View Applicants
+  </button>
+
+  <button
+    type="button"
+    onClick={() => handleDelete(job.id)}
+  >
+    Delete
+  </button>
+
+</div>
               </article>
             ))
           )}
