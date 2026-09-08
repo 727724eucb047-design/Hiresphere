@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.dto.DashboardStatsDTO;
 import com.example.demo.entity.Role;
+import com.example.demo.entity.User;
+import java.util.List;
 import com.example.demo.repository.ApplicationRepository;
 import com.example.demo.repository.JobRepository;
 import com.example.demo.repository.UserRepository;
@@ -33,4 +35,25 @@ public class AdminService {
                 userRepository.countByBlocked(true)
         );
     }
+    public List<User> getAllUsers() {
+    return userRepository.findAll();
+}
+
+public User blockUser(Long userId) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    user.setBlocked(true);
+
+    return userRepository.save(user);
+}
+
+public User unblockUser(Long userId) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    user.setBlocked(false);
+
+    return userRepository.save(user);
+}
 }
