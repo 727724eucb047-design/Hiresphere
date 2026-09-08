@@ -8,8 +8,6 @@ import com.example.demo.entity.UserProfile;
 import com.example.demo.repository.UserProfileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtUtil;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,31 +33,60 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
-        }
-
-        User user = new User();
-        user.setFullName(request.getFullName());
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
-        user = userRepository.save(user);
-
-        UserProfile profile = new UserProfile();
-        profile.setUser(user);
-        profile.setCompanyName(request.getCompanyName());
-        userProfileRepository.save(profile);
-
-        String token = jwtUtil.generateToken(user);
-        return new AuthResponse(token, user.getUsername(), user.getFullName(), user.getRole());
+    if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+        throw new RuntimeException("Username already exists");
     }
 
-    public AuthResponse authenticate(AuthRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
-        return new AuthResponse(jwtUtil.generateToken(user), user.getUsername(), user.getFullName(), user.getRole());
+    User user = new User();
+    user.setFullName(request.getFullName());
+    user.setUsername(request.getUsername());
+    user.setPassword(passwordEncoder.encode(request.getPassword()));
+    user.setRole(request.getRole());
+
+    user = userRepository.save(user);
+
+    UserProfile profile = new UserProfile();
+    profile.setUser(user);
+    profile.setCompanyName(request.getCompanyName());
+
+    userProfileRepository.save(profile);
+
+    String token = jwtUtil.generateToken(user);
+
+    return new AuthResponse(
+            token,
+            user.getUsername(),
+            user.getFullName(),
+            user.getRole()
+    );
+}
+
+public AuthResponse authenticate(AuthRequest request) {
+
+    User user = userRepository
+            .findByUsername(request.getUsername())
+            .orElseThrow(() ->
+                    new RuntimeException(
+                            "Invalid username or password"
+                    )
+            );
+
+    if (!passwordEncoder.matches(
+            request.getPassword(),
+            user.getPassword()
+    )) {
+        throw new RuntimeException(
+                "Invalid username or password"
+        );
     }
+
+    String token = jwtUtil.generateToken(user);
+
+    return new AuthResponse(
+            token,
+            user.getUsername(),
+            user.getFullName(),
+            user.getRole()
+    );
+}
 }
