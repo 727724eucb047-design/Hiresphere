@@ -551,18 +551,6 @@ const updateApplicationStatus = async (
     onClick={() =>
       updateApplicationStatus(
         application.id,
-        "ACCEPTED"
-      )
-    }
-  >
-    Accept
-  </button>
-
-  <button
-    type="button"
-    onClick={() =>
-      updateApplicationStatus(
-        application.id,
         "REJECTED"
       )
     }
