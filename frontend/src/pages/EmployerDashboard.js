@@ -21,6 +21,9 @@ export default function EmployerDashboard() {
   const [view, setView] = useState("list");
   const [formData, setFormData] = useState(initialForm);
   const [error, setError] = useState("");
+
+  const [applications, setApplications] = useState([]);
+  const [selectedJob, setSelectedJob] = useState(null);
   
 
   const loadJobs = useCallback(async () => {
