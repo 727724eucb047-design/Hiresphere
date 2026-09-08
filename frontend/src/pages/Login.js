@@ -55,15 +55,15 @@ export default function Login() {
     console.log("Going to role dashboard:", role);
     console.log("Stored user:", localStorage.getItem("user"));
 
-    if (role === "JOB_SEEKER") {
-      navigate("/seeker-dashboard");
-    } else if (role === "EMPLOYER") {
-      navigate("/employer-dashboard");
-    } else if (role === "ADMIN") {
-      navigate("/admin-dashboard");
-    } else {
-      navigate("/");
-    }
+  if (role === "JOB_SEEKER") {
+  window.location.href = "/seeker-dashboard";
+  } else if (role === "EMPLOYER") {
+  window.location.href = "/employer-dashboard";
+  } else if (role === "ADMIN") {
+  window.location.href = "/admin-dashboard";
+  } else {
+  window.location.href = "/";
+}
   } catch (error) {
     console.error("LOGIN FAILED:", error);
     console.log("STATUS:", error?.response?.status);
