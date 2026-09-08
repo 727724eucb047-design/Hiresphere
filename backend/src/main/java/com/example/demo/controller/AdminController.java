@@ -22,4 +22,31 @@ public class AdminController {
     public ResponseEntity<DashboardStatsDTO> getStats() {
         return ResponseEntity.ok(adminService.getDashboardStats());
     }
+    @GetMapping("/users")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+public ResponseEntity<?> getAllUsers() {
+    return ResponseEntity.ok(
+            adminService.getAllUsers()
+    );
+}
+
+@PutMapping("/users/{id}/block")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+public ResponseEntity<?> blockUser(
+        @PathVariable Long id) {
+
+    return ResponseEntity.ok(
+            adminService.blockUser(id)
+    );
+}
+
+@PutMapping("/users/{id}/unblock")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+public ResponseEntity<?> unblockUser(
+        @PathVariable Long id) {
+
+    return ResponseEntity.ok(
+            adminService.unblockUser(id)
+    );
+}
 }
