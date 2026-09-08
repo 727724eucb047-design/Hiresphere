@@ -75,9 +75,9 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #b373cf;
-  border-bottom: 1px solid #e5e7eb;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  background: #9863ae;
+  border-bottom: 1px solid #a5c1f9;
+  box-shadow: 0 2px 10px rgba(119, 204, 185, 0.05);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -90,7 +90,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #2563eb;
+  color: #eb255d;
 }
 
 nav a:first-child {
