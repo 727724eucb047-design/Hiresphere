@@ -193,6 +193,42 @@ export default function EmployerDashboard() {
     setError("Failed to load applications");
   }
 };
+
+const updateApplicationStatus = async (
+  applicationId,
+  status
+) => {
+  try {
+    setError("");
+
+    const response = await api.put(
+      `/applications/${applicationId}/status`,
+      null,
+      {
+        params: { status },
+      }
+    );
+
+    setApplications((previous) =>
+      previous.map((application) =>
+        application.id === applicationId
+          ? response.data
+          : application
+      )
+    );
+
+    window.alert(
+      `Application ${status.toLowerCase()} successfully`
+    );
+  } catch (error) {
+    console.error(
+      "Failed to update application status:",
+      error
+    );
+
+    setError("Failed to update application status");
+  }
+};
   return (
     <main className="container">
       <h1>Employer Dashboard</h1>
