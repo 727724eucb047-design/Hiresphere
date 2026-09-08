@@ -338,17 +338,19 @@ export default function EmployerDashboard() {
             />
 
             <label htmlFor="salary">
-              Salary
-            </label>
+  Salary (LPA)
+</label>
 
-            <input
-              id="salary"
-              name="salary"
-              type="text"
-              placeholder="Salary"
-              value={formData.salary}
-              onChange={handleChange}
-            />
+<input
+  id="salary"
+  name="salary"
+  type="number"
+  step="0.1"
+  min="0"
+  placeholder="Example: 7"
+  value={formData.salary}
+  onChange={handleChange}
+/>
 
             <label htmlFor="requiredSkills">
               Required Skills
@@ -370,16 +372,14 @@ export default function EmployerDashboard() {
             </label>
 
             <input
-              id="experienceRequired"
-              name="experienceRequired"
-              type="text"
-              placeholder="Experience Required"
-              value={
-                formData.experienceRequired
-              }
-              onChange={handleChange}
-            />
-
+  id="experienceRequired"
+  name="experienceRequired"
+  type="number"
+  min="0"
+  placeholder="Example: 1"
+  value={formData.experienceRequired}
+  onChange={handleChange}
+/>
             <button type="submit">
               Publish Job
             </button>
