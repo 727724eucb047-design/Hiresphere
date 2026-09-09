@@ -320,6 +320,14 @@ const updateApplicationStatus = async (
     Edit
   </button>
 
+  <button
+    type="button"
+    onClick={() => handleDelete(job.id)}
+  >
+    Delete
+  </button>
+
+  
   {/* ADD THIS 👇 */}
   <button
     type="button"
@@ -328,12 +336,6 @@ const updateApplicationStatus = async (
     View Applicants
   </button>
 
-  <button
-    type="button"
-    onClick={() => handleDelete(job.id)}
-  >
-    Delete
-  </button>
 
 </div>
               </article>
