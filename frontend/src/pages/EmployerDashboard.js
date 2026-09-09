@@ -75,23 +75,9 @@ export default function EmployerDashboard() {
   try {
     setError("");
 
-    const payload = {
-      ...formData,
-
-      // If user enters 7, backend receives 700000
-      salary: formData.salary
-        ? Number(formData.salary) * 100000
-        : null,
-
-      // Convert experience to integer
-      experienceRequired: formData.experienceRequired
-        ? Number(formData.experienceRequired)
-        : null,
-    };
-
     const response = await api.post(
       "/jobs",
-      payload
+      formData
     );
 
     if (response?.data) {
