@@ -287,7 +287,7 @@ const updateApplicationStatus = async (
                  job.salary !== null &&
                  job.salary !== "" && (
                 <p>
-                 Salary: ₹{Number(job.salary) / 100000} LPA
+                 <p>Salary: ₹{job.salary} LPA</p>
                 </p>
                 )}
 
