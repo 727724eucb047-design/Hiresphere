@@ -3,67 +3,53 @@ import { Link } from "react-router-dom";
 
 const features = [
   {
-    title: "Search Jobs",
-    text: "Browse opportunities based on your skills and interests.",
+    title: "Smart Job Discovery",
+    text: "Find opportunities that match your skills and career goals.",
   },
   {
-    title: "Apply Easily",
-    text: "Submit applications and track your progress in one place.",
+    title: "Simple Applications",
+    text: "Apply quickly and track your application status in one place.",
   },
   {
-    title: "Hire Smarter",
+    title: "Better Hiring",
     text: "Employers can post jobs and manage applicants efficiently.",
   },
 ];
 
 export default function Home() {
   return (
-    <main className="job-home">
+    <main className="gradient-home">
 
-      <section className="job-hero">
-        <div className="job-hero-content">
+      <section className="gradient-hero">
+        <div className="gradient-overlay"></div>
 
-          <p className="job-label">
-            YOUR CAREER STARTS HERE
+        <div className="gradient-content">
+
+          <p className="gradient-label">
+            WELCOME TO HIRESPHERE
           </p>
 
           <h1 id="hero-heading-t30">
-            Find the job that
-            <span> fits your future.</span>
+            Your Future Starts
+            <span> Here.</span>
           </h1>
 
-          <p className="job-subtitle">
-            Discover opportunities, connect with employers,
-            and take the next step in your career with HireSphere.
+          <p className="gradient-subtitle">
+            Discover opportunities, showcase your skills,
+            and connect with the right employers.
           </p>
 
-          <div className="job-search-box">
-            <input
-              type="text"
-              placeholder="Job title or skill"
-            />
-
-            <input
-              type="text"
-              placeholder="Location"
-            />
-
-            <button type="button">
-              Search Jobs
-            </button>
-          </div>
-
-          <div className="job-home-actions">
+          <div className="gradient-actions">
             <Link
               to="/register"
-              className="job-register-btn"
+              className="gradient-primary-btn"
             >
-              Create Account
+              Get Started
             </Link>
 
             <Link
               to="/login"
-              className="job-login-btn"
+              className="gradient-secondary-btn"
             >
               Login
             </Link>
@@ -72,44 +58,61 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="job-features">
+      <section className="gradient-features">
 
-        <div className="job-section-title">
+        <div className="gradient-heading">
           <p>WHY HIRESPHERE</p>
 
           <h2>
-            Everything you need to move forward
+            One Platform. Better Opportunities.
           </h2>
         </div>
 
-        <div className="job-feature-grid">
+        <div className="gradient-grid">
           {features.map((feature, index) => (
             <div
+              className="gradient-card"
               key={feature.title}
-              className="job-feature-card"
             >
-              <div className="job-feature-icon">
+              <div className="gradient-icon">
                 {index + 1}
               </div>
 
-              <h3>{feature.title}</h3>
+              <h3>
+                {feature.title}
+              </h3>
 
-              <p>{feature.text}</p>
+              <p>
+                {feature.text}
+              </p>
             </div>
           ))}
         </div>
 
       </section>
 
-      <footer className="job-footer">
-        <div>
-          <strong>HireSphere</strong>
-          <p>Connecting talent with opportunities.</p>
-        </div>
+      <section className="gradient-cta">
 
-        <span>
-          © 2026 HireSphere
-        </span>
+        <h2>
+          Start Your Career Journey Today
+        </h2>
+
+        <p>
+          Join HireSphere and connect with opportunities
+          that match your future.
+        </p>
+
+        <Link
+          to="/register"
+          className="gradient-cta-btn"
+        >
+          Create Account
+        </Link>
+
+      </section>
+
+      <footer className="gradient-footer">
+        © 2026 HireSphere. Built for excellence.
       </footer>
 
     </main>
