@@ -3,61 +3,113 @@ import { Link } from "react-router-dom";
 
 const features = [
   {
-    title: "Find Jobs",
-    text: "Explore job opportunities that match your skills.",
+    title: "Search Jobs",
+    text: "Browse opportunities based on your skills and interests.",
   },
   {
-    title: "Easy Applications",
-    text: "Apply for jobs and track your application status easily.",
+    title: "Apply Easily",
+    text: "Submit applications and track your progress in one place.",
   },
   {
-    title: "Trusted Hiring",
-    text: "Connect job seekers and employers through one platform.",
+    title: "Hire Smarter",
+    text: "Employers can post jobs and manage applicants efficiently.",
   },
 ];
 
 export default function Home() {
   return (
-    <main className="home-page">
+    <main className="job-home">
 
-      <section className="simple-hero">
-        <div className="hero-content">
-          <p className="hero-small">WELCOME TO HIRESPHERE</p>
+      <section className="job-hero">
+        <div className="job-hero-content">
 
-          <h1 id="hero-heading-t30">
-            Find the right job.
-            <br />
-            Build your future.
-          </h1>
-
-          <p className="hero-description">
-            HireSphere helps job seekers discover opportunities
-            and helps employers find the right candidates.
+          <p className="job-label">
+            YOUR CAREER STARTS HERE
           </p>
 
-          <div className="hero-actions">
-            <Link to="/register" className="home-primary-btn">
-              Get Started
+          <h1 id="hero-heading-t30">
+            Find the job that
+            <span> fits your future.</span>
+          </h1>
+
+          <p className="job-subtitle">
+            Discover opportunities, connect with employers,
+            and take the next step in your career with HireSphere.
+          </p>
+
+          <div className="job-search-box">
+            <input
+              type="text"
+              placeholder="Job title or skill"
+            />
+
+            <input
+              type="text"
+              placeholder="Location"
+            />
+
+            <button type="button">
+              Search Jobs
+            </button>
+          </div>
+
+          <div className="job-home-actions">
+            <Link
+              to="/register"
+              className="job-register-btn"
+            >
+              Create Account
             </Link>
 
-            <Link to="/login" className="home-secondary-btn">
+            <Link
+              to="/login"
+              className="job-login-btn"
+            >
               Login
             </Link>
           </div>
+
         </div>
       </section>
 
-      <section className="home-features">
-        {features.map((feature) => (
-          <div className="home-feature-card" key={feature.title}>
-            <h3>{feature.title}</h3>
-            <p>{feature.text}</p>
-          </div>
-        ))}
+      <section className="job-features">
+
+        <div className="job-section-title">
+          <p>WHY HIRESPHERE</p>
+
+          <h2>
+            Everything you need to move forward
+          </h2>
+        </div>
+
+        <div className="job-feature-grid">
+          {features.map((feature, index) => (
+            <div
+              key={feature.title}
+              className="job-feature-card"
+            >
+              <div className="job-feature-icon">
+                {index + 1}
+              </div>
+
+              <h3>{feature.title}</h3>
+
+              <p>{feature.text}</p>
+            </div>
+          ))}
+        </div>
+
       </section>
 
-      <footer className="simple-footer">
-        © 2026 HireSphere
+      <footer className="job-footer">
+        <div>
+          <strong>HireSphere</strong>
+          <p>Connecting talent with opportunities.</p>
+        </div>
+
+        <span>
+          © 2026 HireSphere
+        </span>
       </footer>
 
     </main>
