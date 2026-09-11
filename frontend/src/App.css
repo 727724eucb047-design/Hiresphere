@@ -36,284 +36,279 @@
     transform: rotate(360deg);
   }
 }
-/* ========================================
-   PREMIUM GRADIENT HOME
-======================================== */
+/* =====================================
+   STYLE 3 - MINIMAL CORPORATE
+===================================== */
 
-.gradient-home {
+.corporate-home {
   min-height: 100vh;
-  background: #f8fafc;
+  background: #ffffff;
+  color: #172033;
 }
 
 /* HERO */
 
-.gradient-hero {
-  position: relative;
-  min-height: 560px;
-  display: flex;
+.corporate-hero {
+  min-height: 600px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  justify-content: center;
-  padding: 70px 20px;
-  overflow: hidden;
-
-  background:
-    linear-gradient(
-      135deg,
-      #1d4ed8 0%,
-      #4f46e5 45%,
-      #7c3aed 100%
-    );
+  gap: 70px;
+  padding: 75px 9%;
+  background: #f8fafc;
 }
 
-.gradient-overlay {
-  position: absolute;
-  inset: 0;
-
-  background:
-    radial-gradient(
-      circle at top left,
-      rgba(255, 255, 255, 0.2),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at bottom right,
-      rgba(255, 255, 255, 0.12),
-      transparent 40%
-    );
-}
-
-.gradient-content {
-  position: relative;
-  z-index: 2;
-  max-width: 850px;
-  text-align: center;
-  color: white;
-}
-
-.gradient-label {
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  margin-bottom: 18px;
-  opacity: 0.9;
-}
-
-.gradient-content h1 {
-  font-size: 62px;
-  line-height: 1.08;
-  margin: 0;
-  font-weight: 800;
-}
-
-.gradient-content h1 span {
-  color: #fde68a;
-}
-
-.gradient-subtitle {
+.corporate-hero-left {
   max-width: 650px;
-  margin: 22px auto 30px;
+}
+
+.corporate-tag {
+  display: inline-block;
+  color: #3157a4;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  padding-bottom: 7px;
+  border-bottom: 2px solid #3157a4;
+  margin-bottom: 24px;
+}
+
+.corporate-hero h1 {
+  font-size: 58px;
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin: 0;
+  color: #172033;
+}
+
+.corporate-hero h1 span {
+  display: block;
+  color: #3157a4;
+}
+
+.corporate-hero-left > p {
+  max-width: 550px;
+  margin: 25px 0 32px;
+  color: #667085;
   font-size: 18px;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.88);
 }
 
 /* BUTTONS */
 
-.gradient-actions {
+.corporate-actions {
   display: flex;
-  justify-content: center;
   gap: 14px;
 }
 
-.gradient-primary-btn,
-.gradient-secondary-btn,
-.gradient-cta-btn {
-  text-decoration: none;
-  padding: 13px 28px;
-  border-radius: 10px;
-  font-weight: 700;
+.corporate-primary,
+.corporate-secondary {
+  padding: 13px 25px;
+  border-radius: 6px;
   font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
   transition: 0.2s ease;
 }
 
-.gradient-primary-btn {
-  background: white;
-  color: #4338ca;
-}
-
-.gradient-primary-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-.gradient-secondary-btn {
+.corporate-primary {
+  background: #172033;
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.08);
 }
 
-.gradient-secondary-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
+.corporate-primary:hover {
+  background: #3157a4;
   transform: translateY(-2px);
+}
+
+.corporate-secondary {
+  color: #172033;
+  background: white;
+  border: 1px solid #cbd5e1;
+}
+
+.corporate-secondary:hover {
+  border-color: #172033;
+}
+
+/* RIGHT CARD */
+
+.corporate-hero-right {
+  display: flex;
+  justify-content: center;
+}
+
+.career-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow:
+    0 20px 45px rgba(15, 23, 42, 0.08);
+}
+
+.career-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.online-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.career-card h2 {
+  margin: 20px 0 25px;
+  font-size: 24px;
+  line-height: 1.4;
+  color: #172033;
+}
+
+/* JOB ROW */
+
+.career-item {
+  display: grid;
+  grid-template-columns: 45px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 16px 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.career-symbol {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: #edf2ff;
+  color: #3157a4;
+  font-weight: 800;
+}
+
+.career-item strong {
+  display: block;
+  color: #172033;
+  font-size: 14px;
+}
+
+.career-item span {
+  display: block;
+  color: #94a3b8;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.career-item b {
+  color: #3157a4;
 }
 
 /* FEATURES */
 
-.gradient-features {
-  padding: 85px 8%;
-}
-
-.gradient-heading {
-  text-align: center;
-  margin-bottom: 45px;
-}
-
-.gradient-heading p {
-  margin: 0;
-  color: #4f46e5;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-
-.gradient-heading h2 {
-  margin: 10px 0 0;
-  color: #0f172a;
-  font-size: 36px;
-}
-
-.gradient-grid {
-  max-width: 1150px;
+.corporate-features {
+  padding: 85px 9%;
+  max-width: 1300px;
   margin: auto;
+}
+
+.corporate-heading {
+  margin-bottom: 50px;
+}
+
+.corporate-heading p {
+  color: #3157a4;
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.corporate-heading h2 {
+  color: #172033;
+  font-size: 36px;
+  margin: 0;
+}
+
+.corporate-feature-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 50px;
 }
 
-.gradient-card {
-  padding: 30px;
-  border-radius: 18px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.95),
-      rgba(245, 247, 255, 0.95)
-    );
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-  transition: 0.25s ease;
+.corporate-feature {
+  border-top: 2px solid #172033;
+  padding-top: 25px;
 }
 
-.gradient-card:hover {
-  transform: translateY(-7px);
-  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
-}
-
-.gradient-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 22px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb,
-      #7c3aed
-    );
-
-  color: white;
+.corporate-feature > span {
+  color: #3157a4;
+  font-size: 13px;
   font-weight: 800;
 }
 
-.gradient-card h3 {
-  margin: 0 0 10px;
-  color: #111827;
+.corporate-feature h3 {
   font-size: 20px;
+  margin: 18px 0 10px;
+  color: #172033;
 }
 
-.gradient-card p {
-  margin: 0;
-  color: #64748b;
+.corporate-feature p {
+  color: #667085;
   line-height: 1.7;
-}
-
-/* CTA */
-
-.gradient-cta {
-  max-width: 1100px;
-  margin: 10px auto 80px;
-  padding: 50px 30px;
-  text-align: center;
-  border-radius: 24px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #111827,
-      #312e81
-    );
-
-  color: white;
-}
-
-.gradient-cta h2 {
-  margin: 0 0 12px;
-  font-size: 32px;
-}
-
-.gradient-cta p {
-  color: #cbd5e1;
-  margin-bottom: 28px;
-}
-
-.gradient-cta-btn {
-  display: inline-block;
-  background: white;
-  color: #4338ca;
-}
-
-.gradient-cta-btn:hover {
-  transform: translateY(-2px);
+  margin: 0;
 }
 
 /* FOOTER */
 
-.gradient-footer {
-  background: #090f1f;
+.corporate-footer {
+  background: #172033;
+  color: white;
+  padding: 28px 9%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.corporate-footer strong {
+  font-size: 20px;
+}
+
+.corporate-footer span {
   color: #94a3b8;
-  text-align: center;
-  padding: 26px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* RESPONSIVE */
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
 
-  .gradient-content h1 {
+  .corporate-hero {
+    grid-template-columns: 1fr;
+    padding: 60px 6%;
+  }
+
+  .corporate-hero h1 {
     font-size: 42px;
   }
 
-  .gradient-grid {
+  .corporate-feature-grid {
     grid-template-columns: 1fr;
+    gap: 35px;
   }
 
-  .gradient-actions {
+  .corporate-footer {
     flex-direction: column;
-    align-items: center;
-  }
-
-  .gradient-primary-btn,
-  .gradient-secondary-btn {
-    width: 200px;
-  }
-
-  .gradient-cta {
-    margin-left: 20px;
-    margin-right: 20px;
+    gap: 10px;
+    text-align: center;
   }
 }
