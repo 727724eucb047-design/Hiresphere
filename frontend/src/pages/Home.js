@@ -1,77 +1,65 @@
-// src/pages/Home.js
-
 import React from "react";
 import { Link } from "react-router-dom";
 
 const features = [
   {
-    title: "Skill Matching",
-    text: "Match your skills with the right opportunities.",
+    title: "Find Jobs",
+    text: "Explore job opportunities that match your skills.",
   },
   {
-    title: "Diverse Roles",
-    text: "Explore opportunities across multiple career paths.",
+    title: "Easy Applications",
+    text: "Apply for jobs and track your application status easily.",
   },
   {
-    title: "Verified Profiles",
-    text: "Connect through trusted candidate and employer profiles.",
+    title: "Trusted Hiring",
+    text: "Connect job seekers and employers through one platform.",
   },
 ];
 
 export default function Home() {
-  const handleEnter = (event) => {
-    event.currentTarget.style.transform = "translateY(-5px)";
-  };
-
-  const handleLeave = (event) => {
-    event.currentTarget.style.transform = "translateY(0)";
-  };
-
   return (
-    <main>
-      <section>
-        <h1 id="hero-heading-t30">
-          Connect with Your Dream Job
-        </h1>
+    <main className="home-page">
 
-        <p>
-          Discover opportunities, showcase your skills,
-          and grow your career.
-        </p>
+      <section className="simple-hero">
+        <div className="hero-content">
+          <p className="hero-small">WELCOME TO HIRESPHERE</p>
 
-        <Link to="/register">
-          Get Started
-        </Link>
+          <h1 id="hero-heading-t30">
+            Find the right job.
+            <br />
+            Build your future.
+          </h1>
 
-        <Link to="/login">
-          Login
-        </Link>
+          <p className="hero-description">
+            HireSphere helps job seekers discover opportunities
+            and helps employers find the right candidates.
+          </p>
+
+          <div className="hero-actions">
+            <Link to="/register" className="home-primary-btn">
+              Get Started
+            </Link>
+
+            <Link to="/login" className="home-secondary-btn">
+              Login
+            </Link>
+          </div>
+        </div>
       </section>
 
-      <section>
+      <section className="home-features">
         {features.map((feature) => (
-          <div
-            key={feature.title}
-            className="card feature-card"
-            style={{
-              transform: "translateY(0)",
-              transition: "transform 0.2s ease",
-            }}
-            onMouseEnter={handleEnter}
-            onMouseOver={handleEnter}
-            onMouseLeave={handleLeave}
-            onMouseOut={handleLeave}
-          >
+          <div className="home-feature-card" key={feature.title}>
             <h3>{feature.title}</h3>
-
             <p>{feature.text}</p>
           </div>
         ))}
       </section>
 
-      <footer>
-        © 2026 HireSphere. Built for excellence.
+      <footer className="simple-footer">
+        © 2026 HireSphere
       </footer>
+
     </main>
   );
 }
