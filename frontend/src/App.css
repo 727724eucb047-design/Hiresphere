@@ -755,7 +755,7 @@ nav[role="navigation"] .nav-links a:first-child:hover {
 }
 
 .tech-floating-one {
-  left: -30px;
+  left: 5px;
 
   bottom: 50px;
 }
@@ -795,7 +795,7 @@ nav[role="navigation"] .nav-links a:first-child:hover {
 }
 
 .tech-floating-two {
-  right: 10px;
+  right: -55px;
   top: 35px;
 
   flex-direction: column;
