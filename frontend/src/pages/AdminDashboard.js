@@ -277,35 +277,7 @@ loadUsers();
         0,
     },
   ];
-  const deleteJob = async (jobId) => {
-  const confirmed = window.confirm(
-    "Are you sure you want to delete this job?"
-  );
-
-  if (!confirmed) return;
-
-  try {
-    await api.delete(`/jobs/${jobId}`);
-
-    setJobs((previous) =>
-      previous.filter((job) => job.id !== jobId)
-    );
-
-    const statsResponse = await api.get("/admin/stats");
-
-    setStats(
-      statsResponse?.data?.stats ||
-      statsResponse?.data ||
-      {}
-    );
-
-    window.alert("Job deleted successfully!");
-  } catch (error) {
-    console.error("Failed to delete job:", error);
-
-    window.alert("Failed to delete job");
-  }
-};
+  
 
   return (
     <main className="container">
