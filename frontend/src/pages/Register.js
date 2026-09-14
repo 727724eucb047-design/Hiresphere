@@ -97,80 +97,143 @@ export default function Register() {
   };
 
   return (
-    <main className="container">
+  <main className="register-page">
+
+    <section className="register-left-panel">
+
+      <div className="register-brand-box">
+
+        <span className="register-small-label">
+          HIRESPHERE
+        </span>
+
+        <h1>
+          Create your account.
+          <br />
+          Start building your
+          <span> future.</span>
+        </h1>
+
+        <p>
+          Join HireSphere to explore jobs, connect with employers,
+          and manage your career journey in one place.
+        </p>
+
+        <div className="register-highlight">
+
+          <div>
+            <strong>Discover</strong>
+            <span>Opportunities</span>
+          </div>
+
+          <div>
+            <strong>Apply</strong>
+            <span>With Ease</span>
+          </div>
+
+          <div>
+            <strong>Grow</strong>
+            <span>Your Career</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section className="register-right-panel">
+
       <form
-        className="form"
+        className="register-form-card"
         onSubmit={handleSubmit}
       >
-        <h1>Register</h1>
 
-        <label htmlFor="role">
-          Role
-        </label>
+        <div className="register-form-heading">
+          <span>CREATE ACCOUNT</span>
 
-        <select
-          id="role"
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-        >
-          <option value="JOB_SEEKER">
-            JOB_SEEKER
-          </option>
+          <h2>Join HireSphere</h2>
 
-          <option value="EMPLOYER">
-            EMPLOYER
-          </option>
+          <p>
+            Enter your details to create your account.
+          </p>
+        </div>
 
-          <option value="ADMIN">
-            ADMIN
-          </option>
-        </select>
+        <div className="register-field">
+          <label htmlFor="role">
+            Role
+          </label>
 
-        <label htmlFor="fullName">
-          Full Name
-        </label>
+          <select
+            id="role"
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+          >
+            <option value="JOB_SEEKER">
+              JOB_SEEKER
+            </option>
 
-        <input
-          id="fullName"
-          name="fullName"
-          type="text"
-          placeholder="Full Name"
-          required
-          value={formData.fullName}
-          onChange={handleChange}
-        />
+            <option value="EMPLOYER">
+              EMPLOYER
+            </option>
 
-        <label htmlFor="username">
-          Username
-        </label>
+            <option value="ADMIN">
+              ADMIN
+            </option>
+          </select>
+        </div>
 
-        <input
-          id="username"
-          name="username"
-          type="text"
-          placeholder="Username"
-          required
-          value={formData.username}
-          onChange={handleChange}
-        />
+        <div className="register-field">
+          <label htmlFor="fullName">
+            Full Name
+          </label>
 
-        <label htmlFor="password">
-          Password
-        </label>
+          <input
+            id="fullName"
+            name="fullName"
+            type="text"
+            placeholder="Enter your full name"
+            required
+            value={formData.fullName}
+            onChange={handleChange}
+          />
+        </div>
 
-        <input
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Password"
-          required
-          value={formData.password}
-          onChange={handleChange}
-        />
+        <div className="register-field">
+          <label htmlFor="username">
+            Username
+          </label>
+
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Choose a username"
+            required
+            value={formData.username}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="register-field">
+          <label htmlFor="password">
+            Password
+          </label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Create a password"
+            required
+            value={formData.password}
+            onChange={handleChange}
+          />
+        </div>
 
         {formData.role === "EMPLOYER" && (
-          <>
+          <div className="register-field">
             <label htmlFor="companyName">
               Company Name
             </label>
@@ -179,21 +242,30 @@ export default function Register() {
               id="companyName"
               name="companyName"
               type="text"
-              placeholder="Company Name"
+              placeholder="Enter company name"
               required
               value={formData.companyName}
               onChange={handleChange}
             />
-          </>
+          </div>
         )}
 
         <button
           id="register-btn-t27"
           type="submit"
+          className="register-submit-btn"
         >
-          Register
+          Create Account
         </button>
+
+        <p className="register-footer-text">
+          Create your HireSphere account and get started.
+        </p>
+
       </form>
-    </main>
-  );
+
+    </section>
+
+  </main>
+);
 }
