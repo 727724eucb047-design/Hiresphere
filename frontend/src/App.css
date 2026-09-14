@@ -1210,3 +1210,239 @@ nav[role="navigation"] .nav-links a:first-child:hover {
     padding: 40px 20px;
   }
 }
+/* =========================================
+   HIRESPHERE REGISTER PAGE
+========================================= */
+
+.register-page {
+  min-height: calc(100vh - 70px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f8fafc;
+}
+
+/* LEFT PANEL */
+
+.register-left-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 70px 9%;
+
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(59, 130, 246, 0.16),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(99, 102, 241, 0.12),
+      transparent 35%
+    ),
+    #0b1120;
+
+  color: white;
+}
+
+.register-brand-box {
+  max-width: 560px;
+}
+
+.register-small-label {
+  display: inline-block;
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+}
+
+.register-brand-box h1 {
+  margin: 0;
+  font-size: 52px;
+  line-height: 1.08;
+  letter-spacing: -2px;
+  color: #ffffff;
+}
+
+.register-brand-box h1 span {
+  color: #60a5fa;
+}
+
+.register-brand-box > p {
+  color: #94a3b8;
+  font-size: 17px;
+  line-height: 1.8;
+  margin: 24px 0 35px;
+  max-width: 500px;
+}
+
+/* HIGHLIGHTS */
+
+.register-highlight {
+  display: flex;
+  gap: 35px;
+  padding-top: 25px;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.register-highlight strong {
+  display: block;
+  color: white;
+  font-size: 17px;
+}
+
+.register-highlight span {
+  display: block;
+  margin-top: 5px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+/* RIGHT PANEL */
+
+.register-right-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 40px;
+  background: #f8fafc;
+}
+
+/* FORM CARD */
+
+.register-form-card {
+  width: 100%;
+  max-width: 500px;
+  margin: 0;
+  padding: 34px 38px;
+
+  background: white;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+
+  box-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.1);
+}
+
+.register-form-heading {
+  margin-bottom: 22px;
+}
+
+.register-form-heading span {
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.register-form-heading h2 {
+  margin: 8px 0 7px;
+  color: #0f172a;
+  font-size: 29px;
+}
+
+.register-form-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* FIELDS */
+
+.register-field {
+  margin-bottom: 16px;
+}
+
+.register-field label {
+  display: block;
+  margin: 0 0 7px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.register-field input,
+.register-field select {
+  width: 100%;
+  padding: 12px 14px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+
+  background: #ffffff;
+  font-size: 14px;
+  outline: none;
+}
+
+.register-field input:focus,
+.register-field select:focus {
+  border-color: #2563eb;
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* BUTTON */
+
+.register-submit-btn {
+  width: 100%;
+  margin: 4px 0 0;
+  padding: 13px 20px;
+
+  border: none;
+  border-radius: 9px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.register-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.22);
+}
+
+.register-footer-text {
+  text-align: center;
+  margin: 16px 0 0;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+  .register-page {
+    grid-template-columns: 1fr;
+  }
+
+  .register-left-panel {
+    padding: 50px 30px;
+    text-align: center;
+  }
+
+  .register-brand-box h1 {
+    font-size: 40px;
+  }
+
+  .register-highlight {
+    justify-content: center;
+  }
+
+  .register-right-panel {
+    padding: 40px 20px;
+  }
+}
