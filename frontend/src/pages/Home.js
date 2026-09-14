@@ -22,19 +22,14 @@ const jobs = [
 export default function Home() {
   return (
     <main className="tech-home">
-
       <section className="tech-hero">
-
         <div className="tech-left">
-
           <div className="tech-badge">
             SMART RECRUITMENT PLATFORM
           </div>
 
           <h1 id="hero-heading-t30">
-            Connect with Your{" "}
-            <br />
-            <span>Dream Job</span>
+            Connect with Your Dream Job
           </h1>
 
           <p className="tech-description">
@@ -44,7 +39,6 @@ export default function Home() {
           </p>
 
           <div className="tech-actions">
-
             <Link
               to="/register"
               className="tech-primary"
@@ -58,11 +52,9 @@ export default function Home() {
             >
               Login →
             </Link>
-
           </div>
 
           <div className="tech-stats">
-
             <div>
               <strong>Easy</strong>
               <span>Applications</span>
@@ -77,15 +69,11 @@ export default function Home() {
               <strong>Fast</strong>
               <span>Hiring</span>
             </div>
-
           </div>
-
         </div>
 
         <div className="tech-right">
-
           <div className="tech-job-panel">
-
             <div className="tech-panel-header">
               <div>
                 <span>AVAILABLE OPPORTUNITIES</span>
@@ -98,13 +86,11 @@ export default function Home() {
             </div>
 
             <div className="tech-job-list">
-
               {jobs.map((job) => (
                 <div
                   className="tech-job-card"
                   key={job.title}
                 >
-
                   <div className="tech-job-logo">
                     {job.title.charAt(0)}
                   </div>
@@ -122,19 +108,17 @@ export default function Home() {
                   <div className="tech-arrow">
                     →
                   </div>
-
                 </div>
               ))}
-
             </div>
 
             <div className="tech-panel-bottom">
               <span>
                 New opportunities added regularly
               </span>
+
               <strong>Explore →</strong>
             </div>
-
           </div>
 
           <div className="tech-floating tech-floating-one">
@@ -150,15 +134,11 @@ export default function Home() {
             <strong>3+</strong>
             <span>Career Paths</span>
           </div>
-
         </div>
-
       </section>
 
       <section className="tech-features">
-
         <div className="tech-feature-heading">
-
           <span>WHY HIRESPHERE</span>
 
           <h2>
@@ -166,11 +146,9 @@ export default function Home() {
             <br />
             build your career.
           </h2>
-
         </div>
 
         <div className="tech-feature-grid">
-
           <div
             className="tech-feature card"
             onMouseOver={(event) => {
@@ -182,7 +160,6 @@ export default function Home() {
                 "translateY(0)";
             }}
           >
-
             <div>01</div>
 
             <h3>Skill Matching</h3>
@@ -191,7 +168,6 @@ export default function Home() {
               Discover opportunities matching your
               skills and career interests.
             </p>
-
           </div>
 
           <div
@@ -205,7 +181,6 @@ export default function Home() {
                 "translateY(0)";
             }}
           >
-
             <div>02</div>
 
             <h3>Diverse Roles</h3>
@@ -214,7 +189,6 @@ export default function Home() {
               Explore different roles and career
               opportunities across industries.
             </p>
-
           </div>
 
           <div
@@ -228,7 +202,6 @@ export default function Home() {
                 "translateY(0)";
             }}
           >
-
             <div>03</div>
 
             <h3>Track Status</h3>
@@ -237,15 +210,11 @@ export default function Home() {
               Stay updated on shortlisted and rejected
               applications.
             </p>
-
           </div>
-
         </div>
-
       </section>
 
       <footer className="tech-footer">
-
         <strong>HireSphere</strong>
 
         <p>
@@ -255,9 +224,7 @@ export default function Home() {
         <span>
           © 2026 HireSphere
         </span>
-
       </footer>
-
     </main>
   );
 }
