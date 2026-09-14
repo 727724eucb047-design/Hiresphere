@@ -270,6 +270,7 @@ const updateApplicationStatus = async (
           Post Job
         </button>
       </div>
+    </div>
 
       {/* Error */}
       {error && (
