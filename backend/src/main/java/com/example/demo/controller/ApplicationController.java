@@ -57,7 +57,7 @@ public class ApplicationController {
         return ResponseEntity.ok("Application deleted successfully.");
     }
     @GetMapping("/all")
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public ResponseEntity<List<Application>> getAllApplications() {
     return ResponseEntity.ok(applicationService.getAllApplications());
 }
