@@ -1996,3 +1996,24 @@ nav[role="navigation"] .nav-links a:first-child:hover {
     grid-template-columns: 1fr;
   }
 }
+/* FINAL ADMIN SPACING FIX */
+
+.admin-job-card,
+.admin-application-card {
+  padding: 20px 24px;
+}
+
+.admin-job-section,
+.admin-application-section {
+  width: 84%;
+  margin: 40px auto 0;
+}
+
+.admin-job-grid,
+.admin-application-grid {
+  gap: 18px;
+}
+
+.admin-section-heading {
+  margin: 40px auto 18px;
+}
