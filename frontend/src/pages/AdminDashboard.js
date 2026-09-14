@@ -81,16 +81,7 @@ export default function AdminDashboard() {
         );
       }
     };
-
-    loadStats();
-    loadUsers();
-    loadJobs();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-  const loadApplications = async () => {
+    const loadApplications = async () => {
   try {
     const response = await api.get(
       "/applications/all"
@@ -110,6 +101,16 @@ export default function AdminDashboard() {
     );
   }
 };
+
+    loadStats();
+    loadUsers();
+    loadJobs();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+  
 
   const refreshStats = async () => {
     try {
@@ -492,6 +493,87 @@ export default function AdminDashboard() {
         )}
 
       </section>
+      <section className="admin-application-section">
+  <h2>Application Management</h2>
+
+  {applications.length === 0 ? (
+    <p>No applications found.</p>
+  ) : (
+    <div className="admin-application-grid">
+
+      {applications.map((application) => (
+        <div
+          className="admin-application-card"
+          key={application.id}
+        >
+          <div className="admin-application-top">
+            <div>
+              <span className="admin-application-label">
+                APPLICATION
+              </span>
+
+              <h3>
+                {application.job?.title ||
+                  "Job Application"}
+              </h3>
+            </div>
+
+            <span className="admin-application-status">
+              {application.status ||
+                "APPLIED"}
+            </span>
+          </div>
+
+          <p>
+            <strong>Candidate:</strong>{" "}
+            {application.seeker?.fullName ||
+              application.seeker?.username ||
+              application.user?.fullName ||
+              application.user?.username ||
+              "Candidate"}
+          </p>
+
+          <p>
+            <strong>Job:</strong>{" "}
+            {application.job?.title ||
+              "Not specified"}
+          </p>
+
+          <p>
+            <strong>Location:</strong>{" "}
+            {application.job?.location ||
+              "Not specified"}
+          </p>
+
+          <p>
+            <strong>Status:</strong>{" "}
+            {application.status ||
+              "APPLIED"}
+          </p>
+
+          <p>
+            <strong>Skills:</strong>{" "}
+            {application.skills ||
+              "Not specified"}
+          </p>
+
+          <p>
+            <strong>Experience:</strong>{" "}
+            {application.experience ??
+              0}
+          </p>
+
+          <p>
+            <strong>Expected Salary:</strong>{" "}
+            {application.expectedSalary ||
+              "Not specified"}
+          </p>
+        </div>
+      ))}
+
+    </div>
+  )}
+</section>
 
     </main>
   );
