@@ -5,9 +5,30 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState("");
   const [users, setUsers] = useState([]);
+  const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     let mounted = true;
+
+    const loadJobs = async () => {
+  try {
+    const response = await api.get("/jobs");
+
+    console.log("ADMIN JOBS:", response.data);
+
+    if (mounted) {
+      setJobs(
+        Array.isArray(response.data)
+          ? response.data
+          : []
+      );
+    }
+  } catch (error) {
+    console.error("Failed to load jobs:", error);
+  }
+};
+
+loadJobs();
 
     const loadStats = async () => {
       try {
