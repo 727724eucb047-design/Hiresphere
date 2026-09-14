@@ -32,11 +32,9 @@ export default function Home() {
           </div>
 
           <h1 id="hero-heading-t30">
-            Discover.
+            Connect with Your
             <br />
-            Connect.
-            <br />
-            <span>Get Hired.</span>
+            <span>Dream Job</span>
           </h1>
 
           <p className="tech-description">
@@ -131,7 +129,9 @@ export default function Home() {
             </div>
 
             <div className="tech-panel-bottom">
-              <span>New opportunities added regularly</span>
+              <span>
+                New opportunities added regularly
+              </span>
               <strong>Explore →</strong>
             </div>
 
@@ -139,6 +139,7 @@ export default function Home() {
 
           <div className="tech-floating tech-floating-one">
             <span>✓</span>
+
             <div>
               <strong>Application Sent</strong>
               <small>Successfully</small>
@@ -157,6 +158,7 @@ export default function Home() {
       <section className="tech-features">
 
         <div className="tech-feature-heading">
+
           <span>WHY HIRESPHERE</span>
 
           <h2>
@@ -164,35 +166,78 @@ export default function Home() {
             <br />
             build your career.
           </h2>
+
         </div>
 
         <div className="tech-feature-grid">
 
-          <div className="tech-feature">
+          <div
+            className="tech-feature card"
+            onMouseOver={(event) => {
+              event.currentTarget.style.transform =
+                "translateY(-5px)";
+            }}
+            onMouseOut={(event) => {
+              event.currentTarget.style.transform =
+                "translateY(0)";
+            }}
+          >
+
             <div>01</div>
-            <h3>Explore Jobs</h3>
+
+            <h3>Skill Matching</h3>
+
             <p>
               Discover opportunities matching your
               skills and career interests.
             </p>
+
           </div>
 
-          <div className="tech-feature">
+          <div
+            className="tech-feature card"
+            onMouseOver={(event) => {
+              event.currentTarget.style.transform =
+                "translateY(-5px)";
+            }}
+            onMouseOut={(event) => {
+              event.currentTarget.style.transform =
+                "translateY(0)";
+            }}
+          >
+
             <div>02</div>
-            <h3>Apply Easily</h3>
+
+            <h3>Diverse Roles</h3>
+
             <p>
-              Submit applications and manage your
-              application progress.
+              Explore different roles and career
+              opportunities across industries.
             </p>
+
           </div>
 
-          <div className="tech-feature">
+          <div
+            className="tech-feature card"
+            onMouseOver={(event) => {
+              event.currentTarget.style.transform =
+                "translateY(-5px)";
+            }}
+            onMouseOut={(event) => {
+              event.currentTarget.style.transform =
+                "translateY(0)";
+            }}
+          >
+
             <div>03</div>
+
             <h3>Track Status</h3>
+
             <p>
               Stay updated on shortlisted and rejected
               applications.
             </p>
+
           </div>
 
         </div>
