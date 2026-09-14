@@ -216,12 +216,40 @@ const updateApplicationStatus = async (
   }
 };
   return (
-    <main className="container">
-      <h1>Employer Dashboard</h1>
-      
+  <main className="employer-dashboard-page">
 
-      {/* View controls */}
-      <div className="dashboard-actions">
+    <section className="employer-dashboard-header">
+      <div>
+        <span className="employer-dashboard-label">
+          HIRESPHERE EMPLOYER
+        </span>
+
+        <h1>Employer Dashboard</h1>
+
+        <p>
+          Post opportunities, manage your jobs,
+          and review candidate applications.
+        </p>
+      </div>
+    </section>
+
+    <div className="employer-dashboard-content">
+
+      <div className="employer-dashboard-toolbar">
+
+        <div>
+          <span>RECRUITMENT</span>
+
+          <h2>
+            {view === "list"
+              ? "My Opportunities"
+              : view === "form"
+              ? "Create Opportunity"
+              : "Candidate Applications"}
+          </h2>
+        </div>
+
+        <div className="dashboard-actions">
         <button
           type="button"
           onClick={() => {
