@@ -293,25 +293,39 @@ loadApplications();
   ];
 
   return (
-    <main className="container">
+    <main className="admin-dashboard-page">
 
       {/* =========================
           ADMIN ANALYTICS
       ========================= */}
 
-      <h1>Admin Dashboard</h1>
+     <div className="admin-dashboard-header">
+  <div>
+    <span className="admin-dashboard-label">
+      HIRESPHERE ADMIN
+    </span>
 
-      <h2>
-        Admin Analytics Dashboard
-      </h2>
+    <h1>
+      Admin Dashboard
+    </h1>
 
-      <div className="grid">
+    <p>
+      Manage users, jobs, applications, and platform activity.
+    </p>
+  </div>
+</div>
+
+<h2 className="admin-section-title">
+  Platform Overview
+</h2>
+
+      <div className="admin-metric-grid">
         {metrics.map((metric) => (
           <div
-            className="card metric-card"
-            key={metric.label}
-            data-testid="metric-card"
-          >
+  className="admin-metric-card metric-card"
+  key={metric.label}
+  data-testid="metric-card"
+>
             <h3>
               {metric.label}
             </h3>
