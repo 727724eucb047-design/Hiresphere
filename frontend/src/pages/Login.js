@@ -125,12 +125,16 @@ export default function Login() {
       >
 
         <div className="login-form-heading">
-          <span>WELCOME BACK</span>
-          <h2>Login to HireSphere</h2>
-          <p>
-            Enter your account details to continue.
-          </p>
-        </div>
+  <span>WELCOME BACK</span>
+
+  <h2>
+    Welcome Back
+  </h2>
+
+  <p>
+    Enter your account details to continue.
+  </p>
+</div>
 
         <div className="login-field">
           <label htmlFor="username">
