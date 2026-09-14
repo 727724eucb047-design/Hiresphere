@@ -76,50 +76,112 @@ export default function Login() {
 };
 
   return (
-    <main className="container">
+  <main className="login-page">
+
+    <section className="login-left-panel">
+
+      <div className="login-brand-box">
+        <span className="login-small-label">
+          HIRESPHERE
+        </span>
+
+        <h1>
+          Welcome back.
+          <br />
+          Your next opportunity
+          <span> starts here.</span>
+        </h1>
+
+        <p>
+          Login to explore jobs, manage applications,
+          and continue your career journey.
+        </p>
+
+        <div className="login-highlight">
+          <div>
+            <strong>Smart</strong>
+            <span>Job Search</span>
+          </div>
+
+          <div>
+            <strong>Easy</strong>
+            <span>Applications</span>
+          </div>
+
+          <div>
+            <strong>Fast</strong>
+            <span>Hiring</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section className="login-right-panel">
+
       <form
-        className="form"
+        className="login-form-card"
         onSubmit={handleSubmit}
       >
-        <h1>Welcome Back</h1>
 
-        <label htmlFor="username">
-          Username
-        </label>
+        <div className="login-form-heading">
+          <span>WELCOME BACK</span>
+          <h2>Login to HireSphere</h2>
+          <p>
+            Enter your account details to continue.
+          </p>
+        </div>
 
-        <input
-          id="username"
-          name="username"
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(event) =>
-            setUsername(event.target.value)
-          }
-        />
+        <div className="login-field">
+          <label htmlFor="username">
+            Username
+          </label>
 
-        <label htmlFor="password">
-          Password
-        </label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter your username"
+            value={username}
+            onChange={(event) =>
+              setUsername(event.target.value)
+            }
+          />
+        </div>
 
-        <input
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(event) =>
-            setPassword(event.target.value)
-          }
-        />
+        <div className="login-field">
+          <label htmlFor="password">
+            Password
+          </label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(event) =>
+              setPassword(event.target.value)
+            }
+          />
+        </div>
 
         <button
           type="submit"
           id="login-btn"
+          className="login-submit-btn"
         >
           Log In
         </button>
+
+        <p className="login-footer-text">
+          Secure access to your HireSphere account
+        </p>
+
       </form>
-    </main>
-  );
+
+    </section>
+
+  </main>
+);
 }
