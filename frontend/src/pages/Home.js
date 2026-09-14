@@ -51,7 +51,7 @@ export default function Home() {
               to="/register"
               className="tech-primary"
             >
-              Start Your Journey
+              Get Started
             </Link>
 
             <Link
