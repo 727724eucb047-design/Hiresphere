@@ -1634,3 +1634,79 @@ nav[role="navigation"] .nav-links a:first-child:hover {
     grid-template-columns: 1fr;
   }
 }
+/* ===========================
+   ADMIN APPLICATION MANAGEMENT
+=========================== */
+
+.admin-application-section {
+  margin-top: 45px;
+  margin-bottom: 60px;
+}
+
+.admin-application-section > h2 {
+  margin-bottom: 22px;
+  color: #0f172a;
+  font-size: 28px;
+}
+
+.admin-application-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.admin-application-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow:
+    0 6px 20px
+    rgba(15, 23, 42, 0.06);
+}
+
+.admin-application-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.admin-application-label {
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.admin-application-card h3 {
+  margin: 6px 0 0;
+  color: #0f172a;
+  font-size: 19px;
+}
+
+.admin-application-card p {
+  margin: 9px 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.admin-application-card strong {
+  color: #334155;
+}
+
+.admin-application-status {
+  background: #dbeafe;
+  color: #1d4ed8;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+@media (max-width: 800px) {
+  .admin-application-grid {
+    grid-template-columns: 1fr;
+  }
+}

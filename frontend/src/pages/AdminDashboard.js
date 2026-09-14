@@ -103,8 +103,9 @@ export default function AdminDashboard() {
 };
 
     loadStats();
-    loadUsers();
-    loadJobs();
+loadUsers();
+loadJobs();
+loadApplications();
 
     return () => {
       mounted = false;
