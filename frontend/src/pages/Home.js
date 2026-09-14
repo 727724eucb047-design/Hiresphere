@@ -204,7 +204,7 @@ export default function Home() {
           >
             <div>03</div>
 
-            <h3>Track Status</h3>
+            <h3>Verified Profiles</h3>
 
             <p>
               Stay updated on shortlisted and rejected
