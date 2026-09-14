@@ -755,9 +755,9 @@ nav[role="navigation"] .nav-links a:first-child:hover {
 }
 
 .tech-floating-one {
-  left: -20px;
+  left: -35px;
 
-  bottom: 50px;
+  bottom: 25px;
 }
 
 .tech-floating-one > span {
