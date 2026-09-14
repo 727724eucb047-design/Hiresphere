@@ -2017,3 +2017,230 @@ nav[role="navigation"] .nav-links a:first-child:hover {
 .admin-section-heading {
   margin: 40px auto 18px;
 }
+/* =====================================
+   HIRESPHERE EMPLOYER DASHBOARD
+===================================== */
+
+.employer-dashboard-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding-bottom: 70px;
+}
+
+.employer-dashboard-header {
+  background: linear-gradient(
+    135deg,
+    #0b1120,
+    #111c35
+  );
+  padding: 55px 8%;
+}
+
+.employer-dashboard-label {
+  display: block;
+  margin-bottom: 10px;
+  color: #60a5fa;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.employer-dashboard-header h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 42px;
+  letter-spacing: -1px;
+}
+
+.employer-dashboard-header p {
+  margin: 12px 0 0;
+  color: #94a3b8;
+  font-size: 15px;
+}
+
+.employer-dashboard-content {
+  width: 84%;
+  margin: 45px auto 0;
+}
+
+.employer-dashboard-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 28px;
+}
+
+.employer-dashboard-toolbar > div:first-child > span {
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.employer-dashboard-toolbar h2 {
+  margin: 5px 0 0;
+  color: #0f172a;
+  font-size: 28px;
+}
+
+.employer-dashboard-toolbar .dashboard-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.employer-dashboard-toolbar .dashboard-actions button {
+  border: none;
+  border-radius: 8px;
+  padding: 11px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.employer-dashboard-toolbar
+.dashboard-actions button:first-child {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.employer-dashboard-toolbar
+.dashboard-actions button:last-child {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.employer-dashboard-toolbar
+.dashboard-actions button:last-child:hover {
+  background: #1d4ed8;
+}
+
+/* JOB CARDS */
+
+.employer-dashboard-content article.card {
+  background: #ffffff;
+  padding: 24px;
+  margin-bottom: 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow:
+    0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+.employer-dashboard-content article.card h3 {
+  margin-top: 0;
+  color: #0f172a;
+  font-size: 20px;
+}
+
+.employer-dashboard-content article.card p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* JOB BUTTONS */
+
+.employer-dashboard-content .job-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.employer-dashboard-content .job-actions button {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 7px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.employer-dashboard-content
+.job-actions button:first-child {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.employer-dashboard-content
+.job-actions button:nth-child(2) {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.employer-dashboard-content
+.job-actions button:nth-child(3) {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* POST JOB FORM */
+
+.employer-dashboard-content form {
+  max-width: 750px;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow:
+    0 8px 25px rgba(15, 23, 42, 0.05);
+}
+
+.employer-dashboard-content form label {
+  display: block;
+  margin: 15px 0 7px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.employer-dashboard-content form input,
+.employer-dashboard-content form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.employer-dashboard-content form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.employer-dashboard-content form button[type="submit"] {
+  margin-top: 22px;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.employer-dashboard-content form button[type="submit"]:hover {
+  background: #1d4ed8;
+}
+
+@media (max-width: 700px) {
+  .employer-dashboard-header {
+    padding: 40px 6%;
+  }
+
+  .employer-dashboard-header h1 {
+    font-size: 34px;
+  }
+
+  .employer-dashboard-content {
+    width: 88%;
+  }
+
+  .employer-dashboard-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .employer-dashboard-content .job-actions {
+    flex-wrap: wrap;
+  }
+}
