@@ -12,7 +12,9 @@ export default function AdminDashboard() {
 
     const loadStats = async () => {
       try {
-        const response = await api.get("/admin/stats");
+        const response = await api.get(
+          "/admin/stats"
+        );
 
         if (!mounted) return;
 
@@ -32,95 +34,155 @@ export default function AdminDashboard() {
       }
     };
 
-    loadStats();
+    const loadUsers = async () => {
+      try {
+        const response = await api.get(
+          "/admin/users"
+        );
+
+        if (!mounted) return;
+
+        setUsers(
+          Array.isArray(response?.data)
+            ? response.data
+            : []
+        );
+      } catch (err) {
+        console.error(
+          "Failed to load users:",
+          err
+        );
+      }
+    };
 
     const loadJobs = async () => {
-  try {
-    const response = await api.get("/jobs");
+      try {
+        const response = await api.get(
+          "/jobs"
+        );
 
-    console.log("ADMIN JOBS:", response.data);
+        console.log(
+          "ADMIN JOBS:",
+          response.data
+        );
 
-    if (mounted) {
-      setJobs(
-        Array.isArray(response.data)
-          ? response.data
-          : []
-      );
-    }
-  } catch (error) {
-    console.error("Failed to load jobs:", error);
-  }
-};
+        if (!mounted) return;
 
-loadJobs();
-    const loadUsers = async () => {
-  try {
-    const response = await api.get("/admin/users");
+        setJobs(
+          Array.isArray(response?.data)
+            ? response.data
+            : []
+        );
+      } catch (err) {
+        console.error(
+          "Failed to load jobs:",
+          err
+        );
+      }
+    };
 
-    if (mounted) {
-      setUsers(
-        Array.isArray(response?.data)
-          ? response.data
-          : []
-      );
-    }
-  } catch (err) {
-    console.error("Failed to load users:", err);
-  }
-};
-
-loadUsers();
+    loadStats();
+    loadUsers();
+    loadJobs();
 
     return () => {
       mounted = false;
     };
   }, []);
-     const toggleBlockUser = async (user) => {
-  try {
-    const action = user.blocked
-      ? "unblock"
-      : "block";
 
-    const response = await api.put(
-      `/admin/users/${user.id}/${action}`
+  const refreshStats = async () => {
+    try {
+      const response = await api.get(
+        "/admin/stats"
+      );
+
+      setStats(
+        response?.data?.stats ||
+        response?.data ||
+        {}
+      );
+    } catch (err) {
+      console.error(
+        "Failed to refresh statistics:",
+        err
+      );
+    }
+  };
+
+  const toggleBlockUser = async (user) => {
+    try {
+      const action = user.blocked
+        ? "unblock"
+        : "block";
+
+      const response = await api.put(
+        `/admin/users/${user.id}/${action}`
+      );
+
+      setUsers((previous) =>
+        previous.map((item) =>
+          item.id === user.id
+            ? response.data
+            : item
+        )
+      );
+
+      await refreshStats();
+
+      window.alert(
+        user.blocked
+          ? "User unblocked successfully!"
+          : "User blocked successfully!"
+      );
+    } catch (err) {
+      console.error(
+        "Failed to update user:",
+        err
+      );
+
+      window.alert(
+        "Failed to update user"
+      );
+    }
+  };
+
+  const deleteJob = async (jobId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this job?"
     );
 
-    setUsers((previous) =>
-      previous.map((item) =>
-        item.id === user.id
-          ? response.data
-          : item
-      )
-    );
+    if (!confirmed) {
+      return;
+    }
 
-    const statsResponse = await api.get(
-      "/admin/stats"
-    );
+    try {
+      await api.delete(
+        `/jobs/${jobId}`
+      );
 
-    setStats(
-      statsResponse?.data?.stats ||
-      statsResponse?.data ||
-      {}
-    );
+      setJobs((previous) =>
+        previous.filter(
+          (job) => job.id !== jobId
+        )
+      );
 
-    window.alert(
-      user.blocked
-        ? "User unblocked successfully!"
-        : "User blocked successfully!"
-    );
-  } catch (err) {
-    console.error(
-      "Failed to update user:",
-      err
-    );
+      await refreshStats();
 
-    window.alert(
-      "Failed to update user"
-    );
-  }
-};
+      window.alert(
+        "Job deleted successfully!"
+      );
+    } catch (err) {
+      console.error(
+        "Failed to delete job:",
+        err
+      );
 
-  // Error state
+      window.alert(
+        "Failed to delete job"
+      );
+    }
+  };
+
   if (error) {
     return (
       <div
@@ -131,47 +193,7 @@ loadUsers();
       </div>
     );
   }
-const deleteJob = async (jobId) => {
-  const confirmed = window.confirm(
-    "Are you sure you want to delete this job?"
-  );
 
-  if (!confirmed) return;
-
-  try {
-    await api.delete(`/jobs/${jobId}`);
-
-    setJobs((previous) =>
-      previous.filter(
-        (job) => job.id !== jobId
-      )
-    );
-
-    const statsResponse = await api.get(
-      "/admin/stats"
-    );
-
-    setStats(
-      statsResponse?.data?.stats ||
-      statsResponse?.data ||
-      {}
-    );
-
-    window.alert(
-      "Job deleted successfully!"
-    );
-  } catch (error) {
-    console.error(
-      "Failed to delete job:",
-      error
-    );
-
-    window.alert(
-      "Failed to delete job"
-    );
-  }
-};
-  // Loading state
   if (!stats) {
     return (
       <div>
@@ -196,9 +218,6 @@ const deleteJob = async (jobId) => {
         0,
     },
     {
-      // IMPORTANT:
-      // Test T21 expects "Job Seekers"
-      // not "Total Job Seekers"
       label: "Job Seekers",
       value:
         stats.totalJobSeekers ??
@@ -234,13 +253,19 @@ const deleteJob = async (jobId) => {
         0,
     },
   ];
-  
 
   return (
     <main className="container">
+
+      {/* =========================
+          ADMIN ANALYTICS
+      ========================= */}
+
       <h1>Admin Dashboard</h1>
 
-      <h2>Admin Analytics Dashboard</h2>
+      <h2>
+        Admin Analytics Dashboard
+      </h2>
 
       <div className="grid">
         {metrics.map((metric) => (
@@ -249,7 +274,9 @@ const deleteJob = async (jobId) => {
             key={metric.label}
             data-testid="metric-card"
           >
-            <h3>{metric.label}</h3>
+            <h3>
+              {metric.label}
+            </h3>
 
             <p>
               {Number(
@@ -259,53 +286,192 @@ const deleteJob = async (jobId) => {
           </div>
         ))}
       </div>
-      <h2>User Management</h2>
 
-{users.length === 0 ? (
-  <p>No users found.</p>
-) : (
-  <div className="grid">
-    {users.map((user) => (
-      <div
-        className="card"
-        key={user.id}
+      {/* =========================
+          USER MANAGEMENT
+      ========================= */}
+
+      <section
+        style={{
+          marginTop: "45px",
+        }}
       >
-        <h3>
-          {user.fullName || user.username}
-        </h3>
+        <h2>
+          User Management
+        </h2>
 
-        <p>
-          Username: {user.username}
-        </p>
+        {users.length === 0 ? (
+          <p>
+            No users found.
+          </p>
+        ) : (
+          <div className="grid">
 
-        <p>
-          Role: {user.role}
-        </p>
+            {users.map((user) => (
+              <div
+                className="card"
+                key={user.id}
+              >
+                <h3>
+                  {user.fullName ||
+                    user.username}
+                </h3>
 
-        <p>
-          Status:{" "}
-          {user.blocked
-            ? "BLOCKED"
-            : "ACTIVE"}
-        </p>
+                <p>
+                  <strong>
+                    Username:
+                  </strong>{" "}
+                  {user.username}
+                </p>
 
-        {/* Don't allow admin to block itself/other admins */}
-        {user.role !== "ADMIN" && (
-          <button
-            type="button"
-            onClick={() =>
-              toggleBlockUser(user)
-            }
-          >
-            {user.blocked
-              ? "Unblock User"
-              : "Block User"}
-          </button>
+                <p>
+                  <strong>
+                    Role:
+                  </strong>{" "}
+                  {user.role}
+                </p>
+
+                <p>
+                  <strong>
+                    Status:
+                  </strong>{" "}
+                  {user.blocked
+                    ? "BLOCKED"
+                    : "ACTIVE"}
+                </p>
+
+                {user.role !==
+                  "ADMIN" && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      toggleBlockUser(
+                        user
+                      )
+                    }
+                  >
+                    {user.blocked
+                      ? "Unblock User"
+                      : "Block User"}
+                  </button>
+                )}
+              </div>
+            ))}
+
+          </div>
         )}
-      </div>
-    ))}
-  </div>
-)}
+      </section>
+
+      {/* =========================
+          JOB MANAGEMENT
+      ========================= */}
+
+      <section className="admin-job-section">
+
+        <h2>
+          Job Management
+        </h2>
+
+        {jobs.length === 0 ? (
+          <p>
+            No jobs available.
+          </p>
+        ) : (
+          <div className="admin-job-grid">
+
+            {jobs.map((job) => (
+              <div
+                className="admin-job-card"
+                key={job.id}
+              >
+
+                <div className="admin-job-top">
+
+                  <div>
+                    <span className="admin-job-label">
+                      JOB
+                    </span>
+
+                    <h3>
+                      {job.title}
+                    </h3>
+                  </div>
+
+                  <span
+                    className={
+                      job.active
+                        ? "admin-active-status"
+                        : "admin-inactive-status"
+                    }
+                  >
+                    {job.active
+                      ? "ACTIVE"
+                      : "INACTIVE"}
+                  </span>
+
+                </div>
+
+                <p>
+                  <strong>
+                    Location:
+                  </strong>{" "}
+                  {job.location ||
+                    "Not specified"}
+                </p>
+
+                <p>
+                  <strong>
+                    Salary:
+                  </strong>{" "}
+                  ₹{job.salary} LPA
+                </p>
+
+                <p>
+                  <strong>
+                    Experience:
+                  </strong>{" "}
+                  {job.experienceRequired ??
+                    0}{" "}
+                  years
+                </p>
+
+                <p>
+                  <strong>
+                    Skills:
+                  </strong>{" "}
+                  {job.requiredSkills ||
+                    "Not specified"}
+                </p>
+
+                <p>
+                  <strong>
+                    Employer:
+                  </strong>{" "}
+                  {job.employer?.username ||
+                    job.employerUsername ||
+                    "Employer"}
+                </p>
+
+                <button
+                  type="button"
+                  className="admin-delete-job-btn"
+                  onClick={() =>
+                    deleteJob(
+                      job.id
+                    )
+                  }
+                >
+                  Delete Job
+                </button>
+
+              </div>
+            ))}
+
+          </div>
+        )}
+
+      </section>
+
     </main>
   );
 }
