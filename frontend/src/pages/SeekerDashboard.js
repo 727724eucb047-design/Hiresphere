@@ -475,7 +475,7 @@ export default function SeekerDashboard() {
                   name="search"
                   type="search"
                   aria-label="Search jobs"
-                  placeholder="Search by job title or location..."
+                  placeholder="Search opportunities..."
                   value={query}
                   onChange={(event) =>
                     setQuery(
