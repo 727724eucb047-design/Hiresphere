@@ -218,6 +218,7 @@ const updateApplicationStatus = async (
   return (
     <main className="container">
       <h1>Employer Dashboard</h1>
+      
 
       {/* View controls */}
       <div className="dashboard-actions">
