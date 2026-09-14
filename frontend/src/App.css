@@ -380,13 +380,12 @@ nav[role="navigation"] .nav-links a:first-child:hover {
 /* HERO */
 
 .tech-hero {
-  min-height: 650px;
+  min-height: 570px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 70px;
   align-items: center;
-
-  padding: 80px 9%;
+  padding: 65px 9%;
 
   background:
     radial-gradient(
