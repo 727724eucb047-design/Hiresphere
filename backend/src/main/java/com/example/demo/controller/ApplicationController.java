@@ -56,4 +56,9 @@ public class ApplicationController {
         applicationService.withdrawApplication(id, authentication.getName());
         return ResponseEntity.ok("Application deleted successfully.");
     }
+    @GetMapping("/all")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+public ResponseEntity<List<Application>> getAllApplications() {
+    return ResponseEntity.ok(applicationService.getAllApplications());
+}
 }
