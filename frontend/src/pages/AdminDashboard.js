@@ -348,22 +348,24 @@ loadApplications();
           marginTop: "45px",
         }}
       >
-        <h2>
-          User Management
-        </h2>
+        <div className="admin-section-heading">
+  <div>
+    <span>USERS</span>
+    <h2>User Management</h2>
+  </div>
+</div>
 
         {users.length === 0 ? (
           <p>
             No users found.
           </p>
         ) : (
-          <div className="grid">
-
+          <div className="admin-user-grid">
             {users.map((user) => (
               <div
-                className="card"
-                key={user.id}
-              >
+  className="admin-user-card"
+  key={user.id}
+>
                 <h3>
                   {user.fullName ||
                     user.username}
