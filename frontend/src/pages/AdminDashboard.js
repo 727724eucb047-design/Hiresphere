@@ -81,7 +81,41 @@ export default function AdminDashboard() {
         );
       }
     };
-   
+   const loadApplications = async () => {
+  try {
+    const response = await api.get(
+      "/applications/all"
+    );
+
+    console.log(
+      "ADMIN APPLICATIONS:",
+      response.data
+    );
+
+    if (!mounted) return;
+
+    setApplications(
+      Array.isArray(response?.data)
+        ? response.data
+        : []
+    );
+  } catch (err) {
+    console.error(
+      "Failed to load applications:",
+      err
+    );
+
+    console.log(
+      "STATUS:",
+      err?.response?.status
+    );
+
+    console.log(
+      "RESPONSE:",
+      err?.response?.data
+    );
+  }
+};
 
     loadStats();
 loadUsers();
