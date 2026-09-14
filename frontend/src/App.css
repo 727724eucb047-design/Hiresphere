@@ -368,3 +368,614 @@ nav[role="navigation"] .nav-links a:first-child:hover {
   color: #3157a4 !important;
   background: #f1f5f9 !important;
 }
+/* =========================================
+   STYLE 5 - DARK MODERN TECH
+========================================= */
+
+.tech-home {
+  min-height: 100vh;
+  background: #0b1120;
+}
+
+/* HERO */
+
+.tech-hero {
+  min-height: 650px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: center;
+
+  padding: 80px 9%;
+
+  background:
+    radial-gradient(
+      circle at 75% 25%,
+      rgba(59, 130, 246, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 15% 70%,
+      rgba(99, 102, 241, 0.12),
+      transparent 35%
+    ),
+    #0b1120;
+}
+
+/* LEFT */
+
+.tech-left {
+  max-width: 650px;
+}
+
+.tech-badge {
+  display: inline-block;
+
+  padding: 8px 15px;
+
+  border: 1px solid rgba(96, 165, 250, 0.35);
+
+  border-radius: 30px;
+
+  color: #60a5fa;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  margin-bottom: 25px;
+
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.tech-left h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 70px;
+
+  line-height: 0.98;
+
+  letter-spacing: -3px;
+
+  font-weight: 800;
+}
+
+.tech-left h1 span {
+  color: #60a5fa;
+}
+
+.tech-description {
+  max-width: 540px;
+
+  color: #94a3b8;
+
+  font-size: 17px;
+
+  line-height: 1.8;
+
+  margin: 28px 0 32px;
+}
+
+/* ACTIONS */
+
+.tech-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.tech-primary,
+.tech-secondary {
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  transition: 0.2s ease;
+}
+
+.tech-primary {
+  padding: 14px 26px;
+
+  border-radius: 8px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+
+  box-shadow:
+    0 10px 30px rgba(37, 99, 235, 0.3);
+}
+
+.tech-primary:hover {
+  transform: translateY(-2px);
+}
+
+.tech-secondary {
+  color: #cbd5e1;
+}
+
+.tech-secondary:hover {
+  color: white;
+}
+
+/* STATS */
+
+.tech-stats {
+  margin-top: 50px;
+
+  padding-top: 25px;
+
+  border-top:
+    1px solid rgba(148, 163, 184, 0.15);
+
+  display: flex;
+
+  gap: 45px;
+}
+
+.tech-stats strong {
+  display: block;
+
+  color: white;
+
+  font-size: 18px;
+}
+
+.tech-stats span {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+/* RIGHT */
+
+.tech-right {
+  position: relative;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+.tech-job-panel {
+  width: 100%;
+
+  max-width: 470px;
+
+  padding: 28px;
+
+  border-radius: 20px;
+
+  background:
+    rgba(15, 23, 42, 0.92);
+
+  border:
+    1px solid rgba(148, 163, 184, 0.18);
+
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.35);
+
+  backdrop-filter: blur(20px);
+}
+
+/* PANEL */
+
+.tech-panel-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  margin-bottom: 24px;
+}
+
+.tech-panel-header span {
+  color: #64748b;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.6px;
+}
+
+.tech-panel-header h2 {
+  color: white;
+
+  font-size: 24px;
+
+  margin: 7px 0 0;
+}
+
+.tech-live {
+  background: rgba(34, 197, 94, 0.12);
+
+  color: #4ade80;
+
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+
+  font-weight: 800;
+}
+
+/* JOB CARDS */
+
+.tech-job-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.tech-job-card {
+  display: grid;
+
+  grid-template-columns: 48px 1fr auto;
+
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 15px;
+
+  border-radius: 12px;
+
+  background: rgba(30, 41, 59, 0.75);
+
+  border:
+    1px solid rgba(148, 163, 184, 0.1);
+
+  transition: 0.2s ease;
+}
+
+.tech-job-card:hover {
+  transform: translateX(5px);
+
+  background: rgba(51, 65, 85, 0.8);
+}
+
+.tech-job-logo {
+  width: 45px;
+
+  height: 45px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #6366f1
+    );
+
+  color: white;
+
+  font-weight: 800;
+}
+
+.tech-job-info h3 {
+  margin: 0;
+
+  color: white;
+
+  font-size: 14px;
+}
+
+.tech-job-info p {
+  margin: 5px 0 0;
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+.tech-job-info p span {
+  margin: 0 7px;
+}
+
+.tech-arrow {
+  color: #60a5fa;
+
+  font-size: 17px;
+}
+
+/* PANEL BOTTOM */
+
+.tech-panel-bottom {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-top: 22px;
+
+  padding-top: 18px;
+
+  border-top:
+    1px solid rgba(148, 163, 184, 0.12);
+}
+
+.tech-panel-bottom span {
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+.tech-panel-bottom strong {
+  color: #60a5fa;
+
+  font-size: 12px;
+}
+
+/* FLOATING */
+
+.tech-floating {
+  position: absolute;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 12px 15px;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.tech-floating-one {
+  left: -30px;
+
+  bottom: 50px;
+}
+
+.tech-floating-one > span {
+  width: 30px;
+
+  height: 30px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #dcfce7;
+
+  color: #16a34a;
+
+  font-weight: 800;
+}
+
+.tech-floating-one strong {
+  display: block;
+
+  color: #0f172a;
+
+  font-size: 12px;
+}
+
+.tech-floating-one small {
+  color: #94a3b8;
+
+  font-size: 10px;
+}
+
+.tech-floating-two {
+  right: -20px;
+
+  top: 40px;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+.tech-floating-two strong {
+  color: #2563eb;
+
+  font-size: 18px;
+}
+
+.tech-floating-two span {
+  color: #64748b;
+
+  font-size: 10px;
+}
+
+/* FEATURES */
+
+.tech-features {
+  padding: 90px 9%;
+
+  background: #f8fafc;
+
+  color: #0f172a;
+}
+
+.tech-feature-heading {
+  margin-bottom: 50px;
+}
+
+.tech-feature-heading span {
+  color: #2563eb;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.tech-feature-heading h2 {
+  margin: 10px 0 0;
+
+  font-size: 40px;
+
+  line-height: 1.2;
+}
+
+.tech-feature-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 30px;
+}
+
+.tech-feature {
+  padding: 30px;
+
+  background: white;
+
+  border-radius: 15px;
+
+  border: 1px solid #e5e7eb;
+
+  box-shadow:
+    0 7px 25px rgba(15, 23, 42, 0.05);
+}
+
+.tech-feature > div {
+  color: #2563eb;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  margin-bottom: 35px;
+}
+
+.tech-feature h3 {
+  font-size: 21px;
+
+  margin: 0 0 10px;
+}
+
+.tech-feature p {
+  margin: 0;
+
+  color: #64748b;
+
+  line-height: 1.7;
+}
+
+/* FOOTER */
+
+.tech-footer {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr;
+
+  align-items: center;
+
+  padding: 28px 9%;
+
+  background: #070c16;
+
+  color: #94a3b8;
+}
+
+.tech-footer strong {
+  color: white;
+
+  font-size: 20px;
+}
+
+.tech-footer p {
+  text-align: center;
+
+  margin: 0;
+
+  font-size: 12px;
+}
+
+.tech-footer span {
+  text-align: right;
+
+  font-size: 12px;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+  .tech-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .tech-left {
+    text-align: center;
+
+    margin: auto;
+  }
+
+  .tech-left h1 {
+    font-size: 50px;
+  }
+
+  .tech-description {
+    margin-left: auto;
+
+    margin-right: auto;
+  }
+
+  .tech-actions,
+  .tech-stats {
+    justify-content: center;
+  }
+
+  .tech-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tech-floating {
+    display: none;
+  }
+
+  .tech-footer {
+    grid-template-columns: 1fr;
+
+    text-align: center;
+
+    gap: 10px;
+  }
+
+  .tech-footer span {
+    text-align: center;
+  }
+}

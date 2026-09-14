@@ -1,153 +1,214 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const features = [
+const jobs = [
   {
-    number: "01",
-    title: "Discover Opportunities",
-    text: "Explore career opportunities that match your skills and interests.",
+    title: "Java Developer",
+    location: "Chennai",
+    salary: "7 LPA",
   },
   {
-    number: "02",
-    title: "Apply with Ease",
-    text: "Apply for jobs and keep track of your applications from one place.",
+    title: "Frontend Developer",
+    location: "Bangalore",
+    salary: "8 LPA",
   },
   {
-    number: "03",
-    title: "Connect with Talent",
-    text: "Employers can post opportunities and manage suitable candidates.",
+    title: "Software Engineer",
+    location: "Coimbatore",
+    salary: "6 LPA",
   },
 ];
 
 export default function Home() {
   return (
-    <main className="corporate-home">
+    <main className="tech-home">
 
-      <section className="corporate-hero">
+      <section className="tech-hero">
 
-        <div className="corporate-hero-left">
+        <div className="tech-left">
 
-          <div className="corporate-tag">
-            HIRESPHERE
+          <div className="tech-badge">
+            SMART RECRUITMENT PLATFORM
           </div>
 
           <h1 id="hero-heading-t30">
-            Where talent meets
-            <span> opportunity.</span>
+            Discover.
+            <br />
+            Connect.
+            <br />
+            <span>Get Hired.</span>
           </h1>
 
-          <p>
-            A smarter hiring platform designed to connect
-            talented candidates with the right employers.
+          <p className="tech-description">
+            HireSphere connects talented job seekers
+            with employers through a simple and
+            efficient recruitment platform.
           </p>
 
-          <div className="corporate-actions">
+          <div className="tech-actions">
 
             <Link
               to="/register"
-              className="corporate-primary"
+              className="tech-primary"
             >
-              Get Started →
+              Start Your Journey
             </Link>
 
             <Link
               to="/login"
-              className="corporate-secondary"
+              className="tech-secondary"
             >
-              Login
+              Login →
             </Link>
 
           </div>
 
-        </div>
+          <div className="tech-stats">
 
-        <div className="corporate-hero-right">
-
-          <div className="career-card">
-
-            <div className="career-card-top">
-              <span>CAREER OPPORTUNITIES</span>
-              <div className="online-dot"></div>
+            <div>
+              <strong>Easy</strong>
+              <span>Applications</span>
             </div>
 
-            <h2>
-              Find a role that matches your potential.
-            </h2>
-
-            <div className="career-item">
-              <div className="career-symbol">J</div>
-
-              <div>
-                <strong>Java Developer</strong>
-                <span>Backend Development</span>
-              </div>
-
-              <b>→</b>
+            <div>
+              <strong>Smart</strong>
+              <span>Job Search</span>
             </div>
 
-            <div className="career-item">
-              <div className="career-symbol">F</div>
-
-              <div>
-                <strong>Frontend Developer</strong>
-                <span>Web Development</span>
-              </div>
-
-              <b>→</b>
-            </div>
-
-            <div className="career-item">
-              <div className="career-symbol">S</div>
-
-              <div>
-                <strong>Software Engineer</strong>
-                <span>Technology</span>
-              </div>
-
-              <b>→</b>
+            <div>
+              <strong>Fast</strong>
+              <span>Hiring</span>
             </div>
 
           </div>
 
         </div>
 
+        <div className="tech-right">
+
+          <div className="tech-job-panel">
+
+            <div className="tech-panel-header">
+              <div>
+                <span>AVAILABLE OPPORTUNITIES</span>
+                <h2>Recommended Jobs</h2>
+              </div>
+
+              <div className="tech-live">
+                LIVE
+              </div>
+            </div>
+
+            <div className="tech-job-list">
+
+              {jobs.map((job) => (
+                <div
+                  className="tech-job-card"
+                  key={job.title}
+                >
+
+                  <div className="tech-job-logo">
+                    {job.title.charAt(0)}
+                  </div>
+
+                  <div className="tech-job-info">
+                    <h3>{job.title}</h3>
+
+                    <p>
+                      {job.location}
+                      <span>•</span>
+                      {job.salary}
+                    </p>
+                  </div>
+
+                  <div className="tech-arrow">
+                    →
+                  </div>
+
+                </div>
+              ))}
+
+            </div>
+
+            <div className="tech-panel-bottom">
+              <span>New opportunities added regularly</span>
+              <strong>Explore →</strong>
+            </div>
+
+          </div>
+
+          <div className="tech-floating tech-floating-one">
+            <span>✓</span>
+            <div>
+              <strong>Application Sent</strong>
+              <small>Successfully</small>
+            </div>
+          </div>
+
+          <div className="tech-floating tech-floating-two">
+            <strong>3+</strong>
+            <span>Career Paths</span>
+          </div>
+
+        </div>
+
       </section>
 
-      <section className="corporate-features">
+      <section className="tech-features">
 
-        <div className="corporate-heading">
-          <p>WHY CHOOSE HIRESPHERE</p>
+        <div className="tech-feature-heading">
+          <span>WHY HIRESPHERE</span>
 
           <h2>
-            Built for better hiring
+            Everything you need to
+            <br />
+            build your career.
           </h2>
         </div>
 
-        <div className="corporate-feature-grid">
+        <div className="tech-feature-grid">
 
-          {features.map((feature) => (
-            <div
-              className="corporate-feature"
-              key={feature.title}
-            >
-              <span>{feature.number}</span>
+          <div className="tech-feature">
+            <div>01</div>
+            <h3>Explore Jobs</h3>
+            <p>
+              Discover opportunities matching your
+              skills and career interests.
+            </p>
+          </div>
 
-              <h3>{feature.title}</h3>
+          <div className="tech-feature">
+            <div>02</div>
+            <h3>Apply Easily</h3>
+            <p>
+              Submit applications and manage your
+              application progress.
+            </p>
+          </div>
 
-              <p>{feature.text}</p>
-            </div>
-          ))}
+          <div className="tech-feature">
+            <div>03</div>
+            <h3>Track Status</h3>
+            <p>
+              Stay updated on shortlisted and rejected
+              applications.
+            </p>
+          </div>
 
         </div>
 
       </section>
 
-      <footer className="corporate-footer">
+      <footer className="tech-footer">
 
         <strong>HireSphere</strong>
 
+        <p>
+          Connecting talent with opportunity.
+        </p>
+
         <span>
-          © 2026 HireSphere. All rights reserved.
+          © 2026 HireSphere
         </span>
 
       </footer>
