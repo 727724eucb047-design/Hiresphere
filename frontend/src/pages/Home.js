@@ -32,7 +32,7 @@ export default function Home() {
           </div>
 
           <h1 id="hero-heading-t30">
-            Connect with Your
+            Connect with Your{" "}
             <br />
             <span>Dream Job</span>
           </h1>
