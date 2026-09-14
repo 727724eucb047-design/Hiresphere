@@ -1710,3 +1710,285 @@ nav[role="navigation"] .nav-links a:first-child:hover {
     grid-template-columns: 1fr;
   }
 }
+/* =====================================
+   HIRESPHERE ADMIN DASHBOARD
+===================================== */
+
+.admin-dashboard-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding-bottom: 70px;
+}
+
+/* HEADER */
+
+.admin-dashboard-header {
+  background:
+    linear-gradient(
+      135deg,
+      #0b1120,
+      #111c35
+    );
+  padding: 55px 8%;
+  margin-bottom: 45px;
+}
+
+.admin-dashboard-label {
+  display: block;
+  margin-bottom: 10px;
+  color: #60a5fa;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.admin-dashboard-header h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 42px;
+  letter-spacing: -1px;
+}
+
+.admin-dashboard-header p {
+  margin-top: 12px;
+  margin-bottom: 0;
+  color: #94a3b8;
+  font-size: 15px;
+}
+
+/* SECTIONS */
+
+.admin-section-title {
+  width: 84%;
+  margin: 0 auto 20px;
+  color: #0f172a;
+  font-size: 26px;
+}
+
+.admin-section-heading {
+  width: 84%;
+  margin: 50px auto 20px;
+}
+
+.admin-section-heading span {
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.admin-section-heading h2 {
+  margin: 5px 0 0;
+  color: #0f172a;
+  font-size: 27px;
+}
+
+/* METRICS */
+
+.admin-metric-grid {
+  width: 84%;
+  margin: auto;
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.admin-metric-card {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow:
+    0 8px 24px
+    rgba(15, 23, 42, 0.05);
+}
+
+.admin-metric-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 4px;
+  width: 100%;
+  background: #2563eb;
+}
+
+.admin-metric-card h3 {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-metric-card p {
+  margin: 12px 0 0;
+  color: #0f172a;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+/* USER MANAGEMENT */
+
+.admin-user-grid {
+  width: 84%;
+  margin: auto;
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.admin-user-card {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow:
+    0 6px 20px
+    rgba(15, 23, 42, 0.05);
+}
+
+.admin-user-card h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #0f172a;
+  font-size: 18px;
+}
+
+.admin-user-card p {
+  margin: 8px 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.admin-user-card strong {
+  color: #334155;
+}
+
+.admin-block-btn,
+.admin-unblock-btn {
+  margin-top: 15px;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 7px;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-block-btn {
+  background: #dc2626;
+}
+
+.admin-block-btn:hover {
+  background: #b91c1c;
+}
+
+.admin-unblock-btn {
+  background: #2563eb;
+}
+
+.admin-unblock-btn:hover {
+  background: #1d4ed8;
+}
+
+/* JOB SECTION */
+
+.admin-job-section {
+  width: 84%;
+  margin: 55px auto 0;
+}
+
+.admin-job-section .admin-section-heading {
+  width: 100%;
+  margin: 0 0 20px;
+}
+
+.admin-job-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.admin-job-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow:
+    0 6px 20px
+    rgba(15, 23, 42, 0.05);
+}
+
+/* APPLICATION SECTION */
+
+.admin-application-section {
+  width: 84%;
+  margin: 55px auto 0;
+}
+
+.admin-application-section .admin-section-heading {
+  width: 100%;
+  margin: 0 0 20px;
+}
+
+.admin-application-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.admin-application-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow:
+    0 6px 20px
+    rgba(15, 23, 42, 0.05);
+}
+
+/* MOBILE */
+
+@media (max-width: 1000px) {
+  .admin-metric-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .admin-user-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .admin-dashboard-header {
+    padding: 40px 6%;
+  }
+
+  .admin-dashboard-header h1 {
+    font-size: 34px;
+  }
+
+  .admin-section-title,
+  .admin-section-heading,
+  .admin-metric-grid,
+  .admin-user-grid,
+  .admin-job-section,
+  .admin-application-section {
+    width: 88%;
+  }
+
+  .admin-metric-grid,
+  .admin-user-grid,
+  .admin-job-grid,
+  .admin-application-grid {
+    grid-template-columns: 1fr;
+  }
+}

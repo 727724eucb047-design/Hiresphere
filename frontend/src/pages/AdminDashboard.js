@@ -422,9 +422,12 @@ loadApplications();
 
       <section className="admin-job-section">
 
-        <h2>
-          Job Management
-        </h2>
+        <div className="admin-section-heading">
+  <div>
+    <span>JOBS</span>
+    <h2>Job Management</h2>
+  </div>
+</div>
 
         {jobs.length === 0 ? (
           <p>
@@ -526,8 +529,12 @@ loadApplications();
 
       </section>
       <section className="admin-application-section">
-  <h2>Application Management</h2>
-
+  <div className="admin-section-heading">
+  <div>
+    <span>APPLICATIONS</span>
+    <h2>Application Management</h2>
+  </div>
+</div>
   {applications.length === 0 ? (
     <p>No applications found.</p>
   ) : (
