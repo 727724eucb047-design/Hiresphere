@@ -795,9 +795,8 @@ nav[role="navigation"] .nav-links a:first-child:hover {
 }
 
 .tech-floating-two {
-  right: -20px;
-
-  top: 40px;
+  right: 10px;
+  top: 35px;
 
   flex-direction: column;
 
@@ -819,7 +818,7 @@ nav[role="navigation"] .nav-links a:first-child:hover {
 /* FEATURES */
 
 .tech-features {
-  padding: 90px 9%;
+  padding: 70px 9%;
 
   background: #f8fafc;
 
