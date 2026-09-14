@@ -1030,6 +1030,7 @@ nav[role="navigation"] .nav-links a:first-child:hover {
   font-size: 54px;
   line-height: 1.08;
   letter-spacing: -2px;
+   color: #ffffff !important;
 }
 
 .login-brand-box h1 span {
