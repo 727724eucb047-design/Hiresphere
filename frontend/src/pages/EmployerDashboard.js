@@ -24,7 +24,6 @@ export default function EmployerDashboard() {
 
   const [applications, setApplications] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
-  
 
   const loadJobs = useCallback(async () => {
     try {
@@ -70,54 +69,54 @@ export default function EmployerDashboard() {
   };
 
   const handleSubmit = async (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  try {
-    setError("");
+    try {
+      setError("");
 
-    const response = await api.post(
-      "/jobs",
-      formData
-    );
+      const response = await api.post(
+        "/jobs",
+        formData
+      );
 
-    if (response?.data) {
-      const createdJob =
-        response.data.job ||
-        response.data;
+      if (response?.data) {
+        const createdJob =
+          response.data.job ||
+          response.data;
 
-      setJobs((previous) => [
-        ...previous,
-        createdJob,
-      ]);
+        setJobs((previous) => [
+          ...previous,
+          createdJob,
+        ]);
+      }
+
+      window.alert(
+        "Job posted successfully!"
+      );
+
+      setFormData(initialForm);
+
+      setView("list");
+    } catch (error) {
+      console.error(
+        "Failed to post job:",
+        error
+      );
+
+      console.log(
+        "Status:",
+        error?.response?.status
+      );
+
+      console.log(
+        "Backend response:",
+        error?.response?.data
+      );
+
+      setError("Failed to post job");
+      window.alert("Failed to post job");
     }
-
-    window.alert(
-      "Job posted successfully!"
-    );
-
-    setFormData(initialForm);
-
-    setView("list");
-  } catch (error) {
-    console.error(
-      "Failed to post job:",
-      error
-    );
-
-    console.log(
-      "Status:",
-      error?.response?.status
-    );
-
-    console.log(
-      "Backend response:",
-      error?.response?.data
-    );
-
-    setError("Failed to post job");
-    window.alert("Failed to post job");
-  }
-};
+  };
 
   const handleDelete = async (jobId) => {
     const confirmed = window.confirm(
@@ -153,434 +152,587 @@ export default function EmployerDashboard() {
       setError("Failed to delete job");
     }
   };
-  
+
   const loadApplications = async (job) => {
-  try {
-    setError("");
+    try {
+      setError("");
 
-    const response = await api.get(
-      `/applications/job/${job.id}`
-    );
+      const response = await api.get(
+        `/applications/job/${job.id}`
+      );
 
-    setApplications(
-      Array.isArray(response?.data)
-        ? response.data
-        : []
-    );
-
-    setSelectedJob(job);
-    setView("applications");
-  } catch (error) {
-    console.error(
-      "Failed to load applications:",
-      error
-    );
-
-    setError("Failed to load applications");
-  }
-};
-
-const updateApplicationStatus = async (
-  applicationId,
-  status
-) => {
-  try {
-    setError("");
-
-    const response = await api.put(
-      `/applications/${applicationId}/status`,
-      null,
-      {
-        params: { status },
-      }
-    );
-
-    setApplications((previous) =>
-      previous.map((application) =>
-        application.id === applicationId
+      setApplications(
+        Array.isArray(response?.data)
           ? response.data
-          : application
-      )
-    );
+          : []
+      );
 
-    window.alert(
-      `Application ${status.toLowerCase()} successfully`
-    );
-  } catch (error) {
-    console.error(
-      "Failed to update application status:",
-      error
-    );
+      setSelectedJob(job);
+      setView("applications");
+    } catch (error) {
+      console.error(
+        "Failed to load applications:",
+        error
+      );
 
-    setError("Failed to update application status");
-  }
-};
+      setError(
+        "Failed to load applications"
+      );
+    }
+  };
+
+  const updateApplicationStatus = async (
+    applicationId,
+    status
+  ) => {
+    try {
+      setError("");
+
+      const response = await api.put(
+        `/applications/${applicationId}/status`,
+        null,
+        {
+          params: { status },
+        }
+      );
+
+      setApplications((previous) =>
+        previous.map((application) =>
+          application.id === applicationId
+            ? response.data
+            : application
+        )
+      );
+
+      window.alert(
+        `Application ${status.toLowerCase()} successfully`
+      );
+    } catch (error) {
+      console.error(
+        "Failed to update application status:",
+        error
+      );
+
+      setError(
+        "Failed to update application status"
+      );
+    }
+  };
+
   return (
-  <main className="employer-dashboard-page">
+    <main className="employer-dashboard-page">
 
-    <section className="employer-dashboard-header">
-      <div>
-        <span className="employer-dashboard-label">
-          HIRESPHERE EMPLOYER
-        </span>
+      {/* =========================
+          HEADER
+      ========================= */}
 
-        <h1>Employer Dashboard</h1>
-
-        <p>
-          Post opportunities, manage your jobs,
-          and review candidate applications.
-        </p>
-      </div>
-    </section>
-
-    <div className="employer-dashboard-content">
-
-      <div className="employer-dashboard-toolbar">
-
+      <section className="employer-dashboard-header">
         <div>
-          <span>RECRUITMENT</span>
+          <span className="employer-dashboard-label">
+            HIRESPHERE EMPLOYER
+          </span>
 
-          <h2>
-            {view === "list"
-              ? "My Opportunities"
-              : view === "form"
-              ? "Create Opportunity"
-              : "Candidate Applications"}
-          </h2>
+          <h1>
+            Employer Dashboard
+          </h1>
+
+          <p>
+            Post opportunities, manage your jobs,
+            and review candidate applications.
+          </p>
         </div>
+      </section>
 
-        <div className="dashboard-actions">
-        <button
-          type="button"
-          onClick={() => {
-            setError("");
-            setView("list");
-          }}
-        >
-          My Jobs
-        </button>
+      <div className="employer-dashboard-content">
 
-        <button
-          type="button"
-          onClick={() => {
-            setError("");
-            setView("form");
-          }}
-        >
-          Post Job
-        </button>
-      </div>
-    </div>
+        {/* =========================
+            DASHBOARD TOOLBAR
+        ========================= */}
 
-      {/* Error */}
-      {error && (
-        <div role="alert">
-          {error}
-        </div>
-      )}
+        <div className="employer-dashboard-toolbar">
 
-      {/* =========================
-          MY JOBS
-          ========================= */}
-      {view === "list" && (
-        <section>
-          <h2>My Jobs</h2>
+          <div>
+            <span>
+              RECRUITMENT
+            </span>
 
-          {jobs.length === 0 ? (
-            <p>No jobs posted yet.</p>
-          ) : (
-            jobs.map((job) => (
-              <article
-                key={job.id}
-                data-testid={`job-${job.id}`}
-                className="card"
-              >
-                <h3>
-                  {job.title ||
-                    job.jobTitle ||
-                    "Untitled Job"}
-                </h3>
+            <h2>
+              {view === "list"
+                ? "My Opportunities"
+                : view === "form"
+                ? "Create Opportunity"
+                : "Candidate Applications"}
+            </h2>
+          </div>
 
-                {job.description && (
-                  <p>
-                    {job.description}
-                  </p>
-                )}
+          <div className="dashboard-actions">
 
-                {job.location && (
-                  <p>
-                    {job.location}
-                  </p>
-                )}
-
-                {job.salary !== undefined &&
-                 job.salary !== null &&
-                 job.salary !== "" && (
-                <p>
-                 <p>Salary: ₹{job.salary} LPA</p>
-                </p>
-                )}
-
-                {job.requiredSkills && (
-                  <p>
-                    {job.requiredSkills}
-                  </p>
-                )}
-
-                {job.experienceRequired && (
-                  <p>
-                    {job.experienceRequired}
-                  </p>
-                )}
-
-                {job.status && (
-                  <p>
-                    {job.status}
-                  </p>
-                )}
-
-                <div className="job-actions">
-
-  <button
-    type="button"
-    onClick={() => {
-      // Edit functionality later
-    }}
-  >
-    Edit
-  </button>
-
-  <button
-    type="button"
-    onClick={() => handleDelete(job.id)}
-  >
-    Delete
-  </button>
-
-  
-  {/* ADD THIS 👇 */}
-  <button
-    type="button"
-    onClick={() => loadApplications(job)}
-  >
-    View Applicants
-  </button>
-
-
-</div>
-              </article>
-            ))
-          )}
-        </section>
-      )}
-
-      {/* =========================
-          POST JOB
-          ========================= */}
-      {view === "form" && (
-        <section>
-          <h2>
-            Post a New Opportunity
-          </h2>
-
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="jobTitle">
-              Job Title
-            </label>
-
-            <input
-              id="jobTitle"
-              name="title"
-              type="text"
-              placeholder="Job Title"
-              value={formData.title}
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="description">
-              Description
-            </label>
-
-            <textarea
-              id="description"
-              name="description"
-              placeholder="Description"
-              value={
-                formData.description
-              }
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="location">
-              Location
-            </label>
-
-            <input
-              id="location"
-              name="location"
-              type="text"
-              placeholder="Location"
-              value={formData.location}
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="salary">
-  Salary (LPA)
-</label>
-
-<input
-  id="salary"
-  name="salary"
-  type="number"
-  step="0.1"
-  min="0"
-  placeholder="Example: 7"
-  value={formData.salary}
-  onChange={handleChange}
-/>
-
-            <label htmlFor="requiredSkills">
-              Required Skills
-            </label>
-
-            <input
-              id="requiredSkills"
-              name="requiredSkills"
-              type="text"
-              placeholder="Required Skills"
-              value={
-                formData.requiredSkills
-              }
-              onChange={handleChange}
-            />
-
-            <label htmlFor="experienceRequired">
-              Experience Required
-            </label>
-
-            <input
-  id="experienceRequired"
-  name="experienceRequired"
-  type="number"
-  min="0"
-  placeholder="Example: 1"
-  value={formData.experienceRequired}
-  onChange={handleChange}
-/>
-            <button type="submit">
-              Publish Job
+            <button
+              type="button"
+              onClick={() => {
+                setError("");
+                setView("list");
+              }}
+            >
+              My Jobs
             </button>
-          </form>
-        </section>
-      )}
 
-      {view === "applications" && (
-  <section>
-    <h2>
-      Applicants for {selectedJob?.title}
-    </h2>
+            <button
+              type="button"
+              onClick={() => {
+                setError("");
+                setView("form");
+              }}
+            >
+              Post Job
+            </button>
 
-    <button
-      type="button"
-      onClick={() => setView("list")}
-    >
-      Back to My Jobs
-    </button>
+          </div>
 
-    {applications.length === 0 ? (
-      <p>No applications yet.</p>
-    ) : (
-      applications.map((application) => (
-        <article
-          key={application.id}
-          className="card"
-        >
-          <h3>
-            {application.fullName ||
-              application.seeker?.fullName ||
-              "Applicant"}
-          </h3>
+        </div>
 
-          {application.email && (
-            <p>Email: {application.email}</p>
-          )}
+        {/* =========================
+            ERROR MESSAGE
+        ========================= */}
 
-          {application.phone && (
-            <p>Phone: {application.phone}</p>
-          )}
+        {error && (
+          <div
+            role="alert"
+            className="error-message"
+          >
+            {error}
+          </div>
+        )}
 
-          {application.skills && (
-            <p>Skills: {application.skills}</p>
-          )}
+        {/* =========================
+            MY JOBS
+        ========================= */}
 
-          {application.experience !== undefined && (
-            <p>
-              Experience: {application.experience}
-            </p>
-          )}
+        {view === "list" && (
+          <section className="employer-jobs-section">
 
-          {application.resumeUrl && (
-            <p>
-              Resume: {application.resumeUrl}
-            </p>
-          )}
+            <h2>
+              My Jobs
+            </h2>
 
-          {application.expectedSalary && (
-            <p>
-              Expected Salary: {application.expectedSalary}
-            </p>
-          )}
+            {jobs.length === 0 ? (
+              <p>
+                No jobs posted yet.
+              </p>
+            ) : (
+              <div className="employer-job-grid">
 
-          {application.noticePeriod && (
-            <p>
-              Notice Period: {application.noticePeriod}
-            </p>
-          )}
+                {jobs.map((job) => (
+                  <article
+                    key={job.id}
+                    data-testid={`job-${job.id}`}
+                    className="card employer-job-card"
+                  >
 
-          {application.coverLetter && (
-            <p>
-              Cover Letter: {application.coverLetter}
-            </p>
-          )}
+                    <h3>
+                      {job.title ||
+                        job.jobTitle ||
+                        "Untitled Job"}
+                    </h3>
 
-          {application.status && (
-            <p>
-              Status: {application.status}
-            </p>
-          )}
-          <div className="job-actions">
-  <button
-    type="button"
-    onClick={() =>
-      updateApplicationStatus(
-        application.id,
-        "SHORTLISTED"
-      )
-    }
-  >
-    Shortlist
-  </button>
+                    {job.description && (
+                      <p>
+                        {job.description}
+                      </p>
+                    )}
 
-  <button
-    type="button"
-    onClick={() =>
-      updateApplicationStatus(
-        application.id,
-        "REJECTED"
-      )
-    }
-  >
-    Reject
-  </button>
-</div>
-        </article>
-      ))
-    )}
-  </section>
-)}
+                    {job.location && (
+                      <p>
+                        <strong>
+                          Location:
+                        </strong>{" "}
+                        {job.location}
+                      </p>
+                    )}
+
+                    {job.salary !== undefined &&
+                      job.salary !== null &&
+                      job.salary !== "" && (
+                        <p>
+                          <strong>
+                            Salary:
+                          </strong>{" "}
+                          ₹{job.salary} LPA
+                        </p>
+                      )}
+
+                    {job.requiredSkills && (
+                      <p>
+                        <strong>
+                          Skills:
+                        </strong>{" "}
+                        {job.requiredSkills}
+                      </p>
+                    )}
+
+                    {job.experienceRequired !==
+                      undefined &&
+                      job.experienceRequired !==
+                        null &&
+                      job.experienceRequired !==
+                        "" && (
+                        <p>
+                          <strong>
+                            Experience:
+                          </strong>{" "}
+                          {
+                            job.experienceRequired
+                          }{" "}
+                          years
+                        </p>
+                      )}
+
+                    {job.status && (
+                      <p>
+                        <strong>
+                          Status:
+                        </strong>{" "}
+                        {job.status}
+                      </p>
+                    )}
+
+                    <div className="job-actions">
+
+                      {/* Keep button order:
+                          Edit -> Delete -> View Applicants */}
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          // Edit functionality later
+                        }}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleDelete(job.id)
+                        }
+                      >
+                        Delete
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          loadApplications(job)
+                        }
+                      >
+                        View Applicants
+                      </button>
+
+                    </div>
+
+                  </article>
+                ))}
+
+              </div>
+            )}
+
+          </section>
+        )}
+
+        {/* =========================
+            POST JOB
+        ========================= */}
+
+        {view === "form" && (
+          <section className="employer-form-section">
+
+            <h2>
+              Post a New Opportunity
+            </h2>
+
+            <form
+              onSubmit={handleSubmit}
+              className="employer-job-form"
+            >
+
+              <label htmlFor="jobTitle">
+                Job Title
+              </label>
+
+              <input
+                id="jobTitle"
+                name="title"
+                type="text"
+                placeholder="Job Title"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
+
+              <label htmlFor="description">
+                Description
+              </label>
+
+              <textarea
+                id="description"
+                name="description"
+                placeholder="Description"
+                value={formData.description}
+                onChange={handleChange}
+                required
+              />
+
+              <label htmlFor="location">
+                Location
+              </label>
+
+              <input
+                id="location"
+                name="location"
+                type="text"
+                placeholder="Location"
+                value={formData.location}
+                onChange={handleChange}
+                required
+              />
+
+              <label htmlFor="salary">
+                Salary (LPA)
+              </label>
+
+              <input
+                id="salary"
+                name="salary"
+                type="number"
+                step="0.1"
+                min="0"
+                placeholder="Example: 7"
+                value={formData.salary}
+                onChange={handleChange}
+              />
+
+              <label htmlFor="requiredSkills">
+                Required Skills
+              </label>
+
+              <input
+                id="requiredSkills"
+                name="requiredSkills"
+                type="text"
+                placeholder="Required Skills"
+                value={formData.requiredSkills}
+                onChange={handleChange}
+              />
+
+              <label htmlFor="experienceRequired">
+                Experience Required
+              </label>
+
+              <input
+                id="experienceRequired"
+                name="experienceRequired"
+                type="number"
+                min="0"
+                placeholder="Example: 1"
+                value={
+                  formData.experienceRequired
+                }
+                onChange={handleChange}
+              />
+
+              <button type="submit">
+                Publish Job
+              </button>
+
+            </form>
+
+          </section>
+        )}
+
+        {/* =========================
+            APPLICATIONS
+        ========================= */}
+
+        {view === "applications" && (
+          <section className="employer-applications-section">
+
+            <div className="employer-applications-heading">
+
+              <div>
+                <span>
+                  CANDIDATES
+                </span>
+
+                <h2>
+                  Applicants for{" "}
+                  {selectedJob?.title}
+                </h2>
+              </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setView("list")
+                }
+              >
+                Back to My Jobs
+              </button>
+
+            </div>
+
+            {applications.length === 0 ? (
+              <p>
+                No applications yet.
+              </p>
+            ) : (
+              <div className="employer-application-grid">
+
+                {applications.map(
+                  (application) => (
+                    <article
+                      key={application.id}
+                      className="card employer-application-card"
+                    >
+
+                      <h3>
+                        {application.fullName ||
+                          application.seeker
+                            ?.fullName ||
+                          "Applicant"}
+                      </h3>
+
+                      {application.email && (
+                        <p>
+                          <strong>
+                            Email:
+                          </strong>{" "}
+                          {application.email}
+                        </p>
+                      )}
+
+                      {application.phone && (
+                        <p>
+                          <strong>
+                            Phone:
+                          </strong>{" "}
+                          {application.phone}
+                        </p>
+                      )}
+
+                      {application.skills && (
+                        <p>
+                          <strong>
+                            Skills:
+                          </strong>{" "}
+                          {application.skills}
+                        </p>
+                      )}
+
+                      {application.experience !==
+                        undefined && (
+                        <p>
+                          <strong>
+                            Experience:
+                          </strong>{" "}
+                          {
+                            application.experience
+                          }
+                        </p>
+                      )}
+
+                      {application.resumeUrl && (
+                        <p>
+                          <strong>
+                            Resume:
+                          </strong>{" "}
+                          {
+                            application.resumeUrl
+                          }
+                        </p>
+                      )}
+
+                      {application.expectedSalary && (
+                        <p>
+                          <strong>
+                            Expected Salary:
+                          </strong>{" "}
+                          {
+                            application.expectedSalary
+                          }
+                        </p>
+                      )}
+
+                      {application.noticePeriod && (
+                        <p>
+                          <strong>
+                            Notice Period:
+                          </strong>{" "}
+                          {
+                            application.noticePeriod
+                          }
+                        </p>
+                      )}
+
+                      {application.coverLetter && (
+                        <p>
+                          <strong>
+                            Cover Letter:
+                          </strong>{" "}
+                          {
+                            application.coverLetter
+                          }
+                        </p>
+                      )}
+
+                      {application.status && (
+                        <p>
+                          <strong>
+                            Status:
+                          </strong>{" "}
+                          {application.status}
+                        </p>
+                      )}
+
+                      <div className="job-actions">
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            updateApplicationStatus(
+                              application.id,
+                              "SHORTLISTED"
+                            )
+                          }
+                        >
+                          Shortlist
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            updateApplicationStatus(
+                              application.id,
+                              "REJECTED"
+                            )
+                          }
+                        >
+                          Reject
+                        </button>
+
+                      </div>
+
+                    </article>
+                  )
+                )}
+
+              </div>
+            )}
+
+          </section>
+        )}
+
+      </div>
+
     </main>
   );
 }
