@@ -93,6 +93,88 @@ loadUsers();
       )
     );
 
+    <section className="admin-job-section">
+
+  <h2>Job Management</h2>
+
+  {jobs.length === 0 ? (
+    <p>No jobs available.</p>
+  ) : (
+    <div className="admin-job-grid">
+
+      {jobs.map((job) => (
+        <div
+          className="admin-job-card"
+          key={job.id}
+        >
+
+          <div className="admin-job-top">
+
+            <div>
+              <span className="admin-job-label">
+                JOB
+              </span>
+
+              <h3>
+                {job.title}
+              </h3>
+            </div>
+
+            <span
+              className={
+                job.active
+                  ? "admin-active-status"
+                  : "admin-inactive-status"
+              }
+            >
+              {job.active ? "ACTIVE" : "INACTIVE"}
+            </span>
+
+          </div>
+
+          <p>
+            <strong>Location:</strong>{" "}
+            {job.location || "Not specified"}
+          </p>
+
+          <p>
+            <strong>Salary:</strong>{" "}
+            ₹{job.salary} LPA
+          </p>
+
+          <p>
+            <strong>Experience:</strong>{" "}
+            {job.experienceRequired ?? 0} years
+          </p>
+
+          <p>
+            <strong>Skills:</strong>{" "}
+            {job.requiredSkills || "Not specified"}
+          </p>
+
+          <p>
+            <strong>Employer:</strong>{" "}
+            {job.employer?.username ||
+              job.employerUsername ||
+              "Employer"}
+          </p>
+
+          <button
+            type="button"
+            className="admin-delete-job-btn"
+            onClick={() => deleteJob(job.id)}
+          >
+            Delete Job
+          </button>
+
+        </div>
+      ))}
+
+    </div>
+  )}
+
+</section>
+
     // Refresh statistics
     const statsResponse = await api.get(
       "/admin/stats"
