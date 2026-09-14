@@ -73,6 +73,9 @@ public class ApplicationService {
     public List<Application> getJobApplications(Long jobId) {
         return applicationRepository.findByJobId(jobId);
     }
+    public List<Application> getAllApplications() {
+    return applicationRepository.findAll();
+}
 
     @Transactional
     public Application updateStatus(Long applicationId, ApplicationStatus status) {

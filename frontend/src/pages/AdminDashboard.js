@@ -6,6 +6,7 @@ export default function AdminDashboard() {
   const [error, setError] = useState("");
   const [users, setUsers] = useState([]);
   const [jobs, setJobs] = useState([]);
+  const [applications, setApplications] = useState([]);
 
   useEffect(() => {
     let mounted = true;
