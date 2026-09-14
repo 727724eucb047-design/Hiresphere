@@ -86,7 +86,7 @@ export default function Login() {
         </span>
 
         <h1>
-          Welcome back.
+          Welcome Back
           <br />
           Your next opportunity
           <span> starts here.</span>
