@@ -306,7 +306,7 @@ loadApplications();
     </span>
 
     <h1>
-      Admin Dashboard
+      Admin Analytics Dashboard
     </h1>
 
     <p>
