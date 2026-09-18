@@ -1,330 +1,396 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const jobs = [
   {
+    id: 1,
     title: "Java Developer",
     location: "Chennai",
-    salary: "7 LPA",
-    skills: "Java • Spring Boot",
+    salary: "₹7 LPA",
+    experience: "Fresher",
+    skills: "Java • Spring Boot • REST API",
   },
   {
+    id: 2,
     title: "Frontend Developer",
     location: "Bangalore",
-    salary: "8 LPA",
-    skills: "ReactJS • JavaScript",
+    salary: "₹8 LPA",
+    experience: "1 Year",
+    skills: "ReactJS • JavaScript • CSS",
   },
   {
+    id: 3,
     title: "Software Engineer",
     location: "Coimbatore",
-    salary: "6 LPA",
-    skills: "Java • SQL",
+    salary: "₹6 LPA",
+    experience: "Fresher",
+    skills: "Java • SQL • OOP",
   },
 ];
 
 export default function Home() {
+  const [search, setSearch] = useState("");
+  const [location, setLocation] = useState("");
+
+  const filteredJobs = jobs.filter((job) => {
+    const matchesSearch =
+      job.title
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      job.skills
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+    const matchesLocation =
+      job.location
+        .toLowerCase()
+        .includes(location.toLowerCase());
+
+    return matchesSearch && matchesLocation;
+  });
+
   return (
-    <main className="hire-home">
+    <main className="portal-home">
 
-      {/* HERO SECTION */}
-      <section className="hire-hero">
-        <div className="hire-hero-content">
+      {/* HERO */}
 
-          <div className="hire-badge">
-            SMART RECRUITMENT PLATFORM
-          </div>
+      <section className="portal-hero">
+
+        <div className="portal-hero-inner">
+
+          <span className="portal-eyebrow">
+            HIRESPHERE RECRUITMENT PLATFORM
+          </span>
 
           <h1 id="hero-heading-t30">
-            Find the Right Job.
-            <span> Build Your Future.</span>
+            Your Career Starts
+            <span> Here.</span>
           </h1>
 
-          <p className="hire-description">
-            HireSphere connects talented job seekers
-            with employers through a simple, secure,
-            and efficient hiring platform.
+          <p>
+            Search opportunities, connect with employers,
+            and take the next step in your career.
           </p>
 
-          <div className="hire-actions">
-            <Link
-              to="/register"
-              className="hire-primary-btn"
-            >
-              Get Started
-            </Link>
+          {/* SEARCH BAR */}
 
-            <Link
-              to="/login"
-              className="hire-secondary-btn"
+          <div className="portal-search-box">
+
+            <div className="portal-search-field">
+              <span>⌕</span>
+
+              <div>
+                <label>WHAT</label>
+
+                <input
+                  type="text"
+                  placeholder="Job title or skills"
+                  value={search}
+                  onChange={(e) =>
+                    setSearch(e.target.value)
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="portal-search-divider" />
+
+            <div className="portal-search-field">
+              <span>⌖</span>
+
+              <div>
+                <label>WHERE</label>
+
+                <input
+                  type="text"
+                  placeholder="City or location"
+                  value={location}
+                  onChange={(e) =>
+                    setLocation(e.target.value)
+                  }
+                />
+              </div>
+            </div>
+
+            <button
+              className="portal-search-button"
+              type="button"
             >
-              Login
-            </Link>
+              Search Jobs
+            </button>
+
           </div>
 
-          <div className="hire-highlights">
+          <div className="portal-quick-info">
+
+            <div>
+              <strong>3</strong>
+              <span>Active Jobs</span>
+            </div>
+
+            <div>
+              <strong>3+</strong>
+              <span>Career Roles</span>
+            </div>
+
             <div>
               <strong>Easy</strong>
-              <span>Job Applications</span>
+              <span>Applications</span>
             </div>
 
-            <div>
-              <strong>Secure</strong>
-              <span>Role-Based Access</span>
-            </div>
-
-            <div>
-              <strong>Fast</strong>
-              <span>Hiring Process</span>
-            </div>
-          </div>
-        </div>
-
-        {/* RIGHT SIDE CARD */}
-        <div className="hire-hero-card">
-
-          <div className="hire-card-top">
-            <div>
-              <span>HIRING MADE SIMPLE</span>
-              <h2>Explore Opportunities</h2>
-            </div>
-
-            <div className="hire-live">
-              ACTIVE
-            </div>
-          </div>
-
-          <p className="hire-card-description">
-            Discover opportunities that match your
-            skills and career goals.
-          </p>
-
-          <div className="hire-mini-feature">
-            <div className="hire-feature-icon">
-              01
-            </div>
-
-            <div>
-              <strong>Search Jobs</strong>
-              <span>
-                Find opportunities across locations
-                and roles.
-              </span>
-            </div>
-          </div>
-
-          <div className="hire-mini-feature">
-            <div className="hire-feature-icon">
-              02
-            </div>
-
-            <div>
-              <strong>Apply Easily</strong>
-              <span>
-                Submit applications directly through
-                HireSphere.
-              </span>
-            </div>
-          </div>
-
-          <div className="hire-mini-feature">
-            <div className="hire-feature-icon">
-              03
-            </div>
-
-            <div>
-              <strong>Manage Recruitment</strong>
-              <span>
-                Employers can create and manage job
-                opportunities.
-              </span>
-            </div>
           </div>
 
         </div>
+
       </section>
 
-      {/* JOB SECTION */}
-      <section className="hire-jobs-section">
 
-        <div className="hire-section-heading">
-          <span>AVAILABLE OPPORTUNITIES</span>
+      {/* JOBS */}
 
-          <h2>Featured Jobs</h2>
+      <section className="portal-jobs">
 
-          <p>
-            Explore some of the opportunities
-            available through HireSphere.
-          </p>
+        <div className="portal-section-header">
+
+          <div>
+            <span>OPPORTUNITIES</span>
+
+            <h2>Explore Latest Jobs</h2>
+
+            <p>
+              Find opportunities matching your skills
+              and career interests.
+            </p>
+          </div>
+
+          <Link to="/login">
+            View All Jobs →
+          </Link>
+
         </div>
 
-        <div className="hire-job-grid">
-          {jobs.map((job) => (
-            <div
-              className="hire-job-card"
-              key={job.title}
-            >
-              <div className="hire-job-top">
-                <div className="hire-job-icon">
-                  {job.title.charAt(0)}
+
+        <div className="portal-job-grid">
+
+          {filteredJobs.length > 0 ? (
+            filteredJobs.map((job) => (
+
+              <article
+                className="portal-job-card"
+                key={job.id}
+              >
+
+                <div className="portal-job-header">
+
+                  <div className="portal-company-icon">
+                    {job.title.charAt(0)}
+                  </div>
+
+                  <span className="portal-active">
+                    ACTIVE
+                  </span>
+
                 </div>
 
-                <span className="hire-job-status">
-                  ACTIVE
-                </span>
-              </div>
+                <h3>{job.title}</h3>
 
-              <h3>{job.title}</h3>
+                <p className="portal-job-place">
+                  {job.location}
+                </p>
 
-              <p className="hire-job-location">
-                {job.location}
-              </p>
+                <div className="portal-job-meta">
 
-              <div className="hire-job-details">
-                <span>{job.salary}</span>
-                <span>{job.skills}</span>
-              </div>
+                  <span>{job.salary}</span>
 
-              <Link
-                to="/login"
-                className="hire-job-link"
-              >
-                View Opportunity →
-              </Link>
+                  <span>{job.experience}</span>
+
+                </div>
+
+                <p className="portal-job-skills">
+                  {job.skills}
+                </p>
+
+                <Link
+                  to="/login"
+                  className="portal-view-job"
+                >
+                  View Job
+                  <span>→</span>
+                </Link>
+
+              </article>
+
+            ))
+          ) : (
+
+            <div className="portal-no-jobs">
+              No matching jobs found.
             </div>
-          ))}
+
+          )}
+
         </div>
 
       </section>
 
-      {/* WHY HIRESPHERE */}
-      <section className="hire-features">
 
-        <div className="hire-section-heading">
-          <span>WHY HIRESPHERE</span>
+      {/* USERS */}
 
-          <h2>
-            One Platform for Smarter Recruitment
-          </h2>
+      <section className="portal-users">
+
+        <div className="portal-users-title">
+
+          <span>ONE PLATFORM</span>
+
+          <h2>Built for Everyone in Hiring</h2>
 
           <p>
-            Designed for job seekers, employers,
-            and administrators.
+            HireSphere provides dedicated functionality
+            for every user role.
           </p>
-        </div>
-
-        <div className="hire-feature-grid">
-
-          <div className="hire-feature-card">
-            <div className="hire-feature-number">
-              01
-            </div>
-
-            <h3>For Job Seekers</h3>
-
-            <p>
-              Browse jobs, manage your profile,
-              apply for opportunities, and view
-              your applications.
-            </p>
-          </div>
-
-          <div className="hire-feature-card">
-            <div className="hire-feature-number">
-              02
-            </div>
-
-            <h3>For Employers</h3>
-
-            <p>
-              Create job postings and manage
-              recruitment activities from a
-              dedicated employer dashboard.
-            </p>
-          </div>
-
-          <div className="hire-feature-card">
-            <div className="hire-feature-number">
-              03
-            </div>
-
-            <h3>For Administrators</h3>
-
-            <p>
-              Monitor users, jobs, applications,
-              and overall platform activity.
-            </p>
-          </div>
 
         </div>
+
+
+        <div className="portal-user-grid">
+
+          <div className="portal-user-card">
+
+            <div className="portal-role-icon">
+              JS
+            </div>
+
+            <h3>Job Seekers</h3>
+
+            <p>
+              Search available jobs, maintain your
+              profile and submit applications.
+            </p>
+
+            <Link to="/register">
+              Find Jobs →
+            </Link>
+
+          </div>
+
+
+          <div className="portal-user-card">
+
+            <div className="portal-role-icon">
+              EM
+            </div>
+
+            <h3>Employers</h3>
+
+            <p>
+              Create job opportunities and manage
+              your job postings through one dashboard.
+            </p>
+
+            <Link to="/register">
+              Start Hiring →
+            </Link>
+
+          </div>
+
+
+          <div className="portal-user-card">
+
+            <div className="portal-role-icon">
+              AD
+            </div>
+
+            <h3>Administrator</h3>
+
+            <p>
+              Monitor users, jobs, applications
+              and overall recruitment activity.
+            </p>
+
+            <Link to="/login">
+              Admin Login →
+            </Link>
+
+          </div>
+
+        </div>
+
       </section>
 
-      {/* PROCESS */}
-      <section className="hire-process">
 
-        <div className="hire-section-heading">
-          <span>HOW IT WORKS</span>
+      {/* HOW IT WORKS */}
 
-          <h2>
-            Start Your Journey in Three Steps
-          </h2>
+      <section className="portal-how">
+
+        <div className="portal-how-title">
+          <span>SIMPLE PROCESS</span>
+          <h2>How HireSphere Works</h2>
         </div>
 
-        <div className="hire-process-grid">
+        <div className="portal-steps">
 
           <div>
             <strong>01</strong>
             <h3>Create Account</h3>
             <p>
-              Register as a job seeker or employer.
+              Register securely with your
+              appropriate user role.
             </p>
           </div>
 
+          <div className="portal-step-line" />
+
           <div>
             <strong>02</strong>
-            <h3>Explore</h3>
+            <h3>Discover</h3>
             <p>
-              Browse jobs or create new job
+              Search jobs or create job
               opportunities.
             </p>
           </div>
+
+          <div className="portal-step-line" />
 
           <div>
             <strong>03</strong>
             <h3>Connect</h3>
             <p>
-              Apply for jobs and manage the
-              recruitment process.
+              Apply and manage the recruitment
+              process through HireSphere.
             </p>
           </div>
 
         </div>
+
       </section>
 
+
       {/* CTA */}
-      <section className="hire-cta">
+
+      <section className="portal-cta">
+
         <div>
-          <span>GET STARTED TODAY</span>
+          <span>START YOUR JOURNEY</span>
 
           <h2>
-            Your next opportunity starts here.
+            Ready for your next opportunity?
           </h2>
 
           <p>
-            Join HireSphere and experience a simpler
-            recruitment process.
+            Create your HireSphere account
+            and get started.
           </p>
         </div>
 
-        <Link
-          to="/register"
-          className="hire-cta-btn"
-        >
-          Create Account →
+        <Link to="/register">
+          Create Account
         </Link>
+
       </section>
 
+
       {/* FOOTER */}
-      <footer className="hire-footer">
+
+      <footer className="portal-footer">
 
         <div>
           <strong>HireSphere</strong>
@@ -332,6 +398,12 @@ export default function Home() {
           <p>
             Connecting talent with opportunity.
           </p>
+        </div>
+
+        <div>
+          <Link to="/">Home</Link>
+          <Link to="/login">Login</Link>
+          <Link to="/register">Register</Link>
         </div>
 
         <span>
