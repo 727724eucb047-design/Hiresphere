@@ -6,137 +6,165 @@ const jobs = [
     id: 1,
     title: "Java Developer",
     location: "Chennai",
-    salary: "₹7 LPA",
-    experience: "Fresher",
+    salary: "7 LPA",
     skills: "Java • Spring Boot • REST API",
   },
   {
     id: 2,
     title: "Frontend Developer",
     location: "Bangalore",
-    salary: "₹8 LPA",
-    experience: "1 Year",
+    salary: "8 LPA",
     skills: "ReactJS • JavaScript • CSS",
   },
   {
     id: 3,
     title: "Software Engineer",
     location: "Coimbatore",
-    salary: "₹6 LPA",
-    experience: "Fresher",
+    salary: "6 LPA",
     skills: "Java • SQL • OOP",
   },
 ];
 
 export default function Home() {
-  const [search, setSearch] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [location, setLocation] = useState("");
 
   const filteredJobs = jobs.filter((job) => {
-    const matchesSearch =
-      job.title
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
-      job.skills
-        .toLowerCase()
-        .includes(search.toLowerCase());
+    const searchText = keyword.toLowerCase();
+    const locationText = location.toLowerCase();
+
+    const matchesKeyword =
+      job.title.toLowerCase().includes(searchText) ||
+      job.skills.toLowerCase().includes(searchText);
 
     const matchesLocation =
-      job.location
-        .toLowerCase()
-        .includes(location.toLowerCase());
+      job.location.toLowerCase().includes(locationText);
 
-    return matchesSearch && matchesLocation;
+    return matchesKeyword && matchesLocation;
   });
 
   return (
-    <main className="portal-home">
+    <main className="hs-home">
 
       {/* HERO */}
+      <section className="hs-hero">
 
-      <section className="portal-hero">
+        <div className="hs-hero-left">
 
-        <div className="portal-hero-inner">
-
-          <span className="portal-eyebrow">
-            HIRESPHERE RECRUITMENT PLATFORM
-          </span>
+          <div className="hs-small-heading">
+            YOUR CAREER. YOUR FUTURE.
+          </div>
 
           <h1 id="hero-heading-t30">
-            Your Career Starts
-            <span> Here.</span>
+            Find Your Next
+            <span> Opportunity.</span>
           </h1>
 
-          <p>
-            Search opportunities, connect with employers,
-            and take the next step in your career.
+          <p className="hs-hero-description">
+            Discover career opportunities, connect with
+            employers, and manage your job applications
+            through one simple recruitment platform.
           </p>
 
-          {/* SEARCH BAR */}
+          {/* SEARCH */}
+          <div className="hs-search">
 
-          <div className="portal-search-box">
+            <div className="hs-search-input">
+              <label>JOB / SKILLS</label>
 
-            <div className="portal-search-field">
-              <span>⌕</span>
-
-              <div>
-                <label>WHAT</label>
-
-                <input
-                  type="text"
-                  placeholder="Job title or skills"
-                  value={search}
-                  onChange={(e) =>
-                    setSearch(e.target.value)
-                  }
-                />
-              </div>
+              <input
+                type="text"
+                placeholder="Java, React, Developer..."
+                value={keyword}
+                onChange={(e) =>
+                  setKeyword(e.target.value)
+                }
+              />
             </div>
 
-            <div className="portal-search-divider" />
+            <div className="hs-search-input">
+              <label>LOCATION</label>
 
-            <div className="portal-search-field">
-              <span>⌖</span>
-
-              <div>
-                <label>WHERE</label>
-
-                <input
-                  type="text"
-                  placeholder="City or location"
-                  value={location}
-                  onChange={(e) =>
-                    setLocation(e.target.value)
-                  }
-                />
-              </div>
+              <input
+                type="text"
+                placeholder="Chennai, Bangalore..."
+                value={location}
+                onChange={(e) =>
+                  setLocation(e.target.value)
+                }
+              />
             </div>
 
-            <button
-              className="portal-search-button"
-              type="button"
-            >
+            <button type="button">
               Search Jobs
             </button>
 
           </div>
 
-          <div className="portal-quick-info">
+          <div className="hs-popular">
+            <strong>Popular:</strong>
+            <span>Java</span>
+            <span>React</span>
+            <span>Spring Boot</span>
+          </div>
 
-            <div>
-              <strong>3</strong>
-              <span>Active Jobs</span>
+        </div>
+
+
+        {/* HERO RIGHT */}
+        <div className="hs-hero-right">
+
+          <div className="hs-career-card">
+
+            <div className="hs-card-badge">
+              HIRESPHERE
             </div>
 
-            <div>
-              <strong>3+</strong>
-              <span>Career Roles</span>
+            <h2>
+              One platform.
+              <br />
+              Three possibilities.
+            </h2>
+
+            <div className="hs-role-row">
+              <div className="hs-role-number">01</div>
+
+              <div>
+                <strong>Job Seeker</strong>
+                <p>
+                  Discover and apply for opportunities.
+                </p>
+              </div>
             </div>
 
-            <div>
-              <strong>Easy</strong>
-              <span>Applications</span>
+            <div className="hs-role-row">
+              <div className="hs-role-number">02</div>
+
+              <div>
+                <strong>Employer</strong>
+                <p>
+                  Create and manage job postings.
+                </p>
+              </div>
             </div>
+
+            <div className="hs-role-row">
+              <div className="hs-role-number">03</div>
+
+              <div>
+                <strong>Administrator</strong>
+                <p>
+                  Monitor and manage the platform.
+                </p>
+              </div>
+            </div>
+
+            <Link
+              to="/register"
+              className="hs-card-button"
+            >
+              Create Your Account →
+            </Link>
 
           </div>
 
@@ -146,46 +174,38 @@ export default function Home() {
 
 
       {/* JOBS */}
+      <section className="hs-jobs">
 
-      <section className="portal-jobs">
-
-        <div className="portal-section-header">
+        <div className="hs-section-top">
 
           <div>
-            <span>OPPORTUNITIES</span>
-
-            <h2>Explore Latest Jobs</h2>
-
-            <p>
-              Find opportunities matching your skills
-              and career interests.
-            </p>
+            <span>LATEST OPPORTUNITIES</span>
+            <h2>Jobs You May Like</h2>
           </div>
 
           <Link to="/login">
-            View All Jobs →
+            Explore all jobs →
           </Link>
 
         </div>
 
-
-        <div className="portal-job-grid">
+        <div className="hs-job-grid">
 
           {filteredJobs.length > 0 ? (
             filteredJobs.map((job) => (
 
               <article
-                className="portal-job-card"
+                className="hs-job-card"
                 key={job.id}
               >
 
-                <div className="portal-job-header">
+                <div className="hs-job-card-top">
 
-                  <div className="portal-company-icon">
+                  <div className="hs-job-letter">
                     {job.title.charAt(0)}
                   </div>
 
-                  <span className="portal-active">
+                  <span className="hs-active">
                     ACTIVE
                   </span>
 
@@ -193,27 +213,17 @@ export default function Home() {
 
                 <h3>{job.title}</h3>
 
-                <p className="portal-job-place">
+                <p className="hs-location">
                   {job.location}
                 </p>
 
-                <div className="portal-job-meta">
-
-                  <span>{job.salary}</span>
-
-                  <span>{job.experience}</span>
-
+                <div className="hs-job-info">
+                  <span>₹ {job.salary}</span>
+                  <span>{job.skills}</span>
                 </div>
 
-                <p className="portal-job-skills">
-                  {job.skills}
-                </p>
-
-                <Link
-                  to="/login"
-                  className="portal-view-job"
-                >
-                  View Job
+                <Link to="/login">
+                  View Opportunity
                   <span>→</span>
                 </Link>
 
@@ -222,8 +232,11 @@ export default function Home() {
             ))
           ) : (
 
-            <div className="portal-no-jobs">
-              No matching jobs found.
+            <div className="hs-no-jobs">
+              <h3>No jobs found</h3>
+              <p>
+                Try another job title, skill or location.
+              </p>
             </div>
 
           )}
@@ -233,57 +246,55 @@ export default function Home() {
       </section>
 
 
-      {/* USERS */}
+      {/* PATH SECTION */}
+      <section className="hs-path">
 
-      <section className="portal-users">
+        <div className="hs-path-heading">
+          <span>CHOOSE YOUR PATH</span>
 
-        <div className="portal-users-title">
-
-          <span>ONE PLATFORM</span>
-
-          <h2>Built for Everyone in Hiring</h2>
-
-          <p>
-            HireSphere provides dedicated functionality
-            for every user role.
-          </p>
-
+          <h2>
+            HireSphere works for both sides
+            of recruitment.
+          </h2>
         </div>
 
+        <div className="hs-path-grid">
 
-        <div className="portal-user-grid">
+          <div className="hs-path-card seeker">
 
-          <div className="portal-user-card">
+            <span>FOR CANDIDATES</span>
 
-            <div className="portal-role-icon">
-              JS
-            </div>
-
-            <h3>Job Seekers</h3>
+            <h2>
+              Looking for your
+              next opportunity?
+            </h2>
 
             <p>
-              Search available jobs, maintain your
-              profile and submit applications.
+              Create your profile, explore available
+              jobs and submit applications from your
+              seeker dashboard.
             </p>
 
             <Link to="/register">
-              Find Jobs →
+              Find Your Job →
             </Link>
 
           </div>
 
 
-          <div className="portal-user-card">
+          <div className="hs-path-card employer">
 
-            <div className="portal-role-icon">
-              EM
-            </div>
+            <span>FOR EMPLOYERS</span>
 
-            <h3>Employers</h3>
+            <h2>
+              Looking for the
+              right candidate?
+            </h2>
 
             <p>
               Create job opportunities and manage
-              your job postings through one dashboard.
+              your recruitment activities through
+              the employer dashboard.
             </p>
 
             <Link to="/register">
@@ -292,105 +303,88 @@ export default function Home() {
 
           </div>
 
-
-          <div className="portal-user-card">
-
-            <div className="portal-role-icon">
-              AD
-            </div>
-
-            <h3>Administrator</h3>
-
-            <p>
-              Monitor users, jobs, applications
-              and overall recruitment activity.
-            </p>
-
-            <Link to="/login">
-              Admin Login →
-            </Link>
-
-          </div>
-
         </div>
 
       </section>
 
 
-      {/* HOW IT WORKS */}
+      {/* BENEFITS */}
+      <section className="hs-benefits">
 
-      <section className="portal-how">
+        <div className="hs-benefit">
+          <div>01</div>
 
-        <div className="portal-how-title">
-          <span>SIMPLE PROCESS</span>
-          <h2>How HireSphere Works</h2>
+          <section>
+            <h3>Easy Applications</h3>
+            <p>
+              Apply for opportunities through
+              a simple application process.
+            </p>
+          </section>
         </div>
 
-        <div className="portal-steps">
+        <div className="hs-benefit">
+          <div>02</div>
 
-          <div>
-            <strong>01</strong>
-            <h3>Create Account</h3>
+          <section>
+            <h3>Secure Access</h3>
             <p>
-              Register securely with your
-              appropriate user role.
+              Role-based authentication protects
+              seeker, employer and admin functions.
             </p>
-          </div>
+          </section>
+        </div>
 
-          <div className="portal-step-line" />
+        <div className="hs-benefit">
+          <div>03</div>
 
-          <div>
-            <strong>02</strong>
-            <h3>Discover</h3>
+          <section>
+            <h3>Centralized Hiring</h3>
             <p>
-              Search jobs or create job
-              opportunities.
+              Jobs, applications and recruitment
+              activities are managed in one system.
             </p>
-          </div>
-
-          <div className="portal-step-line" />
-
-          <div>
-            <strong>03</strong>
-            <h3>Connect</h3>
-            <p>
-              Apply and manage the recruitment
-              process through HireSphere.
-            </p>
-          </div>
-
+          </section>
         </div>
 
       </section>
 
 
       {/* CTA */}
-
-      <section className="portal-cta">
+      <section className="hs-cta">
 
         <div>
-          <span>START YOUR JOURNEY</span>
+          <span>JOIN HIRESPHERE</span>
 
           <h2>
-            Ready for your next opportunity?
+            Your next opportunity
+            starts here.
           </h2>
-
-          <p>
-            Create your HireSphere account
-            and get started.
-          </p>
         </div>
 
-        <Link to="/register">
-          Create Account
-        </Link>
+        <div className="hs-cta-actions">
+
+          <Link
+            to="/register"
+            className="hs-cta-primary"
+          >
+            Create Account
+          </Link>
+
+          <Link
+            to="/login"
+            className="hs-cta-secondary"
+          >
+            Login
+          </Link>
+
+        </div>
 
       </section>
 
 
       {/* FOOTER */}
-
-      <footer className="portal-footer">
+      <footer className="hs-footer">
 
         <div>
           <strong>HireSphere</strong>
@@ -400,7 +394,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div>
+        <div className="hs-footer-links">
           <Link to="/">Home</Link>
           <Link to="/login">Login</Link>
           <Link to="/register">Register</Link>
