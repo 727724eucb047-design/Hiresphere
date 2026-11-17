@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -46,7 +47,7 @@ export default function Home() {
   return (
     <main className="hs-home">
 
-      {/* HERO */}
+      {/* HERO SECTION */}
       <section className="hs-hero">
 
         <div className="hs-hero-left">
@@ -66,7 +67,25 @@ export default function Home() {
             through one simple recruitment platform.
           </p>
 
-          {/* SEARCH */}
+          {/* T06 - KEY HIGHLIGHTS */}
+          <div className="hs-highlights">
+            <div>
+              <strong>Easy</strong>
+              <span>Applications</span>
+            </div>
+
+            <div>
+              <strong>Smart</strong>
+              <span>Job Search</span>
+            </div>
+
+            <div>
+              <strong>Fast</strong>
+              <span>Hiring</span>
+            </div>
+          </div>
+
+          {/* JOB SEARCH */}
           <div className="hs-search">
 
             <div className="hs-search-input">
@@ -76,9 +95,7 @@ export default function Home() {
                 type="text"
                 placeholder="Java, React, Developer..."
                 value={keyword}
-                onChange={(e) =>
-                  setKeyword(e.target.value)
-                }
+                onChange={(e) => setKeyword(e.target.value)}
               />
             </div>
 
@@ -89,9 +106,7 @@ export default function Home() {
                 type="text"
                 placeholder="Chennai, Bangalore..."
                 value={location}
-                onChange={(e) =>
-                  setLocation(e.target.value)
-                }
+                onChange={(e) => setLocation(e.target.value)}
               />
             </div>
 
@@ -109,7 +124,6 @@ export default function Home() {
           </div>
 
         </div>
-
 
         {/* HERO RIGHT */}
         <div className="hs-hero-right">
@@ -172,8 +186,7 @@ export default function Home() {
 
       </section>
 
-
-      {/* JOBS */}
+      {/* JOBS SECTION */}
       <section className="hs-jobs">
 
         <div className="hs-section-top">
@@ -245,7 +258,6 @@ export default function Home() {
 
       </section>
 
-
       {/* PATH SECTION */}
       <section className="hs-path">
 
@@ -281,7 +293,6 @@ export default function Home() {
 
           </div>
 
-
           <div className="hs-path-card employer">
 
             <span>FOR EMPLOYERS</span>
@@ -307,11 +318,18 @@ export default function Home() {
 
       </section>
 
-
-      {/* BENEFITS */}
+      {/* BENEFITS SECTION - T08 HOVER EFFECT */}
       <section className="hs-benefits">
 
-        <div className="hs-benefit">
+        <div
+          className="hs-benefit"
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = "translateY(-5px)";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = "translateY(0)";
+          }}
+        >
           <div>01</div>
 
           <section>
@@ -323,7 +341,15 @@ export default function Home() {
           </section>
         </div>
 
-        <div className="hs-benefit">
+        <div
+          className="hs-benefit"
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = "translateY(-5px)";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = "translateY(0)";
+          }}
+        >
           <div>02</div>
 
           <section>
@@ -335,7 +361,15 @@ export default function Home() {
           </section>
         </div>
 
-        <div className="hs-benefit">
+        <div
+          className="hs-benefit"
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = "translateY(-5px)";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = "translateY(0)";
+          }}
+        >
           <div>03</div>
 
           <section>
@@ -349,8 +383,7 @@ export default function Home() {
 
       </section>
 
-
-      {/* CTA */}
+      {/* CTA SECTION */}
       <section className="hs-cta">
 
         <div>
@@ -381,7 +414,6 @@ export default function Home() {
         </div>
 
       </section>
-
 
       {/* FOOTER */}
       <footer className="hs-footer">

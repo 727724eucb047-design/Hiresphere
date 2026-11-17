@@ -3379,3 +3379,33 @@ nav[role="navigation"] .nav-links a:first-child:hover {
     justify-self: start;
   }
 }
+
+/* T06 - Hero highlights */
+.hs-highlights {
+  display: flex;
+  gap: 40px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.hs-highlights strong,
+.hs-highlights span {
+  display: block;
+}
+
+.hs-highlights strong {
+  color: #172033;
+  font-size: 17px;
+}
+
+.hs-highlights span {
+  margin-top: 5px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+/* T08 - Feature card hover transition */
+.hs-benefit {
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
