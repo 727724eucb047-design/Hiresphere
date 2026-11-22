@@ -1,93 +1,113 @@
+
 # HireSphere – Hiring Management System
 
-HireSphere is a full-stack hiring management application designed to simplify the recruitment process by connecting job seekers, employers, and administrators through a centralized platform.
+<p align="center">
+  <b>A Full-Stack Recruitment Management Platform</b>
+  <br/>
+  Built using React.js, Java, Spring Boot, and MySQL.
+</p>
 
-## Key Features
+## 📌 About the Project
 
-- **Role-Based Authentication:** Separate access for Job Seekers, Employers, and Administrators.
-- **User Authentication:** Secure registration and login using JWT.
-- **Job Management:** Employers can create and manage job postings.
-- **Job Applications:** Job seekers can explore opportunities and apply for jobs.
-- **RESTful APIs:** Backend services for authentication, job posting, management, and applications.
+HireSphere is a full-stack hiring management application designed to simplify the recruitment process by connecting Job Seekers, Employers, and Administrators through a centralized platform.
 
-## Technology Stack
+## ✨ Key Features
+
+- Role-Based Authentication for Job Seekers, Employers, and Administrators.
+- Secure User Registration and Login using JWT.
+- Job Posting and Management for Employers.
+- Job Browsing and Application for Job Seekers.
+- RESTful APIs for backend communication.
+- MySQL Database Integration.
+- Application Management.
+
+## 🛠️ Technology Stack
 
 | Category | Technologies |
 |---|---|
 | Frontend | React.js |
-| Backend | Java, Spring Boot |
+| Backend | Java 17, Spring Boot |
 | Database | MySQL |
 | Authentication | JWT |
-| API Architecture | REST APIs |
-| Version Control | Git, GitHub |
+| API | REST APIs |
+| Tools | Git, GitHub, Maven |
 
-## Project Structure
+## 📂 Project Structure
 
 ```text
 HireSphere/
-├── frontend/
-│   └── React application
 ├── backend/
-│   └── Spring Boot application
+│   └── Spring Boot Application
+├── frontend/
+│   └── React Application
+├── screenshots/
+│   └── Project Screenshots
 └── README.md
 ```
 
-*Note: Update the folder structure above to match your actual project.*
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
+
 - Java 17
 - Node.js and npm
 - MySQL
 - Maven
+- Git
 
-### Installation
-
-1. Clone the repository:
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/727724eucb047-design/Hiresphere.git
 ```
 
-2. Configure your MySQL database and application properties.
+### 2. Backend Setup
 
-3. Start the Spring Boot backend using your project’s Maven wrapper or Maven.
-
-4. Navigate to the frontend directory and install dependencies:
+Configure your MySQL database in the backend `application.properties` file.
 
 ```bash
-npm install
+cd backend
+mvn spring-boot:run
 ```
 
-5. Start the React development server:
+### 3. Frontend Setup
+
+Open another terminal:
 
 ```bash
+cd frontend
+npm install
 npm start
 ```
 
-*Adjust the commands according to your actual project configuration.*
+*Note: Update the folder names and commands if your actual project configuration differs.*
 
-## API Modules
+## 🔗 API Modules
 
 - Authentication
 - Job Posting
 - Job Management
 - Job Applications
 
-## My Role
+## 👩‍💻 My Contributions
 
-Designed and developed the application with a focus on backend API development, role-based authentication, database integration, and full-stack functionality.
+- Full-stack application development.
+- Backend development using Java and Spring Boot.
+- REST API development and integration.
+- Role-based authentication.
+- Database integration using MySQL.
 
-## Future Enhancements
+## 🔮 Future Enhancements
 
-- AI-powered job recommendations
-- Resume parsing and skill matching
-- Advanced job search and filtering
-- Application status notifications
+- AI-powered Job Recommendations.
+- Resume Parsing and Skill Matching.
+- Advanced Job Search and Filtering.
+- Application Status Notifications.
 
-## Author
+## 👤 Author
 
 **Sathana R**
 
-GitHub: [727724eucb047-design](https://github.com/727724eucb047-design)
+B.Tech – Computer Science and Business Systems
+
+[GitHub Profile](https://github.com/727724eucb047-design)
