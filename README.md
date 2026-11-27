@@ -45,6 +45,26 @@ HireSphere/
 └── README.md
 ```
 
+## Screenshots
+
+### Home Page
+![Home Page](screenshots/home.png.png)
+
+### Registration Page
+![Registration Page](screenshots/registration.png.png)
+
+### Login Page
+![Login Page](screenshots/login.png.png)
+
+### Job Seeker Dashboard
+![Job Seeker Dashboard](screenshots/jobseeker-dashboard.png.png)
+
+### Employer Dashboard
+![Employer Dashboard](screenshots/employer-dashboard.png.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/admin-dashboard.png.png)
+
 ## 🚀 Getting Started
 
 ### Prerequisites
